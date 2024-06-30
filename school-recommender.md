@@ -66,9 +66,9 @@ To evaluate the projects dataset we're going to use GPT-4o. The example Q&A pair
 
 Lets start by asking for list of recommended schools:
 
+**we're a middle class family in bellevue, wa. our daughter is starting highschool next year. she loves math and wants to pursue a math degree. what schools should we consider and why?**
 ```
-Q: we're a middle class family in bellevue, wa. our daughter is starting highschool next year. she loves math and wants to pursue a math degree. what schools should we consider and why?
-A: Given your daughter's passion for math and your middle-class status, here are some high schools in Bellevue, WA, that you should consider:
+Given your daughter's passion for math and your middle-class status, here are some high schools in Bellevue, WA, that you should consider:
 
 1. **International School**:
    - **Why**: It ranks 2nd out of 442 public high schools in Washington and has an average standard score of 99.2 in 2023. The school has a strong academic performance, particularly in math, with 83% proficiency in SBAC/Math. It offers advanced courses and has a College Readiness rating of 10/10, making it an excellent choice for a student interested in pursuing a math degree.
