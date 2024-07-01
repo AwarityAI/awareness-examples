@@ -38,7 +38,7 @@ That's admittedly a pretty underwhelming summary, given the length of the source
 
 Your choices currently are to either use a model with a larger context window, like Google Gemini Pro, use Awareness to distribute the task over multiple model calls, or use a bespoke bit of code to apply a recursive summarization algorithm to the article (that's not what Awareness is doing BTW.)
 
-Let's see we can improve the quality of this summary... Let's first retrieve the structure of the document:
+Let's see if we can improve the quality of this summary... Let's first retrieve the structure of the document:
 
 ```
 Q: return a list of the section headers in the article
