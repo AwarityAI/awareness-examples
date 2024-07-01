@@ -74,7 +74,7 @@ A: 1. Life and career
 13. External links
 ```
 
-Armed with that knowledge we can use Awareness to dive into subsections of the document:
+Armed with that knowledge, we can ask Awareness for a summary that better maps to the structure of the document:
 
 ```
 Q: return a summary of taylors life and career
