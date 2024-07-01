@@ -66,9 +66,9 @@ To evaluate the projects dataset we're going to use GPT-4o. The example Q&A pair
 
 Lets start by asking for list of recommended schools:
 
-**we're a middle class family in bellevue, wa. our daughter is starting highschool next year. she loves math and wants to pursue a math degree. what schools should we consider and why?**
 ```
-Given your daughter's passion for math and your middle-class status, here are some high schools in Bellevue, WA, that you should consider:
+Q: we're a middle class family in bellevue, wa. our daughter is starting highschool next year. she loves math and wants to pursue a math degree. what schools should we consider and why?
+A: Given your daughter's passion for math and your middle-class status, here are some high schools in Bellevue, WA, that you should consider:
 
 1. **International School**:
    - **Why**: It ranks 2nd out of 442 public high schools in Washington and has an average standard score of 99.2 in 2023. The school has a strong academic performance, particularly in math, with 83% proficiency in SBAC/Math. It offers advanced courses and has a College Readiness rating of 10/10, making it an excellent choice for a student interested in pursuing a math degree.
@@ -88,4 +88,243 @@ Given your daughter's passion for math and your middle-class status, here are so
 These schools offer strong math programs, advanced coursework, and high academic performance, making them suitable for your daughter's aspirations in pursuing a math degree.
 ```
 
+That seems like a reasonable answer but is it really evaluating all of the schools?  Lets add on to our query and ask it to list the other schools it didn't recommend and why:
 
+```
+Q: we're a middle class family in bellevue, wa. our daughter is starting highschool next year. she loves math and wants to pursue a math degree. what schools should we consider and why? include a list of the other schools and why you wouldn't recommend them
+A: For a middle-class family in Bellevue, WA, with a daughter who loves math and wants to pursue a math degree, here are the recommended schools to consider:
+
+### Recommended Schools:
+
+1. **International School**:
+   - **Why**: International School ranks 2nd out of 442 Washington high schools and has an extremely high math proficiency rate of 83%. It offers a rigorous academic environment with a strong focus on college readiness, making it an excellent choice for a student interested in pursuing a math degree.
+
+2. **Interlake Senior High School**:
+   - **Why**: Interlake Senior High School ranks 19th out of 442 Washington high schools and has a strong math proficiency rate of 73.4%. The school offers a diverse learning environment and a variety of advanced placement courses, which can provide a solid foundation for a future in math.
+
+3. **Bellevue High School**:
+   - **Why**: Bellevue High School ranks 10th out of 442 Washington high schools and has a math proficiency rate of 67.7%. It consistently ranks among the top high schools in the state and offers a variety of extracurricular activities, including advanced courses that can benefit a student aiming for a math degree.
+
+4. **Newport Senior High School**:
+   - **Why**: Newport Senior High School ranks 31st out of 442 Washington high schools and has a math proficiency rate of 78.2%. It has a strong academic performance and offers a variety of advanced courses, making it a good option for a student interested in math.
+
+### Other Schools and Why Not Recommended:
+
+1. **Sammamish Senior High**:
+   - **Why Not**: Although it ranks 107th out of 442 Washington high schools, its math proficiency rate is lower at 39.9%, which may not provide the same level of academic rigor in math as the recommended schools.
+
+2. **Bellevue Big Picture School**:
+   - **Why Not**: This school ranks 125th out of 442 Washington high schools and has a math proficiency rate of 45.7%. While it offers a unique project-based learning environment, it may not be as strong in traditional academic subjects like math compared to the recommended schools.
+
+3. **Emerson High School**:
+   - **Why Not**: Emerson High School ranks 182nd out of 442 Washington high schools and has a very small student body with lower academic performance. It may not offer the advanced math courses your daughter is interested in.
+
+4. **Career Education Options Reengagement Program**:
+   - **Why Not**: This program is designed for students who have dropped out of high school and are looking to reengage with their education. It may not offer the advanced mathematics courses your daughter is interested in.
+
+5. **Mercer Island High School**:
+   - **Why Not**: Although it ranks 5th out of 442 Washington high schools and has a strong academic performance, it is located in Mercer Island, which might be less convenient for a family living in Bellevue.
+
+6. **International Community School (Kirkland, WA)**:
+   - **Why Not**: This school has a high math proficiency rate and strong academic performance, but it is located in Kirkland, which might be less convenient for a family living in Bellevue.
+
+7. **Northwest Yeshiva High School**:
+   - **Why Not**: This private school has a strong academic reputation but is located in Mercer Island and has a high tuition cost, which might be a consideration for a middle-class family.
+
+8. **Eastside Preparatory School**:
+   - **Why Not**: This private school in Kirkland, WA, has a strong academic focus but also has a high tuition cost, which might be a consideration for a middle-class family.
+
+9. **Forest Ridge School Of The Sacred Heart**:
+   - **Why Not**: This private, all-girls school in Bellevue, WA, has a strong academic reputation but there is no specific information about its math program or college readiness in the provided details.
+
+10. **Hillside Student Community School**:
+    - **Why Not**: This private school has a very low student/teacher ratio, which allows for significant individual attention, but there is no specific information about its math program or college readiness in the provided details.
+
+11. **Summit Classical Christian School**:
+    - **Why Not**: This private school has a high percentage of White students and offers a classical Christian education, which may not align with a focus on advanced math.
+
+12. **Open Window School**:
+    - **Why Not**: This private school only goes up to 8th grade, so it would not be suitable for your daughter who is starting high school.
+
+13. **Yellow Wood Academy**:
+    - **Why Not**: This private school has a very small student body, which might limit social and extracurricular opportunities.
+
+14. **Privett Academy**:
+    - **Why Not**: This private school has a very small student body and there is no data available on its average graduation rate, SAT scores, or ACT scores, which might be important for a family considering a school for a student interested in pursuing a math degree.
+
+15. **Dartmoor School**:
+    - **Why Not**: This private school has a very low student/teacher ratio but also has a very small student body, which might limit social and extracurricular opportunities.
+
+16. **Pacific Learning Academy**:
+    - **Why Not**: This private school has a small student body, which might limit social and extracurricular opportunities.
+
+By considering these factors, you can choose a school that best fits your daughter's academic interests and your family's needs.
+```
+
+In this run we see that while it's explination text for each school is a little different, it recommended 4 of the 5 schools in its original response. The one school it shifted to the "other" list, Mercer Island High School, was originally listed as being outside of Bellevue so all in all I'd say the recommendations are consistent across queries and it's clear that all schools are in fact being reasoned over.
+
+What's interesting is that it mentions 20 schools total and we only feed it profiles for 18 schools. The `Career Education Options Reengagement Program` and `Open Window School` were not profiles in the dataset so where are those coming from? After digging into the data ingested by Awareness it becomes clear that these schools show up a lot as "related" schools on the various pages. What isn't in the data are things like `The Career Education Options Reengagement Program is designed for students who have dropped out of high school and are looking to reengage with their education.` The model is pulling that from its world knowledge and while you could view that as a hallucination, its a useful one in this case.
+
+There's actually a bunch of other schools referenced in the projects dataset and we can easily ask Awareness to return a full list with source links:
+
+```
+Q: list the schools in the dataset and include links to the pages that mention each school
+A: Here is a list of schools along with links to the pages that mention each school:
+
+1. **Bellevue Big Picture School**
+   - [SchoolDigger](https://www.schooldigger.com/go/WA/schools/0039003354/school.aspx)
+   - [Niche](https://www.niche.com/k12/bellevue-big-picture-school-bellevue-wa/)
+   - [GreatSchools](https://www.greatschools.org/washington/bellevue/5753-Bellevue-Big-Picture-School/)
+
+2. **Sammamish Senior High**
+   - [SchoolDigger](https://www.schooldigger.com/go/WA/schools/0039000085/school.aspx)
+   - [GreatSchools](https://www.greatschools.org/washington/bellevue/134-Sammamish-Senior-High-School/)
+   - [Niche](https://www.niche.com/k12/sammamish-high-school-bellevue-wa/)
+
+3. **International School**
+   - [SchoolDigger](https://www.schooldigger.com/go/WA/schools/0039003149/school.aspx)
+   - [Niche](https://www.niche.com/k12/international-school-bellevue-wa/)
+   - [GreatSchools](https://www.greatschools.org/washington/bellevue/3462-International-School/)
+
+4. **Career Education Options Reengagement Program**
+   - [SchoolDigger](https://www.schooldigger.com/go/WA/schools/0039003462/school.aspx)
+
+5. **Newport Senior High School**
+   - [SchoolDigger](https://www.schooldigger.com/go/WA/schools/0039000078/school.aspx)
+   - [Niche](https://www.niche.com/k12/newport-high-school-bellevue-wa/)
+   - [GreatSchools](https://www.greatschools.org/washington/bellevue/129-Newport-Senior-High-School/)
+
+6. **Interlake Senior High School**
+   - [SchoolDigger](https://www.schooldigger.com/go/WA/schools/0039000072/school.aspx)
+   - [GreatSchools](https://www.greatschools.org/washington/bellevue/125-Interlake-Senior-High-School/)
+   - [Niche](https://www.niche.com/k12/interlake-high-school-bellevue-wa/)
+
+7. **Bellevue High School**
+   - [SchoolDigger](https://www.schooldigger.com/go/WA/schools/0039000060/school.aspx)
+   - [Niche](https://www.niche.com/k12/bellevue-high-school-bellevue-wa/)
+   - [GreatSchools](https://www.greatschools.org/washington/bellevue/117-Bellevue-High-School/)
+
+8. **Mercer Island High School**
+   - [SchoolDigger](https://www.schooldigger.com/go/WA/schools/0498000761/school.aspx)
+   - [Niche](https://www.niche.com/k12/mercer-island-high-school-mercer-island-wa/)
+   - [GreatSchools](https://www.greatschools.org/washington/mercer-island/1028-Mercer-Island-High-School/)
+
+9. **Emerson High School**
+   - [SchoolDigger](https://www.schooldigger.com/go/WA/schools/0423001784/school.aspx)
+   - [Niche](https://www.niche.com/k12/emerson-high-school-kirkland-wa/)
+
+10. **Skyline High School**
+    - [SchoolDigger](https://www.schooldigger.com/go/WA/schools/0375002567/school.aspx)
+    - [Niche](https://www.niche.com/k12/skyline-high-school-sammamish-wa/)
+
+11. **Emerson K-12**
+    - [GreatSchools](https://www.greatschools.org/washington/kirkland/3251-Family-Learning-Center/)
+
+12. **Bellevue Christian School - Clyde Hill Campus**
+    - [Niche](https://www.niche.com/k12/bellevue-christian-school-clyde-hill-campus-clyde-hill-wa/)
+    - [GreatSchools](https://www.greatschools.org/washington/bellevue/2336-Bellevue-Christian-School/)
+    - [SchoolDigger](https://www.schooldigger.com/go/WA/schools/9999924011/school.aspx)
+
+13. **International Community School**
+    - [SchoolDigger](https://www.schooldigger.com/go/WA/schools/0423002568/school.aspx)
+    - [Niche](https://www.niche.com/k12/international-community-school-kirkland-wa/)
+    - [GreatSchools](https://www.greatschools.org/washington/kirkland/924-International-Community-School/)
+
+14. **Yellow Wood Academy**
+    - [Niche](https://www.niche.com/k12/yellow-wood-academy-mercer-island-wa/)
+    - [SchoolDigger](https://www.schooldigger.com/go/WA/schools/9999975941/school.aspx)
+    - [GreatSchools](https://www.greatschools.org/washington/mercer-island/2648-Yellow-Wood-Academy/)
+
+15. **Lake Washington High School**
+    - [Niche](https://www.niche.com/k12/lake-washington-high-school-kirkland-wa/)
+    - [SchoolDigger](https://www.schooldigger.com/go/WA/schools/0423000674/school.aspx)
+
+16. **Eastlake High School**
+    - [Niche](https://www.niche.com/k12/eastlake-high-school-sammamish-wa/)
+
+17. **Northwest Yeshiva High School**
+    - [Niche](https://www.niche.com/k12/northwest-yeshiva-high-school-mercer-island-wa/)
+    - [GreatSchools](https://www.greatschools.org/washington/mercer-island/2477-Northwest-Yeshiva-High-School/)
+    - [SchoolDigger](https://www.schooldigger.com/go/WA/schools/9999924331/school.aspx)
+
+18. **Washington Network for Innovative Careers Skill Center**
+    - [SchoolDigger](https://www.schooldigger.com/go/WA/schools/0423003289/school.aspx)
+
+19. **Sammamish River Valley Online School**
+    - [SchoolDigger](https://www.schooldigger.com/go/WA/schools/0423003799/school.aspx)
+
+20. **Lake Washington Technical Academy**
+    - [SchoolDigger](https://www.schooldigger.com/go/WA/schools/0031303265/school.aspx)
+
+21. **Open Doors at LWIT**
+    - [SchoolDigger](https://www.schooldigger.com/go/WA/schools/0031303403/school.aspx)
+
+22. **Islander Middle School**
+    - [Niche](https://www.niche.com/k12/islander-middle-school-mercer-island-wa/)
+
+23. **Issaquah High School**
+    - [Niche](https://www.niche.com/k12/issaquah-high-school-issaquah-wa/)
+
+24. **Hillside Student Community School**
+    - [Niche](https://www.niche.com/k12/hillside-student-community-school-bellevue-wa/)
+    - [SchoolDigger](https://www.schooldigger.com/go/WA/schools/9999924188/school.aspx)
+    - [GreatSchools](https://www.greatschools.org/washington/bellevue/2698-Hillside-Student-Community/)
+
+25. **Summit Classical Christian School**
+    - [SchoolDigger](https://www.schooldigger.com/go/WA/schools/9999955021/school.aspx)
+    - [Niche](https://www.niche.com/k12/summit-classical-christian-school-issaquah-wa/)
+    - [GreatSchools](https://www.greatschools.org/washington/fall-city/5828-Summit-Classical-Christian-School/)
+
+26. **The Privett Academy**
+    - [GreatSchools](https://www.greatschools.org/washington/mercer-island/3805-The-Privett-Academy/)
+    - [Niche](https://www.niche.com/k12/the-privett-academy-mercer-island-wa/)
+    - [SchoolDigger](https://www.schooldigger.com/go/WA/schools/9999975764/school.aspx)
+
+27. **Forest Ridge School of the Sacred Heart**
+    - [Niche](https://www.niche.com/k12/forest-ridge-school-of-the-sacred-heart-bellevue-wa/)
+    - [SchoolDigger](https://www.schooldigger.com/go/WA/schools/9999924152/school.aspx)
+    - [GreatSchools](https://www.greatschools.org/washington/bellevue/2294-Forest-Ridge-School-Of-The-Sacred-Heart/)
+
+28. **Eastside Preparatory School**
+    - [GreatSchools](https://www.greatschools.org/washington/kirkland/3438-Eastside-Preparatory-School/)
+    - [Niche](https://www.niche.com/k12/eastside-preparatory-school-kirkland-wa/)
+    - [SchoolDigger](https://www.schooldigger.com/go/WA/schools/9999954960/school.aspx)
+
+29. **Dartmoor School**
+    - [SchoolDigger](https://www.schooldigger.com/go/WA/schools/9999979106/school.aspx)
+    - [GreatSchools](https://www.greatschools.org/washington/bellevue/3369-Dartmoor-School/)
+    - [Niche](https://www.niche.com/k12/dartmoor-school---bellevue-bellevue-wa/)
+
+30. **Rainier Valley Leadership Academy**
+    - [SchoolDigger](https://www.schooldigger.com/go/WA/schools/0034203602/school.aspx)
+
+31. **Rainier Beach High School**
+    - [SchoolDigger](https://www.schooldigger.com/go/WA/schools/0771001236/school.aspx)
+
+32. **Interagency Open Doors**
+    - [SchoolDigger](https://www.schooldigger.com/go/WA/schools/0771003505/school.aspx)
+
+33. **Franklin High School**
+    - [SchoolDigger](https://www.schooldigger.com/go/WA/schools/0771001168/school.aspx)
+
+34. **Griffin Home**
+    - [SchoolDigger](https://www.schooldigger.com/go/WA/schools/0723002343/school.aspx)
+
+35. **Hazen Senior High School**
+    - [SchoolDigger](https://www.schooldigger.com/go/WA/schools/0723001080/school.aspx)
+
+36. **Futures School**
+    - [SchoolDigger](https://www.schooldigger.com/go/WA/schools/0423002727/school.aspx)
+
+37. **Juanita High School**
+    - [SchoolDigger](https://www.schooldigger.com/go/WA/schools/0423000670/school.aspx)
+
+38. **Secondary Academy for Success**
+    - [Niche](https://www.niche.com/k12/secondary-academy-for-success-bothell-wa/)
+
+39. **Chinook Middle School**
+    - [Niche](https://www.niche.com/k12/chinook-middle-school-bellevue-wa/)
+
+40. **Odle Middle School**
+    - [Niche](https://www.niche.com/k12/odle-middle-school-bellevue-wa/)
+```
