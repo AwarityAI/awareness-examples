@@ -38,6 +38,7 @@ https://pandas.pydata.org/docs/user_guide/cookbook.html
 ## Example Questions & Answers
 To evaluate the projects dataset we're going to use GPT-4o. The example Q&A pairs below are as of early July 2024 and cost around $3.00 per query.
 
+---
 > **Q:** i'm an experienced typescript developer that's new to both python and pandas. get me started
 
 Welcome to the world of Python and pandas! As an experienced TypeScript developer, you'll find some similarities and differences in how you work with data. Here's a quick guide to get you started with pandas:
@@ -159,6 +160,7 @@ For more detailed information, you can refer to the "10 minutes to pandas" guide
 
 This should give you a solid foundation to start working with pandas. Happy coding!
 
+---
 > **Q:** i have an excel file that i'd like to render as a pie chart. tell me how to do that using pandas
 
 To render a pie chart from an Excel file using pandas, follow these steps:
@@ -194,6 +196,7 @@ Make sure to replace `'your_file.xlsx'` with the path to your Excel file and `'c
 
 For more details on plotting with pandas, you can refer to the pandas documentation on visualization.
 
+---
 > **Q:** give me a summary of how visualization works in pandas
 
 Visualization in pandas involves using various methods to create and customize plots and tables from data stored in Series and DataFrame objects. Here’s a summary of how visualization works in pandas:
@@ -242,6 +245,7 @@ Visualization in pandas involves using various methods to create and customize p
 
 By leveraging these tools and methods, pandas enables comprehensive and customizable data visualization, making it easier to analyze and present data effectively.
 
+---
 > **Q:** list all of the file types pandas can import. can all of those file types be exported to?
 
 Pandas can import data from the following file types:
