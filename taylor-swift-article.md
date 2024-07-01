@@ -1,5 +1,5 @@
 # Taylor Swift Article 
-This example project illustrates Awarenesses ability to reason over long documents. We'll use the main Wikipedia article for Taylor Swift which is around 250k tokens in length. We'll ask Awareness to perform summarization and retrieval tasks that are difficult for the current RAG based approaches to do. 
+This example project illustrates Awarenesses ability to reason over long documents. We'll use the main Wikipedia article for Taylor Swift which is around 250k tokens in length. We'll ask Awareness to perform summarization and retrieval tasks that are difficult for the current RAG based solutions to do. 
 
 ## Project Dataset
 The dataset for this project is the main Taylor Swift article on Wikipedia. That page is around 250k tokens or twice the size of GPT-4o's context window. If you want to unleash your inner Swifty you can add in the various Taylor Swift related sub-articles (her discography, filmography, performances, etc.) and push the corpus to well over 1m tokens. 
@@ -36,7 +36,7 @@ That's admittedly a pretty underwhelming summary, given the length of the source
 - There's no similarity between the query "summarize the article" and the text of the document so RAG based semantic retrieval isn't going to help you as there aren't any chunks in the vector db that are relevant.
 - You have no choice but to reason over the entire document but in this case it's too big to fit in the models context window.
 
-Your choices currently are to either use a model with a larger context window like Gemini or use Awareness to distribute the task over multiple model calls.
+Your choices currently are to either use a model with a larger context window, like Google Gemini Pro, use Awareness to distribute the task over multiple model calls, or use a bespoke bit of code to apply a recursive summarization algorithm to the article (that's not what Awareness is doing BTW.)
 
 Let's see we can improve the quality of this summary... Let's first retrieve the structure of the document:
 
