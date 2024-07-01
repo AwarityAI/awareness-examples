@@ -328,3 +328,66 @@ A: Here is a list of schools along with links to the pages that mention each sch
 40. **Odle Middle School**
     - [Niche](https://www.niche.com/k12/odle-middle-school-bellevue-wa/)
 ```
+
+You can get more consistency from the models output by telling Awareness the fields you'd like to see in the output. For a recommendion question this can result in slightly different recommendations because you're basically telling the model what fields to weigh on at the same time. Just keep that in mind: 
+
+```
+Q: we're a middle class family in bellevue, wa. our daughter is starting highschool next year. she loves math and wants to pursue a math degree. what schools should we consider and why? for each school return name, description, website, raitings, and explination
+A: Here are some schools in Bellevue, WA, that you should consider for your daughter who loves math and wants to pursue a math degree:
+
+1. **Bellevue High School**
+   - **Description**: Bellevue High School is a public high school serving grades 9-12 in the Bellevue School District. It consistently ranks among the top high schools in the state, delivering exceptional academic performance and supporting the success of all its students.
+   - **Website**: [Bellevue High School](https://www.schooldigger.com/go/WA/schools/0039000060/school.aspx)
+   - **Ratings**:
+     - SchoolDigger: 10th out of 442 Washington high schools
+     - Niche: 3.94 out of 5 (218 reviews)
+     - Overall Niche Grade: A+
+   - **Explanation**: Bellevue High School's strong academic performance, particularly in math, makes it an excellent choice for your daughter. The school's high test scores and graduation rates indicate a supportive and effective learning environment.
+
+2. **International School**
+   - **Description**: International School is a public school serving grades 6-12, located at 445 128th Ave SE, Bellevue, WA 98005. It is part of the Bellevue School District and has a smaller student body of 593 students.
+   - **Website**: [International School](https://www.schooldigger.com/go/WA/schools/0039003149/school.aspx)
+   - **Ratings**:
+     - SchoolDigger: 2nd out of 442 Washington high schools
+     - Niche: 3.96 out of 5 (96 reviews)
+     - Overall Niche Grade: A+
+   - **Explanation**: International School offers a rigorous academic program and serves grades 6-12, providing a continuous and stable learning environment. Its high rating suggests a strong academic focus, which would be beneficial for her interest in math.
+
+3. **Newport Senior High School**
+   - **Description**: Newport Senior High School is a public school serving grades 9-12, located at 4333 Factoria Boulevard SE, Bellevue, WA 98006. It has a diverse student body and offers a variety of advanced placement (AP) courses.
+   - **Website**: [Newport Senior High School](https://www.schooldigger.com/go/WA/schools/0039000078/school.aspx)
+   - **Ratings**:
+     - SchoolDigger: 31st out of 442 Washington high schools
+     - Niche: 3.82 out of 5 (369 reviews)
+     - GreatSchools: 10/10
+   - **Explanation**: Newport Senior High School is highly rated for its academic excellence, particularly in math. The school also has a high average SAT score of 1380, indicating strong college preparation.
+
+4. **Interlake Senior High School**
+   - **Description**: Interlake Senior High School is a public school serving grades 9-12, located at 16245 NE 24th Street, Bellevue, WA 98008. It offers both AP and IB programs.
+   - **Website**: [Interlake Senior High School](https://www.schooldigger.com/go/WA/schools/0039000072/school.aspx)
+   - **Ratings**:
+     - SchoolDigger: 19th out of 442 Washington high schools
+     - Niche: 3.82 out of 5 (424 reviews)
+     - Overall Niche Grade: A+
+   - **Explanation**: Interlake Senior High School offers a strong academic program, which could be beneficial for a student interested in pursuing a math degree. The school has a high average SAT score of 1410 and a graduation rate of 92%, indicating strong academic performance and college readiness.
+
+5. **Bellevue Big Picture School**
+   - **Description**: Bellevue Big Picture School is a public school for grades 6-12 located at 14844 SE 22nd Street, Bellevue, WA 98007. It focuses on personalized learning and project-based education.
+   - **Website**: [Bellevue Big Picture School](https://www.schooldigger.com/go/WA/schools/0039003354/school.aspx)
+   - **Ratings**:
+     - SchoolDigger: 125th out of 442 Washington high schools
+     - SchoolDigger Rating: 4 stars out of 5
+   - **Explanation**: The personalized learning approach at Bellevue Big Picture School could provide a tailored educational experience for a student passionate about math. The smaller student body and lower student/teacher ratio could offer a more personalized learning experience.
+
+6. **Sammamish High School**
+   - **Description**: Sammamish High School is a public school located in Bellevue, WA. It has 1,275 students in grades 9-12 and offers AP programs.
+   - **Website**: [Sammamish High School](https://www.niche.com/k12/sammamish-high-school-bellevue-wa/)
+   - **Ratings**:
+     - Niche: 3.86 out of 5 (253 reviews)
+     - Overall Niche Grade: A
+   - **Explanation**: Sammamish High School provides a supportive environment and a variety of extracurricular activities, which can be beneficial for your daughter's overall development. The school has a strong academic program and offers AP courses, making it a good option for a student interested in math.
+
+These schools offer strong academic programs and supportive environments that can help your daughter excel in math and prepare for a future math degree.
+```
+
+Our recommendations shifted just a bit but with this query you can really see the data blending that Awareness is facilitating...
