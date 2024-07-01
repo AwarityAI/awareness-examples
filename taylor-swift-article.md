@@ -95,7 +95,7 @@ Throughout her career, Swift has been recognized for her influence on the music 
 
 Notice how much better that summary is then the original one. Awareness generates much better answers when its given something to focus on. The closest analogy we have for what Awareness is doing under the hood is that it's like giving the model a pair of reading glasses. Awareness can help the model focus on the specific details needed to answer a question or perform a task but you need to tell it what to look at.
 
-As another example, we can get the model to generate a detailed timeline of events but you should be specific about what events should go into the timeline. Think of the document more like a pivot table of information:
+As another example, we can get the model to generate a detailed timeline of events but you should be specific about what events you want in the timeline. Think of the document more like a pivot table of information:
 
 ```
 Q: create a timeline of taylors cash donations
