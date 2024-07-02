@@ -13,24 +13,26 @@ To evaluate the projects dataset we're going to use GPT-4o. The example Q&A pair
 
 Let's start with a simple needle in a haystack query:
 
-```
-Q: what's special about track 5 on her albums?
-A: Track 5 on Taylor Swift's albums is noted by critics as the most "emotionally vulnerable" song on each album.
-```
+---
+**QUESTION:** what's special about track 5 on her albums? \
+**ANSWER:** \
+Track 5 on Taylor Swift's albums is noted by critics as the most "emotionally vulnerable" song on each album.
 
+---
 That is correct as noted by [this citation](https://en.wikipedia.org/wiki/Taylor_Swift#cite_ref-330).
 
 Now lets ask Awareness to generate a summary of the document:
 
-```
-Q: summarize the article
-A: The article provides a comprehensive overview of Taylor Swift's life, career, and achievements. Born on December 13, 1989, in West Reading, Pennsylvania, Swift began professional songwriting at 14 and signed with Big Machine Records in 2005. She gained prominence with her country pop albums "Taylor Swift" (2006) and "Fearless" (2008) and later transitioned to pop with "1989" (2014). Swift's discography includes a variety of musical styles, with notable albums like "Reputation" (2017), "Lover" (2019), "Folklore" (2020), "Evermore" (2020), "Midnights" (2022), and "The Tortured Poets Department" (2024).
+---
+**QUESTION:** summarize the article \
+**ANSWER:** \
+The article provides a comprehensive overview of Taylor Swift's life, career, and achievements. Born on December 13, 1989, in West Reading, Pennsylvania, Swift began professional songwriting at 14 and signed with Big Machine Records in 2005. She gained prominence with her country pop albums "Taylor Swift" (2006) and "Fearless" (2008) and later transitioned to pop with "1989" (2014). Swift's discography includes a variety of musical styles, with notable albums like "Reputation" (2017), "Lover" (2019), "Folklore" (2020), "Evermore" (2020), "Midnights" (2022), and "The Tortured Poets Department" (2024).
 
 Swift has re-recorded her first six studio albums due to a dispute with Big Machine Records. Her "Eras Tour" (2023–2024) became the highest-grossing tour of all time. She has directed several music videos and films, earning critical acclaim and numerous awards, including 14 Grammy Awards, a Primetime Emmy Award, and 40 American Music Awards. Swift is one of the world's best-selling artists, with 200 million records sold worldwide as of 2019, and she is the highest-grossing female touring act.
 
 Swift has been recognized on various influential lists, including Rolling Stone's "100 Greatest Songwriters of All Time" and Forbes' "World's 100 Most Powerful Women." She was named Time Person of the Year in 2023 for her cultural impact. Swift's music and public image have made her a significant figure in global celebrity culture, and she is often described as a pop icon with a profound impact on the music industry and popular culture.
-```
 
+---
 That's admittedly a pretty underwhelming summary, given the length of the source article, but the thing to understand is that this is a really challenging task in multiple ways:
 
 - There's no similarity between the query "summarize the article" and the text of the document so RAG based semantic retrieval isn't going to help you as there aren't any chunks in the vector db that are relevant.
@@ -40,9 +42,10 @@ Your choices currently are to either use a model with a larger context window, l
 
 Let's see if we can improve the quality of this summary... Let's first retrieve the structure of the document:
 
-```
-Q: return a list of the section headers in the article
-A: 1. Life and career
+---
+**QUESTION:** return a list of the section headers in the article \
+**ANSWER:** \
+1. Life and career
    - Early life
    - 2004–2008: Career beginnings and first album
    - 2008–2010: Fearless
@@ -72,13 +75,14 @@ A: 1. Life and career
 12. References
    - Cited literature
 13. External links
-```
 
+---
 Armed with that knowledge, we can ask Awareness for a summary that better maps to the structure of the document:
 
-```
-Q: return a summary of taylors life and career
-A: Taylor Alison Swift, born on December 13, 1989, in West Reading, Pennsylvania, is an American singer-songwriter, musician, producer, director, and actress. She began professional songwriting at 14 and signed with Big Machine Records in 2005. Swift gained prominence with her country pop albums "Taylor Swift" (2006) and "Fearless" (2008), featuring hit singles like "Teardrops on My Guitar," "Love Story," and "You Belong with Me."
+---
+**QUESTION:** return a summary of taylors life and career \
+**ANSWER:** \
+Taylor Alison Swift, born on December 13, 1989, in West Reading, Pennsylvania, is an American singer-songwriter, musician, producer, director, and actress. She began professional songwriting at 14 and signed with Big Machine Records in 2005. Swift gained prominence with her country pop albums "Taylor Swift" (2006) and "Fearless" (2008), featuring hit singles like "Teardrops on My Guitar," "Love Story," and "You Belong with Me."
 
 Swift's musical evolution saw her experimenting with rock on "Speak Now" (2010) and electronic styles on "Red" (2012), which included her first Billboard Hot 100 number-one single, "We Are Never Ever Getting Back Together." She transitioned to pop with the synth-pop album "1989" (2014), producing chart-toppers like "Shake It Off," "Blank Space," and "Bad Blood." Her hip-hop-influenced album "Reputation" (2017) followed, inspired by media scrutiny.
 
@@ -91,15 +95,16 @@ Her accolades include 14 Grammy Awards, a Primetime Emmy Award, 40 American Musi
 Swift's early life included performing in local theater productions and traveling to New York City for vocal and acting lessons. Influenced by country artists like Shania Twain and Faith Hill, she moved to Nashville at 14 to pursue a music career. Her father transferred to Merrill Lynch's Nashville office to support her ambitions. Swift attended Hendersonville High School and later Aaron Academy, graduating a year early to accommodate her touring schedule.
 
 Throughout her career, Swift has been recognized for her influence on the music industry, her strategic business moves, and her ability to engage her fanbase with intricate narratives and "Easter eggs" in her music and videos. She has also been involved in significant cultural moments and has received praise from legendary musicians for her songwriting and influence.
-```
 
+---
 Notice how much better that summary is then the original one. Awareness generates much better answers when its given something to focus on. The closest analogy we have for what Awareness is doing under the hood is that it's like giving the model a pair of reading glasses. Awareness can help the model focus on the specific details needed to answer a question or perform a task but you need to tell it what to look at.
 
 As another example, we can get the model to generate a detailed timeline of events but you should be specific about what events you want in the timeline. Think of the document more like a pivot table of information:
 
-```
-Q: create a timeline of taylors cash donations
-A: Here is a timeline of Taylor Swift's cash donations:
+---
+**QUESTION:** create a timeline of taylors cash donations \
+**ANSWER:** \
+Here is a timeline of Taylor Swift's cash donations:
 
 1. **August 9, 2009**: Donated $100,000 to victims of the Iowa Flood.
 2. **May 7, 2010**: Donated $500,000 after Nashville floods.
@@ -117,13 +122,14 @@ A: Here is a timeline of Taylor Swift's cash donations:
 14. **December 11, 2023**: Donated $1 million to help communities ravaged by Tennessee tornadoes.
 15. **February 16, 2024**: Donated $100,000 to the family of a woman killed at the Chiefs' parade.
 16. **February 2024**: Donated $100,000 to the family of a woman who died in a shooting at the Kansas City Chiefs' Super Bowl parade.
-```
 
+---
 We'll finish with another retrieval task. This article has almost 600 citations with links to external references. That's way more links then can fit in a single context window so the preview bits can't return them all (we're working on that.) We can ask for a range of those citations though and Awareness will accurately return them all:
 
-```
-Q: return the archive links for reference 200 - 219
-A: Here are the archive links for references 200 to 219:
+---
+**QUESTION:** return the archive links for reference 200 - 219 \
+**ANSWER:** \
+Here are the archive links for references 200 to 219:
 
 - Reference 200: [Archived](https://web.archive.org/web/20221022001540/https://www.theguardian.com/music/2022/oct/21/taylor-swift-midnights-review-small-hours-pop-rich-with-self-loathing-and-stereotype-smashing) from the original on October 22, 2022.
 - Reference 201: [Archived](https://web.archive.org/web/20240211011818/https://www.wsj.com/articles/midnights-review-taylor-swift-jack-antonoff-anti-hero-single-11666647508) from the original on February 11, 2024.
@@ -145,4 +151,5 @@ A: Here are the archive links for references 200 to 219:
 - Reference 217: [Archived](https://web.archive.org/web/20220211002033/https://www.billboard.com/music/pop/ed-sheeran-taylor-swift-joker-and-the-queen-remix-video-1235029898/)
 - Reference 218: [Archived](https://web.archive.org/web/20230118184740/https://www.billboard.com/music/rock/the-national-first-two-pages-of-frankenstein-tracklist-taylor-swift-phoebe-bridgers-sufjan-stevens-1235200793/)
 - Reference 219: [Archived](https://web.archive.org/web/20221224085242/https://variety.com/2022/awards/musicians/taylor-swift-all-too-well-oscars-snub-1235467496/)
-```
+
+---
