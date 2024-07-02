@@ -44,7 +44,8 @@ Let's see if we can improve the quality of this summary... Let's first retrieve 
 
 ---
 **QUESTION:** return a list of the section headers in the article \
-**ANSWER:** \
+**ANSWER:** 
+
 1. Life and career
    - Early life
    - 2004–2008: Career beginnings and first album
