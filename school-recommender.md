@@ -66,9 +66,10 @@ To evaluate the projects dataset we're going to use GPT-4o. The example Q&A pair
 
 Lets start by asking for list of recommended schools:
 
-```
-Q: we're a middle class family in bellevue, wa. our daughter is starting highschool next year. she loves math and wants to pursue a math degree. what schools should we consider and why?
-A: Given your daughter's passion for math and your middle-class status, here are some high schools in Bellevue, WA, that you should consider:
+---
+**QUESTION:** we're a middle class family in bellevue, wa. our daughter is starting highschool next year. she loves math and wants to pursue a math degree. what schools should we consider and why? \
+**ANSWER:** \
+Given your daughter's passion for math and your middle-class status, here are some high schools in Bellevue, WA, that you should consider:
 
 1. **International School**:
    - **Why**: It ranks 2nd out of 442 public high schools in Washington and has an average standard score of 99.2 in 2023. The school has a strong academic performance, particularly in math, with 83% proficiency in SBAC/Math. It offers advanced courses and has a College Readiness rating of 10/10, making it an excellent choice for a student interested in pursuing a math degree.
@@ -86,13 +87,14 @@ A: Given your daughter's passion for math and your middle-class status, here are
    - **Why**: It ranks 5th out of 442 public high schools in Washington with an average standard score of 98.2 in 2023. The school has a strong academic performance, particularly in math, with 82% proficiency. It offers AP courses and has an average SAT score of 1380 and an average ACT score of 31. The school has a high graduation rate of 93%.
 
 These schools offer strong math programs, advanced coursework, and high academic performance, making them suitable for your daughter's aspirations in pursuing a math degree.
-```
 
+---
 That seems like a reasonable answer but is it really evaluating all of the schools?  Lets add on to our query and ask it to list the other schools it didn't recommend and why:
 
-```
-Q: we're a middle class family in bellevue, wa. our daughter is starting highschool next year. she loves math and wants to pursue a math degree. what schools should we consider and why? include a list of the other schools and why you wouldn't recommend them
-A: For a middle-class family in Bellevue, WA, with a daughter who loves math and wants to pursue a math degree, here are the recommended schools to consider:
+---
+**QUESTION:** we're a middle class family in bellevue, wa. our daughter is starting highschool next year. she loves math and wants to pursue a math degree. what schools should we consider and why? include a list of the other schools and why you wouldn't recommend them \
+**ANSWER:** \
+For a middle-class family in Bellevue, WA, with a daughter who loves math and wants to pursue a math degree, here are the recommended schools to consider:
 
 ### Recommended Schools:
 
@@ -159,17 +161,18 @@ A: For a middle-class family in Bellevue, WA, with a daughter who loves math and
     - **Why Not**: This private school has a small student body, which might limit social and extracurricular opportunities.
 
 By considering these factors, you can choose a school that best fits your daughter's academic interests and your family's needs.
-```
 
+---
 In this run we see that while it's explination text for each school is a little different, it recommended 4 of the 5 schools in its original response. The one school it shifted to the "other" list, Mercer Island High School, was originally listed as being outside of Bellevue so all in all I'd say the recommendations are consistent across queries and it's clear that all schools are in fact being reasoned over.
 
 What's interesting is that it mentions 20 schools total and we only feed it profiles for 18 schools. The `Career Education Options Reengagement Program` and `Open Window School` were not profiles in the dataset so where are those coming from? After digging into the data ingested by Awareness it becomes clear that these schools show up a lot as "related" schools on the various pages. What isn't in the data are things like `The Career Education Options Reengagement Program is designed for students who have dropped out of high school and are looking to reengage with their education.` The model is pulling that from its world knowledge and while you could view that as a hallucination, its a useful one in this case.
 
 There's actually a bunch of other schools referenced in the projects dataset and we can easily ask Awareness to return a full list with source links:
 
-```
-Q: list the schools in the dataset and include links to the pages that mention each school
-A: Here is a list of schools along with links to the pages that mention each school:
+---
+**QUESTION:** list the schools in the dataset and include links to the pages that mention each school \
+**ANSWER:** \
+Here is a list of schools along with links to the pages that mention each school:
 
 1. **Bellevue Big Picture School**
    - [SchoolDigger](https://www.schooldigger.com/go/WA/schools/0039003354/school.aspx)
@@ -327,13 +330,14 @@ A: Here is a list of schools along with links to the pages that mention each sch
 
 40. **Odle Middle School**
     - [Niche](https://www.niche.com/k12/odle-middle-school-bellevue-wa/)
-```
 
+---
 You can get more consistency from the models output by telling Awareness the fields you'd like to see in the output. For a recommendion question this can result in slightly different recommendations because you're basically telling the model what fields to weigh on at the same time. Just keep that in mind: 
 
-```
-Q: we're a middle class family in bellevue, wa. our daughter is starting highschool next year. she loves math and wants to pursue a math degree. what schools should we consider and why? for each school return name, description, website, raitings, and explination
-A: Here are some schools in Bellevue, WA, that you should consider for your daughter who loves math and wants to pursue a math degree:
+---
+**QUESTION:** we're a middle class family in bellevue, wa. our daughter is starting highschool next year. she loves math and wants to pursue a math degree. what schools should we consider and why? for each school return name, description, website, raitings, and explination \
+**ANSWER:** \
+Here are some schools in Bellevue, WA, that you should consider for your daughter who loves math and wants to pursue a math degree:
 
 1. **Bellevue High School**
    - **Description**: Bellevue High School is a public high school serving grades 9-12 in the Bellevue School District. It consistently ranks among the top high schools in the state, delivering exceptional academic performance and supporting the success of all its students.
@@ -388,6 +392,6 @@ A: Here are some schools in Bellevue, WA, that you should consider for your daug
    - **Explanation**: Sammamish High School provides a supportive environment and a variety of extracurricular activities, which can be beneficial for your daughter's overall development. The school has a strong academic program and offers AP courses, making it a good option for a student interested in math.
 
 These schools offer strong academic programs and supportive environments that can help your daughter excel in math and prepare for a future math degree.
-```
 
+---
 Our recommendations shifted just a bit but with this query you can really see the data blending that Awareness is facilitating...
