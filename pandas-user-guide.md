@@ -39,8 +39,8 @@ https://pandas.pydata.org/docs/user_guide/cookbook.html
 To evaluate the projects dataset we're going to use GPT-4o. The example Q&A pairs below are as of early July 2024 and cost around $3.00 per query.
 
 ---
-**Question:** i'm an experienced typescript developer that's new to both python and pandas. get me started \
-**Answer:** \
+**QUESTION:** i'm an experienced typescript developer that's new to both python and pandas. get me started \
+**ANSWER:** \
 Welcome to the world of Python and pandas! As an experienced TypeScript developer, you'll find some similarities and differences in how you work with data. Here's a quick guide to get you started with pandas:
 
 ### 1. Installation
@@ -161,8 +161,8 @@ For more detailed information, you can refer to the "10 minutes to pandas" guide
 This should give you a solid foundation to start working with pandas. Happy coding!
 
 ---
-**Question:** i have an excel file that i'd like to render as a pie chart. tell me how to do that using pandas \
-**Answer:** \
+**QUESTION:** i have an excel file that i'd like to render as a pie chart. tell me how to do that using pandas \
+**ANSWER:** \
 To render a pie chart from an Excel file using pandas, follow these steps:
 
 1. **Import the necessary libraries**:
@@ -197,8 +197,8 @@ Make sure to replace `'your_file.xlsx'` with the path to your Excel file and `'c
 For more details on plotting with pandas, you can refer to the pandas documentation on visualization.
 
 ---
-**Question:** give me a summary of how visualization works in  \
-**Answer:** \
+**QUESTION:** give me a summary of how visualization works in  \
+**ANSWER:** \
 Visualization in pandas involves using various methods to create and customize plots and tables from data stored in Series and DataFrame objects. Here’s a summary of how visualization works in pandas:
 
 ### Plotting with pandas
@@ -246,8 +246,8 @@ Visualization in pandas involves using various methods to create and customize p
 By leveraging these tools and methods, pandas enables comprehensive and customizable data visualization, making it easier to analyze and present data effectively.
 
 ---
-**Question:** list all of the file types pandas can import. can all of those file types be exported to? \
-**Answer:** \
+**QUESTION:** list all of the file types pandas can import. can all of those file types be exported to? \
+**ANSWER:** \
 Pandas can import data from the following file types:
 
 1. CSV & text files
