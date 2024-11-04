@@ -1,0 +1,176 @@
+{
+    "schema": 1,
+    "description": "A professional project management assistant for Microsoft Teams",
+    "type": "completion",
+    "completion": {
+        "model": "gpt-4",
+        "temperature": 0.7,
+        "top_p": 0.95,
+        "max_tokens": 800,
+        "presence_penalty": 0.6,
+        "frequency_penalty": 0.0,
+        "stop_sequences": [],
+        "completion_type": "chat",
+        "include_history": true,
+        "max_input_tokens": 2800,
+        "max_history_tokens": 1000
+    },
+    "default_backend": "openai",
+    "backends": {
+        "openai": {
+            "model": "${OPENAI_MODEL}",
+            "api_key": "${OPENAI_KEY}"
+        },
+        "azure": {
+            "model": "${OPENAI_MODEL}",
+            "api_key": "${AZURE_OPENAI_KEY}",
+            "endpoint": "${AZURE_OPENAI_ENDPOINT}"
+        }
+    },
+    "actions": {
+        "createTask": {
+            "description": "Create a new project task",
+            "parameters": {
+                "type": "object",
+                "properties": {
+                    "title": {
+                        "type": "string",
+                        "description": "Title of the task"
+                    },
+                    "description": {
+                        "type": "string",
+                        "description": "Detailed description of the task"
+                    },
+                    "dueDate": {
+                        "type": "string",
+                        "format": "date-time",
+                        "description": "Due date for the task"
+                    },
+                    "assignedTo": {
+                        "type": "string",
+                        "description": "User ID or email of person assigned to the task"
+                    },
+                    "priority": {
+                        "type": "string",
+                        "enum": ["Low", "Medium", "High"],
+                        "description": "Priority level of the task"
+                    }
+                },
+                "required": ["title", "dueDate", "assignedTo", "priority"]
+            }
+        },
+        "scheduleMeeting": {
+            "description": "Schedule a team meeting",
+            "parameters": {
+                "type": "object",
+                "properties": {
+                    "subject": {
+                        "type": "string",
+                        "description": "Meeting subject"
+                    },
+                    "datetime": {
+                        "type": "string",
+                        "format": "date-time",
+                        "description": "Meeting date and time"
+                    },
+                    "duration": {
+                        "type": "integer",
+                        "minimum": 15,
+                        "maximum": 480,
+                        "description": "Meeting duration in minutes"
+                    },
+                    "attendees": {
+                        "type": "array",
+                        "items": {
+                            "type": "string"
+                        },
+                        "description": "List of meeting attendees (email addresses)"
+                    },
+                    "isOnlineMeeting": {
+                        "type": "boolean",
+                        "description": "Whether this is a Teams online meeting",
+                        "default": true
+                    }
+                },
+                "required": ["subject", "datetime", "duration"]
+            }
+        },
+        "viewTasks": {
+            "description": "Retrieve tasks for a user",
+            "parameters": {
+                "type": "object",
+                "properties": {
+                    "userId": {
+                        "type": "string",
+                        "description": "User ID to fetch tasks for"
+                    },
+                    "status": {
+                        "type": "string",
+                        "enum": ["Not Started", "In Progress", "Completed", "All"],
+                        "description": "Filter tasks by status",
+                        "default": "All"
+                    }
+                },
+                "required": ["userId"]
+            }
+        },
+        "updateTask": {
+            "description": "Update an existing task",
+            "parameters": {
+                "type": "object",
+                "properties": {
+                    "taskId": {
+                        "type": "string",
+                        "description": "ID of the task to update"
+                    },
+                    "status": {
+                        "type": "string",
+                        "enum": ["Not Started", "In Progress", "Completed"],
+                        "description": "New status for the task"
+                    },
+                    "priority": {
+                        "type": "string",
+                        "enum": ["Low", "Medium", "High"],
+                        "description": "New priority for the task"
+                    },
+                    "dueDate": {
+                        "type": "string",
+                        "format": "date-time",
+                        "description": "New due date for the task"
+                    }
+                },
+                "required": ["taskId"]
+            }
+        }
+    },
+    "functions": {
+        "formatDate": {
+            "description": "Format a date string with optional time",
+            "parameters": {
+                "type": "object",
+                "properties": {
+                    "date": {
+                        "type": "string",
+                        "description": "Date string to format"
+                    },
+                    "format": {
+                        "type": "string",
+                        "description": "Optional format string"
+                    }
+                },
+                "required": ["date"]
+            }
+        },
+        "getCurrentUser": {
+            "description": "Get the current user's information",
+            "parameters": {
+                "type": "object",
+                "properties": {}
+            }
+        }
+    },
+    "models": {
+        "default": "${OPENAI_MODEL}",
+        "fallback": "gpt-3.5-turbo"
+    }
+}

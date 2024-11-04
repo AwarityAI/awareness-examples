@@ -1,0 +1,61 @@
+{
+    "compilerOptions": {
+        // Modern JavaScript Support
+        "target": "ES2020",
+        "module": "commonjs",
+        "lib": ["ES2020", "DOM"],
+        "moduleResolution": "node",
+        
+        // Strict Type Checking
+        "strict": true,
+        "noImplicitAny": true,
+        "strictNullChecks": true,
+        "strictFunctionTypes": true,
+        "strictBindCallApply": true,
+        "strictPropertyInitialization": true,
+        "noImplicitThis": true,
+        "alwaysStrict": true,
+        
+        // Module Resolution
+        "baseUrl": ".",
+        "paths": {
+            "*": ["node_modules/*", "src/types/*"]
+        },
+        "resolveJsonModule": true,
+        "esModuleInterop": true,
+        
+        // Output Configuration
+        "outDir": "./lib",
+        "rootDir": "./src",
+        "sourceMap": true,
+        "declaration": true,
+        "declarationMap": true,
+        
+        // Additional Features
+        "experimentalDecorators": true,
+        "emitDecoratorMetadata": true,
+        "skipLibCheck": true,
+        "forceConsistentCasingInFileNames": true,
+        
+        // Error Handling
+        "noUnusedLocals": true,
+        "noUnusedParameters": false,
+        "noImplicitReturns": true,
+        "noFallthroughCasesInSwitch": true,
+        
+        // Type Definitions
+        "typeRoots": [
+            "./node_modules/@types",
+            "./src/types"
+        ]
+    },
+    "include": [
+        "src/**/*"
+    ],
+    "exclude": [
+        "node_modules",
+        "lib",
+        "**/*.spec.ts",
+        "**/*.test.ts"
+    ]
+}
