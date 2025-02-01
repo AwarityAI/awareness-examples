@@ -1,0 +1,266 @@
+Message reaction events
+
+The `messageReaction` event is sent when a user adds or removes reactions to a message, which was sent by your bot. The `replyToId` contains the ID of the message, and the `Type` is the type of reaction in text format. The types of reactions include angry, heart, laugh, like, sad, and surprised. This event doesn't contain the contents of the original message. If processing reactions to your messages is important for your bot, you must store the messages when you send them. The following table provides more information about the event type and payload objects:
+
+| EventType       | Payload object   | Description                                                             | Scope |
+| --------------- | ---------------- | ----------------------------------------------------------------------- | ----- |
+| messageReaction | reactionsAdded   | [Reactions added to bot message](#reactions-added-to-bot-message).           | All   |
+| messageReaction | reactionsRemoved | [Reactions removed from bot message](#reactions-removed-from-bot-message). | All |
+
+### Reactions added to bot message
+
+The following code shows an example of reactions to a bot message:
+
+# [C#](#tab/dotnet)
+
+* [SDK reference](/dotnet/api/microsoft.bot.builder.activityhandler.onreactionsaddedasync?view=botbuilder-dotnet-stable&preserve-view=true#definition)
+* [Sample code reference](https://github.com/OfficeDev/Microsoft-Teams-Samples/blob/main/samples/bot-message-reaction/csharp/Bots/MessageReactionBot.cs#L26)
+
+```csharp
+protected override async Task OnReactionsAddedAsync(IList<MessageReaction> messageReactions, ITurnContext<IMessageReactionActivity> turnContext, CancellationToken cancellationToken)
+{
+    foreach (var reaction in messageReactions)
+    {
+      var newReaction = $"You reacted with '{reaction.Type}' to the following message: '{turnContext.Activity.ReplyToId}'";
+      var replyActivity = MessageFactory.Text(newReaction);
+      // Sends an activity to the sender of the incoming activity.
+      var resourceResponse = await turnContext.SendActivityAsync(replyActivity, cancellationToken);
+    }
+}
+```
+
+# [TypeScript](#tab/typescript)
+
+* [SDK reference](/javascript/api/botbuilder-core/activityhandler?view=botbuilder-ts-latest&preserve-view=true#botbuilder-core-activityhandler-onreactionsadded)
+* [Sample code reference](https://github.com/OfficeDev/Microsoft-Teams-Samples/blob/main/samples/bot-conversation/nodejs/bots/teamsConversationBot.js#L55)
+
+* [Sample code reference](https://github.com/OfficeDev/Microsoft-Teams-Samples/blob/main/samples/bot-conversation/nodejs/bots/teamsConversationBot.js#L55)
+
+* [Sample code reference](https://github.com/OfficeDev/Microsoft-Teams-Samples/blob/main/samples/bot-conversation/nodejs/bots/teamsConversationBot.js#L55)
+
+<!-- Verify -->
+
+```typescript
+
+export class MyBot extends TeamsActivityHandler {
+    constructor() {
+        super();
+         // Override this in a derived class to provide logic for when reactions to a previous activity.
+        this.onReactionsAdded(async (context, next) => {
+           const reactionsAdded = context.activity.reactionsAdded;
+            if (reactionsAdded && reactionsAdded.length > 0) {
+                for (let i = 0; i < reactionsAdded.length; i++) {
+                    const reaction = reactionsAdded[i];
+                    const newReaction = `You reacted with '${reaction.type}' to the following message: '${context.activity.replyToId}'`;
+                    // Sends an activity to the sender of the incoming activity.
+                    const resourceResponse = context.sendActivity(newReaction);
+                    // Save information about the sent message and its ID (resourceResponse.id).
+                }
+            }
+        });
+    }
+}
+```
+
+# [JSON](#tab/json)
+
+```json
+{
+    "reactionsAdded": [
+        {
+            "type": "like"
+        }
+    ],
+    "type": "messageReaction",
+    "timestamp": "2017-10-16T18:45:41.943Z",
+    "id": "f:9f78d1f3",
+    "channelId": "msteams",
+    "serviceUrl": "https://smba.trafficmanager.net/amer-client-ss.msg/",
+    "from": {
+        "id": "29:1I9Is_Sx0O-Iy2rQ7Xz1lcaPKlO9eqmBRTBuW6XzkFtcjqxTjPaCMij8BVMdBcL9L_RwWNJyAHFQb0TRzXgyQvA",
+        "aadObjectId": "c33aafc4-646d-4543-9d4c-abd28e4d2110"
+    },
+    "conversation": {
+        "isGroup": true,
+        "conversationType": "channel",
+        "id": "19:3629591d4b774aa08cb0887902eee7c1@thread.skype"
+    },
+    "recipient": {
+        "id": "28:f5d48856-5b42-41a0-8c3a-c5f944b679b0",
+        "name": "SongsuggesterLocal"
+    },
+    "channelData": {
+        "channel": {
+            "id": "19:3629591d4b774aa08cb0887902eee7c1@thread.skype"
+        },
+        "team": {
+            "id": "19:efa9296d959346209fea44151c742e73@thread.skype"
+        },
+        "tenant": {
+            "id": "72f988bf-86f1-41af-91ab-2d7cd011db47"
+        }
+    },
+    "replyToId": "1575667808184",
+    "legacy": {
+      "replyToId": "1:19uJ8TZA1cZcms7-2HLOW3pWRF4nSWEoVnRqc0DPa_kY"
+    }
+}
+```
+
+# [Python](#tab/python)
+
+* [SDK reference](/python/api/botbuilder-core/botbuilder.core.activityhandler?view=botbuilder-py-latest&preserve-view=true#botbuilder-core-activityhandler-on-reactions-added)
+
+```python
+# Override this in a derived class to provide logic for when reactions to a previous activity are added to the conversation.
+async def on_reactions_added(
+ self, message_reactions: List[MessageReaction], turn_context: TurnContext
+):
+ for reaction in message_reactions:
+  activity = await self._log.find(turn_context.activity.reply_to_id)
+  if not activity:
+    # Sends an activity to the sender of the incoming activity.
+   await self._send_message_and_log_activity_id(
+    turn_context,
+    f"Activity {turn_context.activity.reply_to_id} not found in log",
+   )
+  else:
+    # Sends an activity to the sender of the incoming activity.
+   await self._send_message_and_log_activity_id(
+    turn_context,
+    f"You added '{reaction.type}' regarding '{activity.text}'",
+   )
+ return
+```
+
+---
+
+### Reactions removed from bot message
+
+The following code shows an example of reactions removed from bot message:
+
+# [C#](#tab/dotnet)
+
+* [SDK reference](/dotnet/api/microsoft.bot.builder.activityhandler.onreactionsremovedasync?view=botbuilder-dotnet-stable&preserve-view=true#definition)
+* [Sample code reference](https://github.com/OfficeDev/Microsoft-Teams-Samples/blob/main/samples/bot-message-reaction/csharp/Bots/MessageReactionBot.cs#L44)
+
+```csharp
+protected override async Task OnReactionsRemovedAsync(IList<MessageReaction> messageReactions, ITurnContext<IMessageReactionActivity> turnContext, CancellationToken cancellationToken)
+{
+    foreach (var reaction in messageReactions)
+    {
+      var newReaction = $"You removed the reaction '{reaction.Type}' from the following message: '{turnContext.Activity.ReplyToId}'";
+
+      var replyActivity = MessageFactory.Text(newReaction);
+      // Sends an activity to the sender of the incoming activity.
+      var resourceResponse = await turnContext.SendActivityAsync(replyActivity, cancellationToken);
+    }
+}
+```
+
+# [TypeScript](#tab/typescript)
+
+* [SDK reference](/javascript/api/botbuilder-core/activityhandler?view=botbuilder-ts-latest&preserve-view=true#botbuilder-core-activityhandler-onreactionsremoved)
+* [Sample code reference](https://github.com/OfficeDev/Microsoft-Teams-Samples/blob/main/samples/bot-conversation/nodejs/bots/teamsConversationBot.js#L63)
+
+* [Sample code reference](https://github.com/OfficeDev/Microsoft-Teams-Samples/blob/main/samples/bot-conversation/nodejs/bots/teamsConversationBot.js#L63)
+
+* [Sample code reference](https://github.com/OfficeDev/Microsoft-Teams-Samples/blob/main/samples/bot-conversation/nodejs/bots/teamsConversationBot.js#L63)
+
+<!-- Verify -->
+
+```typescript
+export class MyBot extends TeamsActivityHandler {
+    constructor() {
+        super();
+         // Override this in a derived class to provide logic for when reactions to a previous activity.
+        this.onReactionsRemoved(async(context,next)=>{
+            const reactionsRemoved = context.activity.reactionsRemoved;
+            if (reactionsRemoved && reactionsRemoved.length > 0) {
+                for (let i = 0; i < reactionsRemoved.length; i++) {
+                    const reaction = reactionsRemoved[i];
+                    const newReaction = `You removed the reaction '${reaction.type}' from the message: '${context.activity.replyToId}'`;
+                     // Sends an activity to the sender of the incoming activity.
+                    const resourceResponse = context.sendActivity(newReaction);
+                    // Save information about the sent message and its ID (resourceResponse.id).
+                }
+            }
+        });
+    }
+}
+```
+
+# [JSON](#tab/json)
+
+```json
+{
+    "reactionsRemoved": [
+        {
+            "type": "like"
+        }
+    ],
+    "type": "messageReaction",
+    "timestamp": "2017-10-16T18:45:41.943Z",
+    "id": "f:9f78d1f3",
+    "channelId": "msteams",
+    "serviceUrl": "https://smba.trafficmanager.net/amer-client-ss.msg/",
+    "from": {
+        "id": "29:1I9Is_Sx0O-Iy2rQ7Xz1lcaPKlO9eqmBRTBuW6XzkFtcjqxTjPaCMij8BVMdBcL9L_RwWNJyAHFQb0TRzXgyQvA",
+        "aadObjectId": "c33aafc4-646d-4543-9d4c-abd28e4d2110"
+    },
+    "conversation": {
+        "isGroup": true,
+        "conversationType": "channel",
+        "id": "19:3629591d4b774aa08cb0887902eee7c1@thread.skype"
+    },
+    "recipient": {
+        "id": "28:f5d48856-5b42-41a0-8c3a-c5f944b679b0",
+        "name": "SongsuggesterLocal"
+    },
+    "channelData": {
+        "channel": {
+            "id": "19:3629591d4b774aa08cb0887902eee7c1@thread.skype"
+        },
+        "team": {
+            "id": "19:efa9296d959346209fea44151c742e73@thread.skype"
+        },
+        "tenant": {
+            "id": "72f988bf-86f1-41af-91ab-2d7cd011db47"
+        }
+    },
+    "replyToId": "1575667808184",
+    "legacy": {
+      "replyToId": "1:19uJ8TZA1cZcms7-2HLOW3pWRF4nSWEoVnRqc0DPa_kY"
+    }
+}
+```
+
+# [Python](#tab/python)
+
+* [SDK reference](/python/api/botbuilder-core/botbuilder.core.activityhandler?view=botbuilder-py-latest&preserve-view=true#botbuilder-core-activityhandler-on-reactions-removed)
+
+```python
+# Override this in a derived class to provide logic specific to removed activities.
+async def on_reactions_removed(
+ self, message_reactions: List[MessageReaction], turn_context: TurnContext
+):
+ for reaction in message_reactions:
+  activity = await self._log.find(turn_context.activity.reply_to_id)
+  if not activity:
+    # Sends an activity to the sender of the incoming activity.
+   await self._send_message_and_log_activity_id(
+    turn_context,
+    f"Activity {turn_context.activity.reply_to_id} not found in log",
+   )
+  else:
+    # Sends an activity to the sender of the incoming activity.
+   await self._send_message_and_log_activity_id(
+    turn_context,
+    f"You removed '{reaction.type}' regarding '{activity.text}'",
+   )
+ return
+```
+
+---
+
+## 

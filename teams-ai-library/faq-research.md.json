@@ -1,0 +1,46 @@
+{
+  "title": "Research Plan for Writing the FAQ",
+  "description": "The goal is to gather the necessary information to write a comprehensive FAQ about the Teams AI Library, focusing on its features, setup, troubleshooting, and best practices.",
+  "queries": [
+    {
+      "title": "Understanding the Teams AI Library",
+      "search": "Understanding the Teams AI Library",
+      "questions": " \n1. What is the Teams AI Library, and what are its primary features?  \n2. How does the Teams AI Library extend the Bot Framework SDK?  \n3. What are the benefits of using the Teams AI Library for bot development in Microsoft Teams and Microsoft 365?  \n4. What types of bots can be built using the Teams AI Library?"
+    },
+    {
+      "title": "Integration with Large Language Models (LLMs)",
+      "search": "Integration with Large Language Models (LLMs)",
+      "questions": " \n1. What LLMs are supported by the Teams AI Library?  \n2. Do developers need to host their own LLMs to use the Teams AI Library?  \n3. How does the Teams AI Library integrate with OpenAI and Azure OpenAI APIs?  \n4. Can the Teams AI Library be extended to work with other LLM providers?"
+    },
+    {
+      "title": "Customization and Development",
+      "search": "Customization and Development",
+      "questions": " \n1. What customization options are available for prompts and actions in the Teams AI Library?  \n2. How can developers use the `PromptManager` to design effective prompts?  \n3. What is the `ActionPlanner`, and how does it enhance bot responsiveness?  \n4. How can external data sources be integrated into bots using the Teams AI Library?  \n5. What are the best practices for managing conversation history and token limits?"
+    },
+    {
+      "title": "Authentication and Security",
+      "search": "Authentication and Security",
+      "questions": " \n1. What are the common authentication issues encountered when using the Teams AI Library?  \n2. How can developers troubleshoot authentication problems in Teams AI bots?  \n3. What are the security best practices for handling sensitive information like API keys and credentials?  \n4. How does the Teams AI Library handle user consent and token management?  \n5. What are the ethical considerations for building bots with the Teams AI Library?"
+    },
+    {
+      "title": "Setup and Configuration",
+      "search": "Setup and Configuration",
+      "questions": " \n1. What environment variables are required to configure the Teams AI Library?  \n2. What tools and dependencies are necessary for setting up a bot with the Teams AI Library?  \n3. How should developers configure the `index.ts` file for proper connectivity to Azure AI services?  \n4. What are the common setup issues, and how can they be resolved?"
+    },
+    {
+      "title": "Troubleshooting and Maintenance",
+      "search": "Troubleshooting and Maintenance",
+      "questions": " \n1. What are the common runtime issues encountered when using the Teams AI Library?  \n2. How can developers address problems with outdated indexers or `.env` files?  \n3. What steps should be taken to ensure bots are deployed in a secure and accessible environment?  \n4. How can developers monitor and debug bot interactions effectively?"
+    },
+    {
+      "title": "Advanced Features and Capabilities",
+      "search": "Advanced Features and Capabilities",
+      "questions": " \n1. How can embeddings be used to enhance semantic understanding in bots?  \n2. What is the `VectraDataSource` class, and how does it improve bot responses?  \n3. How can developers implement feedback loops and repair mechanisms in their bots?  \n4. What are the multilingual capabilities of the Teams AI Library, and how can they be leveraged?"
+    },
+    {
+      "title": "Community and Support",
+      "search": "Community and Support",
+      "questions": " \n1. What resources, such as sample projects and documentation, are available for developers using the Teams AI Library?  \n2. How can developers report issues or contribute to the Teams AI Library?  \n3. What role does the Teams Toolkit play in simplifying bot development for first-time users?"
+    }
+  ]
+}

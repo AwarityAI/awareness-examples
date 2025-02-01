@@ -1,0 +1,46 @@
+{
+  "title": "Documenting the Code Sample",
+  "description": "The goal of this research is to gather the necessary information to properly document the provided code sample. This includes understanding the purpose, functionality, and structure of the code, as well as identifying any dependencies, inputs, and outputs.",
+  "queries": [
+    {
+      "title": "Understanding the Purpose and Functionality",
+      "search": "Understanding the Purpose and Functionality",
+      "questions": "\n- What is the main purpose of the code sample?\n- What problem does the code sample solve?\n- What is the expected behavior or output of the code sample?"
+    },
+    {
+      "title": "Identifying Code Structure and Components",
+      "search": "Identifying Code Structure and Components",
+      "questions": "\n- What are the main components or functions in the code sample?\n- What are the key variables and their roles in the code?\n- How are the components or functions organized within the code?"
+    },
+    {
+      "title": "Inputs and Outputs",
+      "search": "Inputs and Outputs",
+      "questions": "\n- What are the inputs required by the code sample?\n- What are the expected outputs of the code sample?\n- How are the inputs processed to produce the outputs?"
+    },
+    {
+      "title": "Dependencies and Requirements",
+      "search": "Dependencies and Requirements",
+      "questions": "\n- What external libraries or dependencies does the code sample rely on?\n- What are the system or environment requirements for running the code sample?"
+    },
+    {
+      "title": "Code Usage and Examples",
+      "search": "Code Usage and Examples",
+      "questions": "\n- How should the code sample be executed or used?\n- Are there any example use cases or scenarios where the code sample can be applied?"
+    },
+    {
+      "title": "Error Handling and Edge Cases",
+      "search": "Error Handling and Edge Cases",
+      "questions": "\n- How does the code handle errors or exceptions?\n- What are the potential edge cases that the code sample addresses?"
+    },
+    {
+      "title": "Performance and Optimization",
+      "search": "Performance and Optimization",
+      "questions": "\n- Are there any performance considerations or optimizations in the code sample?\n- How does the code perform under different conditions or inputs?"
+    },
+    {
+      "title": "Additional Comments or Notes",
+      "search": "Additional Comments or Notes",
+      "questions": "\n- Are there any additional comments or notes provided in the code sample?\n- Are there any TODOs or future improvements mentioned in the code?"
+    }
+  ]
+}

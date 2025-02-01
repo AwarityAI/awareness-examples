@@ -1,0 +1,36 @@
+{
+  "title": "Understanding Microsoft Graph API Integration with TypeScript in Teams AI Library Bots",
+  "description": "Learn how to make Microsoft Graph calls using TypeScript from within a Teams AI Library-based bot, with a focus on remembering code samples.",
+  "queries": [
+    {
+      "title": "Introduction to Microsoft Graph API and TypeScript",
+      "search": "Microsoft Graph API introduction TypeScript",
+      "questions": "What is Microsoft Graph API? How can TypeScript be used with Microsoft Graph API? Are there any basic code samples for using Microsoft Graph API with TypeScript?"
+    },
+    {
+      "title": "Setting Up a Teams AI Library Bot",
+      "search": "Teams AI Library bot setup TypeScript",
+      "questions": "How do you set up a bot using the Teams AI Library with TypeScript? What are the prerequisites for creating a Teams AI Library bot? Are there any code samples for setting up a basic bot?"
+    },
+    {
+      "title": "Making Microsoft Graph API Calls in a Teams Bot",
+      "search": "Microsoft Graph API calls Teams bot TypeScript",
+      "questions": "How can you make Microsoft Graph API calls from a Teams bot using TypeScript? What are the necessary authentication steps? Are there code samples demonstrating API calls within a Teams bot?"
+    },
+    {
+      "title": "Authentication and Permissions for Microsoft Graph",
+      "search": "Microsoft Graph API authentication permissions TypeScript",
+      "questions": "What authentication methods are available for Microsoft Graph API in TypeScript? How do you configure permissions for a Teams bot? Are there code samples for setting up authentication and permissions?"
+    },
+    {
+      "title": "Handling Responses and Errors from Microsoft Graph API",
+      "search": "Handling Microsoft Graph API responses errors TypeScript",
+      "questions": "How do you handle responses from Microsoft Graph API in TypeScript? What are common errors and how can they be resolved? Are there code samples for error handling in Microsoft Graph API calls?"
+    },
+    {
+      "title": "Best Practices and Advanced Features",
+      "search": "Best practices Microsoft Graph API Teams bot TypeScript",
+      "questions": "What are the best practices for using Microsoft Graph API in a Teams bot with TypeScript? What advanced features of Microsoft Graph API can be utilized in a Teams bot? Are there code samples for implementing advanced features?"
+    }
+  ]
+}

@@ -1,0 +1,846 @@
+FILE: bots\bot-basics.md
+STRUCTURE:
+# Bot activity handlers
+## Teams activity handlers
+# [C#](#tab/csharp)
+## Core Bot Framework handlers
+### Teams specific activity handlers
+### Teams invoke activities
+# [JavaScript](#tab/javascript)
+## Core Bot Framework handlers
+### Teams specific activity handlers
+### Teams invoke activities
+# [Python](#tab/python)
+## Core Bot Framework handlers
+### Teams specific activity handlers
+### Teams invoke activities
+## Code sample
+## Next step
+## See also
+
+FILE: bots\bot-features.md
+STRUCTURE:
+# Bots and SDKs
+## Bots with the Microsoft Bot Framework
+## Bots with Power Virtual Agents
+## Bots with webhooks and connectors
+## Advantages of bots
+### In a channel
+### In a group chat
+### In a one-to-one chat
+## Disadvantages of bots
+### Have multi-turn experiences in chat
+### Support too many commands
+### Maintain a large knowledge base
+## Limitations and known issues
+## Code snippets
+## Code sample
+## Next step
+## See also
+
+FILE: bots\what-are-bots.md
+STRUCTURE:
+# Build bots for Teams
+### Bot name and icon
+## Add SSO authentication to your conversation bots
+## Bot configuration experience
+## Code samples
+## Next step
+## See also
+
+FILE: bots\calls-and-meetings\call-notifications.md
+STRUCTURE:
+# Incoming call notifications
+## Protocol determination
+## Redirects for region affinity
+## Authenticate the callback
+## Next step
+## See also
+
+FILE: bots\calls-and-meetings\calls-meetings-bots-overview.md
+STRUCTURE:
+# Calls and online meetings bots
+## Functions of calls and online meeting bots
+## Terminologies
+### Audio or video calls
+### Call types
+### Signals
+### Calls and online meetings
+### Real-time media
+## Code sample
+## Next step
+## See also
+
+FILE: bots\calls-and-meetings\debugging-local-testing-calling-meeting-bots.md
+STRUCTURE:
+# Develop calling and online meeting bots on your local PC
+## Configure ngrok.yml
+## Set up signaling
+## Set up local media
+## Start ngrok
+### Update code
+#### Update signaling
+#### Update media
+## Caveats
+## See also
+
+FILE: bots\calls-and-meetings\real-time-media-concepts.md
+STRUCTURE:
+# Real-time media calls and meetings with Microsoft Teams
+## Media session
+## Frames and frame rate
+## Audio and video format
+## Active and dominant speakers
+## Video subscription
+## Developer resources
+## Code sample
+## Next step
+## See also
+
+FILE: bots\calls-and-meetings\registering-calling-bot.md
+STRUCTURE:
+# Register calls and meetings bot for Microsoft Teams
+## New app manifest settings
+## Create new bot or add calling capabilities
+## Add Graph permissions
+### RSC permissions for calls
+### Application permissions for calls
+### Application permissions for online meetings
+### Assign permissions
+### Get tenant administrator consent
+## Code sample
+## Step-by-step guide
+## Next step
+## See also
+
+FILE: bots\calls-and-meetings\requirements-considerations-application-hosted-media-bots.md
+STRUCTURE:
+# Requirements and considerations for application-hosted media bots
+## C# or .NET and Windows Server for development
+## Real-time media calls stay where they're created
+## Application-hosted media bots accessible on the internet
+## Scalability and performance considerations
+## Code sample
+## Next step
+## See also
+
+FILE: bots\design\bots.md
+STRUCTURE:
+# Designing your Microsoft Teams bot
+## Microsoft Teams UI Kit
+## Add a bot
+### Mobile
+### Desktop
+## Introduce a bot
+### Welcome message in a one-on-one chat
+#### Mobile
+#### Desktop
+### Welcome message in channels and group chats
+#### Mobile
+#### Desktop
+### Bot authentication with single sign-on
+#### Mobile
+#### Desktop
+### Tours
+#### One-on-one chats
+#### Mobile
+#### Desktop
+#### Channels and group chats
+#### Mobile
+#### Desktop
+## Chat with a bot
+### Chat with a bot in different contexts
+### Anatomy
+#### Mobile
+#### Desktop
+### Command menu
+## Understand what people are saying
+### Extract intent and data from messages
+### Analyze and improve
+## Use cases
+### Simple queries
+#### Mobile
+#### Desktop
+### Multi-turn interactions
+#### Mobile
+#### Desktop
+### Reach out to users
+#### Mobile
+#### Desktop
+### Use tabs with bots
+#### Mobile
+#### Desktop
+## Manage a bot
+## Best practices
+### Content
+#### Do: Establish a clear persona
+#### Do: Clearly convey what your bot can do
+#### Don't: Obscure your bot's features
+#### Do: Recognize non-questions
+#### Don't: Miss out on opportunities to delight
+### Troubleshooting
+#### Do: Provide help
+#### Don't: Leave users stranded
+### Complex interactions
+#### Do: Use dialogs or tabs
+#### Don't: Make multi-turn interactions tedious
+### Privacy
+#### Do: Only show sensitive info in a personal context
+#### Don't: Some content isn’t meant to be seen by everyone
+## See also
+
+FILE: bots\how-to\authentication\add-authentication.md
+STRUCTURE:
+# Add authentication to your Teams bot
+## Prerequisites
+## Create the resource group
+## Create the service plan
+## Create Azure Bot resource registration
+# Create the identity provider
+## Configure the identity provider connection and register it with the bot
+### Microsoft Azure Active Directory (Azure AD) v1
+### Microsoft Azure Active Directory (Azure AD) v2
+## Test the connection
+## Prepare the bot sample code
+# [C#/.NET](#tab/dotnet)
+# [JavaScript](#tab/node-js)
+# [Python](#tab/python)
+### Deploy the bot to Azure
+## Test the bot using the Emulator
+### Configure the Emulator for authentication
+### Test the bot locally
+# Test the deployed bot
+## Install and test the bot in Teams
+### Testing the bot locally in Teams
+## Additional information
+### TeamsAppManifest/manifest.json
+### Handling Invoke Activity
+# [C#/.NET](#tab/dotnet-sample)
+# [JavaScript](#tab/node-js-dialog-sample)
+# [Python](#tab/python-sample)
+## Code sample
+## See also
+
+FILE: bots\how-to\authentication\bot-sso-code.md
+STRUCTURE:
+# Add code to enable SSO in your bot app
+## Update development environment variables
+## Add code to handle an access token
+### Consent dialog for getting access token
+## Add code to receive the token
+## Validate the access token
+## Handle app user log out
+## Code sample
+## Next step
+
+FILE: bots\how-to\authentication\bot-sso-graph-api.md
+STRUCTURE:
+# Extend your app with Microsoft Graph permissions and scopes
+## Configure API permissions in Microsoft Entra ID
+### To configure API permissions
+
+FILE: bots\how-to\authentication\bot-sso-manifest.md
+STRUCTURE:
+# Update app manifest for SSO and preview your app
+## webApplicationInfo property
+## To configure app manifest
+## Upload a custom app and Preview in Teams
+## SSO support in Developer Portal
+
+FILE: bots\how-to\authentication\bot-sso-overview.md
+STRUCTURE:
+# Enable SSO for your app
+## SSO user experience in Teams
+## SSO in Teams at runtime
+## Enable SSO for a Teams app
+## Next step
+## See also
+
+FILE: bots\how-to\authentication\bot-sso-register-aad.md
+STRUCTURE:
+# Configure your app in Microsoft Entra ID
+## SSO configuration in Microsoft Entra admin center
+## Enable SSO in Microsoft Entra ID
+# [Use bot resource and configure Microsoft Entra app](#tab/botid)
+## Configure messaging endpoint
+## Configure SSO for Microsoft Entra app
+### Configure scope for the access token
+#### To configure application ID URI
+#### To configure API scope
+#### To configure authorized client application
+### Configure access token version
+### Create client secret
+### Configure redirect URL
+# Configure OAuth connection
+## To update OAuth connection
+### Use Microsoft Entra app and then configure bot resource
+## Configure your Microsoft Entra app for SSO
+### Configure scope for access token
+#### To configure application ID URI for your app
+#### To configure API scope for your app
+#### To configure an authorized client application
+### Configure the access token version
+#### To define access token version
+### Create client secret for your app
+#### To create a client secret
+### Configure redirect URL for your app
+#### To configure redirect URL for your app
+## Configure bot resource in Microsoft Entra ID
+# Configure bot resource in Microsoft Entra ID
+## Configure messaging endpoint for your bot resource
+### To configure messaging endpoint
+## Configure OAuth connection for your bot resource
+### To update OAuth connection for your bot resource
+## Best practices
+## Next step
+
+FILE: bots\how-to\conversations\bot-copilot-handoff.md
+STRUCTURE:
+# Copilot handoff
+## How copilot handoff works
+## Enable copilot handoff
+## Best practices
+## Code samples
+
+FILE: bots\how-to\conversations\channel-and-group-conversations.md
+STRUCTURE:
+# Channel and group chat conversations with a bot
+## Design guidelines
+## Create new conversation threads
+## Work with mentions
+### Retrieve mentions
+### Add mentions to your messages
+#### User mention
+#### Tag mention
+## Send a message on installation
+## Step-by-step guide
+## Next step
+## See also
+
+FILE: bots\how-to\conversations\channel-messages-with-rsc.md
+STRUCTURE:
+# Receive all conversation messages
+## Enable bots to receive all channel or chat messages
+### Filtering at mention messages
+### RSC permission
+## Update app manifest
+## Upload a custom app in a conversation
+# [Channel messages](#tab/channel)
+# [Chat messages](#tab/chat)
+## Code snippets
+# [C#](#tab/dotnet)
+# [Node.js](#tab/nodejs)
+## Code sample
+## See also
+
+FILE: bots\how-to\conversations\command-bot-in-teams.md
+STRUCTURE:
+# Command bot in Teams
+## Command bot installation
+## Command and response
+## Customize initialization
+# [JavaScript/TypeScript](#tab/jsts1)
+# [C#](#tab/csharp1)
+## Customize adapter
+## Add command and response
+### 1. Add a command definition in manifest
+### 2. Respond with an Adaptive Card
+### 3. Handle the command
+# [JavaScript](#tab/js)
+# [TypeScript](#tab/ts)
+# [C#](#tab/csharp)
+## Customize trigger pattern
+### Build command and response using Adaptive Card with dynamic content
+### Access Microsoft Graph
+### Connect to existing APIs
+## FAQ
+### How to extend my command and response to support notifications?
+### How to extend my command bot by adding workflow bot Adaptive Card actions?
+## Step-by-step guide
+## See also
+
+FILE: bots\how-to\conversations\conversation-basics.md
+STRUCTURE:
+# Conversation basics
+## Add SSO authentication to your conversation bots
+## Next step
+## See also
+
+FILE: bots\how-to\conversations\conversation-messages.md
+STRUCTURE:
+# Messages in bot conversations
+## Receive a message activity
+## Receive a read receipt
+# Send a message
+## C#
+## TypeScript
+## Python
+## JSON
+## HTTP
+# Get edit message activity
+## C#
+## JSON
+## JavaScript
+## HTTP
+# Get undelete message activity
+## C#
+## JSON
+## JavaScript
+## HTTP
+# Get soft delete message activity
+## C#
+## JSON
+## JavaScript
+# Send suggested actions
+# Teams channel data
+## Example channelData object
+# Message content
+## Picture messages
+## Adaptive Cards
+# Add notifications to your message
+## Status codes from bot conversational APIs
+## Status codes retry guidance
+# Code sample
+# Next step
+# See also
+
+FILE: bots\how-to\conversations\interactive-notification-bot-in-teams.md
+STRUCTURE:
+# Interactive notification bot in Teams
+## Notification based on events
+## Notification bot installation
+## Customize notification
+### Customize the trigger point from event source
+### Customize the notification content
+### Customize where notifications are sent
+# Customize initialization
+## JavaScript/TypeScript
+## C#
+## Customize adapter
+## Add storage
+### TypeScript
+### C#
+## Add authentication for notification API
+## Connect to existing APIs
+### Teams bot application or Teams Incoming Webhook
+### Incoming Webhook notification
+### Send activity feed notifications
+## FAQ
+## Step-by-step guide
+## See also
+
+FILE: bots\how-to\conversations\prompt-suggestions.md
+STRUCTURE:
+# Create prompt suggestions
+## Prompt starters
+# [Developer Portal](#tab/developer-portal)
+# [Manually in the app manifest](#tab/manually-in-the-app-manifest)
+#### Manifest example for prompt starters
+# [Desktop](#tab/desktop)
+# [Mobile](#tab/mobile)
+# [C#](#tab/dotnet)
+# [JavaScript](#tab/javascript)
+# [Python](#tab/python)
+## Suggested actions
+## Code sample
+## See also
+
+FILE: bots\how-to\conversations\request-headers-of-the-bot.md
+STRUCTURE:
+# Request headers of the bot
+## Request header fields
+## See also
+
+FILE: bots\how-to\conversations\send-proactive-messages.md
+STRUCTURE:
+# Proactive messages
+## Get the Microsoft Entra user ID, user ID, team ID, or channel ID
+## Create the conversation
+## Get the conversation ID
+## Send the message
+### Understand who blocked, muted, or uninstalled a bot
+## Best practices for proactive messaging
+### Welcome messages
+### Notification messages
+### Scheduled messages
+## Proactively install your app using Graph
+### Examples
+# [C#](#tab/dotnet)
+# [JavaScript](#tab/javascript)
+# [Python](#tab/python)
+# [JSON](#tab/json)
+## Code sample
+| **Sample Name** | **Description** | **.NET** | **Node.js** | **Python** | **Manifest**
+> [!div class="nextstepaction"]
+> [More code sample of proactive messaging](/samples/officedev/msteams-samples-proactive-messaging/msteams-samples-proactive-messaging/)
+## Next step
+> [!div class="nextstepaction"]
+> [Format your bot messages](~/bots/how-to/format-your-bot-messages.md)
+## See also
+
+FILE: bots\how-to\conversations\subscribe-to-conversation-events.md
+STRUCTURE:
+# Conversation events in your Teams bot
+## Conversation update events
+### Channel created
+### Channel renamed
+### Channel deleted
+### Channel restored
+### Channel unarchived
+### Team renamed
+### Team deleted
+### Team archived
+### Team restored
+### Members added
+### Members removed
+# Members added
+## C#
+## TypeScript
+## JSON
+## Python
+# Members removed
+## C#
+## TypeScript
+## JSON
+## Python
+# Team renamed
+## C#
+## TypeScript
+## JSON
+## Python
+# Team deleted
+## C#
+## TypeScript
+## JSON
+## Python
+# Team restored
+## C#
+## TypeScript
+## JSON
+## Python
+# Team archived
+## C#
+## TypeScript
+## JSON
+## Python
+# Team unarchived
+## C#
+## TypeScript
+## JSON
+## Python
+# Message reaction events
+## Reactions added to bot message
+## Reactions removed from bot message
+## [C#](#tab/dotnet)
+## [TypeScript](#tab/typescript)
+## [JSON](#tab/json)
+## [Python](#tab/python)
+# Installation update event
+## Install update event
+## [C#](#tab/dotnet)
+## [TypeScript](#tab/typescript)
+## [JSON](#tab/json)
+## [Python](#tab/python)
+## Uninstall behavior for personal app with bot
+## Event handling for install and uninstall events
+## Handling errors in conversation events
+## Code sample
+## Next step
+## See also
+
+FILE: bots\how-to\conversations\workflow-bot-in-teams.md
+STRUCTURE:
+# Workflow bot in Teams
+## Card action handler
+## Customize initialization
+## Add card actions
+## Customize the action response
+### Respond with text message
+### Respond with error messages
+### Customize Adaptive Card content
+# Auto-refresh to user-specific view
+## Add user-specific view
+### 1. Enable refresh in base Adaptive Card
+### 2. Add user-specific Adaptive Card
+### 3. Add card action handler to refresh views
+### 4. Register the action handler
+## Access Microsoft Graph
+## Connect to existing APIs
+## FAQ
+### How to extend workflow bot with notifications?
+### How to extend workflow bot with command and response?
+## Step-by-step guide
+## See also
+
+FILE: bots\how-to\debug\locally-with-an-ide.md
+STRUCTURE:
+# Test and debug your bot locally with IDE
+## Test by uploading to Teams
+## Debug your bot locally
+## Test your bot without uploading to Teams
+### Use the Bot Emulator
+### Talk to your bot directly by ID
+## Block a bot in personal chat
+## Remove a bot from a team
+## Disable a bot in Teams
+## Delete a bot from Teams
+## See also
+
+FILE: bots\how-to\teams-conversational-ai\assistants-api-quick-start.md
+STRUCTURE:
+# Quick start guide for using Assistants API with Teams AI library
+## Prerequisites
+## Build and run the sample app
+## Additional tools
+## Next step
+
+FILE: bots\how-to\teams-conversational-ai\conversation-ai-quick-start.md
+STRUCTURE:
+# Teams AI library quick start guide
+## Prerequisites
+## Build and run the sample app
+## Additional tools
+## Next step
+
+FILE: bots\how-to\teams-conversational-ai\coversational-ai-faq.md
+STRUCTURE:
+# Teams AI library FAQ
+<details>
+<summary>What does the Teams AI library do?</summary>
+</details>
+<details>
+<summary>Does Microsoft provide a hosted version of OpenAI models that are used by the AI library?</summary>
+</details>
+<details>
+<summary>Can we use the AI library with other large language models apart from OpenAI?</summary>
+</details>
+<details>
+<summary>Does a developer need to do anything to benefit from LLMs? If yes, why?</summary>
+</details>
+<details>
+<summary>How does Teams AI library integrate with ODSL?</summary>
+</details>
+<details>
+<summary>How does Teams AI library co-exist against the hero-story of developers building for the skills ecosystem in Microsoft 365?</summary>
+</details>
+<details>
+<summary>How should information about the existing Bot Framework SDK be communicated after announcing a new version?</summary>
+</details>
+## See also
+
+FILE: bots\how-to\teams-conversational-ai\how-conversation-ai-core-capabilities.md
+STRUCTURE:
+# Teams AI library capabilities
+## Send or receive message
+# [.NET](#tab/dotnet6)
+# [JavaScript](#tab/javascript6)
+# [Python](#tab/python6)
+## Message extensions
+# [.NET](#tab/dotnet5)
+# [JavaScript](#tab/javascript5)
+# [Python](#tab/python5)
+## Adaptive Cards capabilities
+# [.NET](#tab/dotnet4)
+# [JavaScript](#tab/javascript4)
+# [Python](#tab/python4)
+## Core capabilities
+## Bot logic for handling an action
+# [.NET](#tab/dotnet3)
+# [JavaScript](#tab/javascript3)
+# [Python](#tab/python3)
+# [.NET](#tab/dotnet2)
+# [JavaScript](#tab/javascript2)
+# [Python](#tab/python2)
+## Intents to actions
+# [.NET](#tab/dotnet1)
+# [JavaScript](#tab/javascript1)
+# [Python](#tab/python1)
+## Next step
+
+FILE: bots\how-to\teams-conversational-ai\how-conversation-ai-get-started.md
+STRUCTURE:
+# Get started with Teams AI library
+## Initial setup
+# [.NET](#tab/dotnet1)
+# [JavaScript](#tab/javascript4)
+# [Python](#tab/python4)
+### Import Teams AI library
+## Create AI components
+# [.NET](#tab/dotnet2)
+# [JavaScript](#tab/javascript1)
+# [Python](#tab/python1)
+## Define storage and application
+# [.NET](#tab/dotnet3)
+# [JavaScript](#tab/javascript3)
+# [Python](#tab/python3)
+# Register data sources
+### Embeddings
+## Prompt
+### Query parameters
+### Prompt management
+### Prompt actions
+### Prompt template
+## Actions
+### Register Action Handlers
+# [.NET](#tab/dotnet4)
+# [JavaScript](#tab/javascript2)
+# [Python](#tab/python2)
+
+FILE: bots\how-to\teams-conversational-ai\teams-conversation-ai-overview.md
+STRUCTURE:
+# Teams AI library
+## Why use Teams AI library?
+## Simple Teams-centric component scaffolding
+## Natural language modeling
+## Prompt engineering
+## Conversational session history
+## Localization
+## LLM modularity
+## Responsible AI
+## Predictive engine for mapping intents to actions
+## Action Planner
+## Assistants API
+## Prompt management
+## Augmentation
+### Vector data sources
+## Enhanced reasoning
+## Feedback loop
+## Function calls using AI SDK
+### Enable tool options
+## Code samples
+## Next step
+
+FILE: bots\how-to\add-power-virtual-agents-bot-to-teams.md
+STRUCTURE:
+# Add Power Virtual Agents chatbot
+## Make your chatbot available in Teams through the Power Virtual Agents portal
+## Add your bot to Teams using Developer Portal
+## See also
+
+FILE: bots\how-to\bot-configuration-experience.md
+STRUCTURE:
+# Bot configuration experience
+## Build bot configuration experience
+### Update app manifest
+### Configure your bot
+## Best practices
+## Code sample
+## Step-by-step guide
+## See also
+
+FILE: bots\how-to\bot-messages-ai-generated-content.md
+STRUCTURE:
+# Bot messages with AI-generated content
+## AI label
+### Add AI label
+## Citations
+### Add citations
+## Feedback buttons
+### Add feedback buttons
+## Sensitivity label
+### Add sensitivity label
+## Modify `PredictedSayCommand`
+## Code sample
+## See also
+
+FILE: bots\how-to\bots-filesv4.md
+STRUCTURE:
+# Send and receive files using bot
+## Use the Graph APIs
+## Use the Teams bot APIs
+### Configure the bot to support files
+### Receive files in personal chat
+#### Message activity with file attachment example
+### Upload files to personal chat
+#### Message requesting permission to upload
+#### Invoke activity when the user accepts the file
+### Notifying the user about an uploaded file
+### Fetch inline images from message
+### Basic example in C#
+## Code sample
+## Step-by-step guide
+## Next step
+## See also
+
+FILE: bots\how-to\create-a-bot-commands-menu.md
+STRUCTURE:
+# Create a commands menu
+## Create a command menu for your bot
+### Create a command menu for your bot using Developer Portal
+### Create a command menu for your bot by editing Manifest.json
+## Handle menu commands in your bot code
+# [C#](#tab/dotnet)
+# [JavaScript](#tab/javascript)
+# [Python](#tab/python)
+## Command menu best practices
+## Next step
+## See also
+
+FILE: bots\how-to\format-your-bot-messages.md
+STRUCTURE:
+# Format your bot messages
+## Format text content
+## Cross-platform support
+### Text-only messages
+## AI-generated content messages
+## Next step
+## See also
+
+FILE: bots\how-to\get-teams-context.md
+STRUCTURE:
+# Get Teams specific context for your bot
+## Fetch the roster or user profile
+# [C#](#tab/dotnet)
+# [TypeScript](#tab/typescript)
+# [Python](#tab/python)
+# [JSON](#tab/json)
+## Get single member details
+# [C#](#tab/dotnet)
+# [TypeScript](#tab/typescript)
+# [Python](#tab/python)
+# [JSON](#tab/json)
+# Get team's details
+## C#
+## TypeScript
+## Python
+## JSON
+## Get the list of channels in a team
+### C#
+### TypeScript
+### Python
+### JSON
+## Next step
+## See also
+
+FILE: bots\how-to\rate-limit.md
+STRUCTURE:
+# Optimize your bot with rate limiting in Teams
+## Handle rate limits
+## Handle `HTTP 429` responses
+## Detect transient exceptions example
+## Backoff example
+## Per bot per thread limit
+## Per thread limit for all bots
+## Next step
+## See also
+
+FILE: bots\how-to\update-and-delete-bot-messages.md
+STRUCTURE:
+# Update and delete messages sent from bot
+## Update messages
+# [C#](#tab/dotnet)
+# [TypeScript](#tab/typescript)
+# [Python](#tab/python)
+# [REST API](#tab/rest)
+# [C#](#tab/dotnet)
+# [TypeScript](#tab/typescript)
+# [Python](#tab/python)
+# [REST API](#tab/rest)
+## Delete messages
+# [C#](#tab/dotnet)
+# [TypeScript](#tab/typescript)
+# [Python](#tab/python)
+# [REST API](#tab/rest)
+## Code sample
+## Next step
+## See also

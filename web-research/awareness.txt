@@ -1,0 +1,86 @@
+## AWARENESS
+
+Awareness is a reasoning engine that's capable of performing a range of tasks using Large Language Models. The tasks range from answering questions to writing long documents. One of the key features of Awareness is it's ability to create what we call an Elastic Context Window (ECW). The ECW is an algorithm that lets Awareness virtualize the LLM's context window to be any size. This lets Awareness reason over multiple documents at once and those documents can be any size. Here's a breakdown of the full capabilities of Awareness:
+
+### Elastic Context Window (ECW)
+
+The ECW is a map-reduce inspired algorithm that creates a virtual context window. It works by breaking a query or task into 3 phases:
+
+- Map Phase: In the map phase all of the documents being reasoned over are broken into roughly 5,000 token chunks and then those chunks are passed to the LLM individually to be reasoned over. During this phase the LLM is asked to simply identify any facts in the chunk that seems relevant to the query or task. This essentially compresses the document corpus to contain just the facts that are relevant to the query or task. The facts for all of a documents chunks are aggregated and any documents that aren't relevant are removed from the set.
+
+- Reduce Phase: The reduce phase is an optional phase that can be run to combine and clean the facts generated during the map phase. Since the facts are all generated in isolation of each there can be duplication in the generated facts. Since the reduce phase can look at all of the generated facts it's able to remove any duplication.
+
+- Inference Phase: Once all of the relevant facts have been identified they're then passed to the LLM in one final call to answer the actual question or perform the task.
+
+The ECW is superior to more traditional RAG techniques in a number of ways:
+
+- Unlike traditional RAG techniques which only look at a subset of a document corpus, the ECW looks at the entire corpus. That means there's significantly less risk of information being missed. The trade off is more tokens needed to be processed then with traditional RAG so there's higher cost and request latencies.
+
+- LLM's suffer from a phenomenon called Lost in the Middle which the ECW actually helps solve.  As the information in the models context window grows in size there's an increased chance that the LLM will miss a piece of information even though its in the context window. This is because the relevant parts of text gets spread out across the context window and large amounts of irrelevant information is mixed into the text.  Since the ECW essentially filters out any irrelevant information during its initial map phase only the relevant bits are left and they're much closer together distance wise. We've observed this to result significantly better accuracy for really large context window lengths.
+
+- We can use a different LLM for each phase of the algorithm. The map phase sees the bulk of the tokens and the task its asked to perform isn't that complicated. We can use a much faster and cheaper LLM for this phase of the algorithm and only run the slower more capable but expensive model fore the final inference phase. This hybrid approach lets us significantly reduce the cost and latency of requests without any significant effect on the overall quality of our final answer.
+
+### Web and Local Data Sources (Catalogs)
+
+Awareness has support for reasoning over both local and web content.  All major file formats are supported and binary formats like PDF are converted to markdown (.md) files before being stored in a "catalog" that can be reasoned over.  A catalog is essentially just a folder on disk or an in-memory virtual folder.  The only significance is that all of the files in the catalog have been pre-chunked for more efficient processing by the ECW algorithm. 
+
+Awareness is integrated with Bing Search such that you can give it a web query plus a question or task and it will first search Bing for the web query, then ingest all of the returned pages into an in-memory catalog, and then use the ECW to answer the question or perform the task against the in-memory catalog.  The web query can either be passed in along with the question or we'll make an extra LLM call to identify the best web query to use given the question.
+
+### Command Line Interface (CLI)
+
+Awareness is packaged up in a couple of forms. There's a set of node.js libraries which contain all of the core components (all written in TypeScript) and a Command Line Interface (CLI) executable that can be run from a terminal window to actually reason over files and call Awareness.  There's also a web interface but it currently contains a subset of the functionality of the CLI.  The CLI can be easily integrated into multi-step workflows.  Here are the core commands the CLI supports:
+
+#### Ingest Command
+
+The ingest command automates the creation of a local catalog. You give it a list of sources (web links or folders) and it will create a local catalog containing those sources. The primary goal of ingesting links into a catalog is to speed up the other commands.  For web links the page will downloaded and then converted from HTML to markdown before being added to the catalog.  Local folders will be recursively crawled and an binary files (pdf, docx, pptx, etc) will be converted to markdown before being added to the catalog.
+
+Each file in the catalog is split into 1 or more parts so the file name ends up looking something like "<uri hash>.<file type>.1"  where the <uri hash> part is a sha256 hash of the documents uri truncated to 20 characters and the <file type> is typically "md". Each part is roughly 5,000 tokens in length (we typically break on markdown ## header boundaries.) 
+
+Every stored file also contains a "<uri hash>.<file type>.metadata" file that is a JSON object containing all of the files metadata. This is going to contain things like the files uri, original file type, creation date, last update date, token length, etc.
+
+The ingestion command is powered by a frework we built called Avalanche and its a full crawler capable of doing depth based crawling.  You can give the ingest command a .csv file containing links and set its crawl-depth to 2 (the default is 0) and it will first ingest the CSV, extract all of the links can then attampt crawl in each link (depth 1)  For each crawled in page it will then attampt to crawl the immediate child links on that page (depth 2).  It has the cycle detection you'd expect and it also has a block list that there are certain sites, like youtube or linkedin, that it won't try to crawl because it knows it will get blocked.   
+
+#### Ask, Ask-Web, and Ask-File Commands
+
+The ask, ask-web, and ask-file commands let you perform basic Q&A tasks using Awareness. The ask command reasons ove a local catalog that was previously created using the ingest command. The ask command is just a thin wrapper around the ECW. It has some added features like you can pass in a file that will be used as additional context when calling the ECW. This lets you do things like pass in a form.md file and for your question you can say "fill out the form" and Awareness will use the information in the catalog to fill out the form.
+
+The ask-web command performs Q&A tasks also but instead of using a static catalog created with the ingest command, a Bing Web Search is peformed and the results from that search are ingested into an in-memory catalog. This lets you create a catalog on teh fly for that one query, reason over the results to generate an answer, and then throw the catalog away.  The ask-web command also supports a feature we call "smart search" which lets it use an LLM to screen the returned pages before we download an ingest them.  Basically we perform the web search and then we show the model the page of search results that we got from Bing, including the links, text snippets, and titles.  We ask the model to pick the pages it thinks most likely will answer the question and then we only ingest those pages.  This results in faster answers without any significant quality loss.
+
+The ask-file command also perform Q&A tasks but like ask-web, instead of using a static catalog it ingests a set of links or files into an in-memory catalog that it throws away after the query.  This lets you ask one-off questions over files in the file system (or a web site) without having to create a perminant catalog on disk. 
+
+#### Research and Research-Web Commands
+
+The research and research-web commands let you run Awareness in an agentic loop to conduct background research that will be passed as input to other commands. The research command is designed to conduct research using files in a local catalog and the research-web command is designed to conduct research using the web. Other then those differences they do the same thing.  
+
+You give the researcher a topic you want to research and it will first make an LLM call to construct a Research Agenda. This agenda contains a brief description of the topic along with a list of query+question pairs.  The researcher then conducts its research step-by-step and writes the results of its research to an output file like research.md.  The created agenda also gets saved to an output file like research.md.json. 
+
+The query+question pairs can contain variables which the researcher will expand between steps.  So if the topic is "create a bio for microsofts CEO" the first question might be "What's the name Microsofts CEO?" and a follow up question might be "What impact has [CEO name] had on Microsoft?". Before running that step, the researcher will make an LLM call with the question+query and all of its research and ask the LLM to expand the [CEO name] variable.  The researcher can also expand list variables so for a question like "What's the name of the CEO for [list:company name]?" it will ask for a list of company names and then process the same query+question pair for each individual company.
+
+The research commands support passing in an existing agenda. This lets a human edit or author the agenda used to research the topic. And they support passing in existing research to use as a starting point. This lets you perform some initial research and then call back into the researcher and ask it to fill in any gaps in its research or ask to explore a related topic.
+
+Most commands, including the research commands, support passing in additional context. So if your goal is to research the answers for a form you can pass in the form as additional context and then the topic would just be "research the answers to this form"
+ 
+#### Write Command
+
+One of the strengths of Awareness is its ability to write documents that are up to hundreds of pages long. The write command needs a goal telling it what kind of document you want it to write and a research file to base the document on.  It's typically called immediately after one of the research commands but the research file can technically come from anywhere. For example, you can give it an existing document and say "re-write this 15 page document to be 2 pages" or "re-write the scientific paper for a non-scientific audience". 
+
+The first step of writing is to create an outline so it makes a LLM call with the goal+research and asks the model to generate just the outline of the document using markdown. This generated outline is then saved to a file. If the output file is some-document.md then the outline will be saved as some-document.outline.md.
+
+Once the outline has been generated the writer generates the doc using an agentic loop that writes each section of the document one-by-one. LLM's are limited to the number of output tokens they can generate so this loop helps them to write much longer documents then they normally would be cable of writing. It also lets them write better documents because it focuses them on one section at a time.  The less models are asked to do the better they work.
+
+The write command supports passing in an existing outline which means that you can use pre-authored templates to better control the shape of the document that's generated. You can also pass in a set of style rules and these rules will be passed to both the outline generator and the doc writer. The style rules help you control things like the tone of voice that's used when writing the document.
+
+Additional context can be passed to the write command so if you had something like a list of image resources you wanted used in the document you could pass them in as additional context.
+
+#### Review Command
+
+The review command can take any file and use a set of rules to review it.  Using this command you can take the output of the write command and review it using the style rules to double check that the generated document follows the style rules.  It returns a detailed analysis of the rules in relation to the document and ends with a conclusion and any suggested edits or changes that might be needed.
+
+In addition to reviewing a documents style it can compare any document against a set of rules. For example, you could create a set of rules that identify potential red flags in a contract and then use the review command to analyze a set of contracts.
+
+#### Edit Command
+
+The edit command is a companion to both the write and review commands.  You give the edit command a goal with the changes you want to make and it will make them to the provided document. You can also give it a file containing a set of changes and it will apply those changes to the document. This change file can be the direct output of the review step or just a detailed set of changes you want to make. 
+
+ 
+      

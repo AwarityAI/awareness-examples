@@ -1,0 +1,41 @@
+{
+  "title": "Research Plan for Exploring \"Bots and SDKs\" Document",
+  "description": "The goal of this research plan is to gather the necessary information to write a comprehensive document on bot development options in Microsoft Teams, including relevant code samples, images, and links to existing documentation. The research will focus on understanding the available platforms, tools, and SDKs, as well as their use cases, setup requirements, and decision-making guidelines.\n\n---",
+  "queries": [
+    {
+      "title": "Understanding Bot Development Options in Microsoft Teams",
+      "search": "Understanding Bot Development Options in Microsoft Teams",
+      "questions": " \n1. What are the key platforms and SDKs available for bot development in Microsoft Teams?  \n2. What are the primary differences between the Microsoft Bot Framework, Power Virtual Agents, and Webhooks/Connectors?  \n3. What are the advantages and limitations of each platform or SDK?"
+    },
+    {
+      "title": "Exploring the Microsoft Bot Framework",
+      "search": "Exploring the Microsoft Bot Framework",
+      "questions": " \n1. What are the key features and benefits of the Microsoft Bot Framework?  \n2. What programming languages are supported by the Bot Framework?  \n3. What are the ideal use cases for the Bot Framework?  \n4. Are there any existing code samples or examples demonstrating the use of the Bot Framework?"
+    },
+    {
+      "title": "Exploring Power Virtual Agents",
+      "search": "Exploring Power Virtual Agents",
+      "questions": " \n1. What is the Power Virtual Agents platform, and how does it enable no-code/low-code bot creation?  \n2. How does Power Virtual Agents integrate with the Microsoft Power Platform?  \n3. What are the ideal scenarios for using Power Virtual Agents?  \n4. Are there any existing tutorials, images, or examples showcasing Power Virtual Agents in action?"
+    },
+    {
+      "title": "Exploring Webhooks and Connectors",
+      "search": "Exploring Webhooks and Connectors",
+      "questions": " \n1. What are webhooks and connectors in the context of Microsoft Teams?  \n2. How can webhooks and connectors be used for notifications and updates?  \n3. What are the limitations of webhooks and connectors, and in what scenarios are they most appropriate?  \n4. Are there any existing code samples or examples demonstrating the use of webhooks and connectors?"
+    },
+    {
+      "title": "Choosing the Right Development Approach",
+      "search": "Choosing the Right Development Approach",
+      "questions": " \n1. What factors should be considered when choosing a bot development platform or SDK?  \n2. Are there any decision matrices, guidelines, or frameworks available to help developers choose the right approach?  \n3. How do project requirements, team skills, and scalability needs influence the choice of platform?"
+    },
+    {
+      "title": "Setting Up the Development Environment",
+      "search": "Setting Up the Development Environment",
+      "questions": " \n1. What are the prerequisites for setting up the development environment for each platform or SDK?  \n2. What tools and software are recommended for bot development in Microsoft Teams?  \n3. Are there any existing resources, such as tutorials or guides, for getting started with bot development?"
+    },
+    {
+      "title": "Identifying Relevant Resources",
+      "search": "Identifying Relevant Resources",
+      "questions": " \n1. Are there any existing links to related documentation, such as Designing Your Bot or Creating Your First Bot?  \n2. Are there any images, diagrams, or visual aids that can be included to enhance the document?  \n3. Are there any additional resources, such as videos or community forums, that can be referenced?"
+    }
+  ]
+}

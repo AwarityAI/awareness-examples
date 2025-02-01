@@ -1,0 +1,11 @@
+{
+    "title": "Research Code Types",
+    "description": "The goal of this research is to gather all of the type definitions for the library.",
+    "queries": [
+        {
+            "title": "Gather Type Definitions",
+            "search": "Gather Type Definitions",
+            "questions": "Create a list of types that are defined in the library. Include the name of the type, its class (enum, interface, class, function, constant, or type alias) and the file its located in. Ignore unit tests."
+        }
+    ]
+}

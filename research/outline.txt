@@ -1,0 +1,332 @@
+<OUTLINE>
+# Quickstart Guide for the Teams AI Library Using JavaScript
+
+## Introduction
+   - **Purpose of the Guide**
+     - Explain what the user will achieve by following the guide.
+     - Highlight the importance of the Teams AI Library for building AI-powered applications in Microsoft Teams.
+   - **Overview of the Teams AI Library**
+     - Briefly describe the Teams AI Library, its key features, and benefits.
+     - Provide a high-level understanding of how it leverages large language models (LLMs) for natural language processing.
+
+## Getting Started
+   - **Prerequisites**
+     - List required software and tools:
+       - Node.js
+       - Visual Studio Code
+       - Teams Toolkit
+     - Mention necessary foundational knowledge (JavaScript/TypeScript proficiency).
+   - **Project Setup**
+     - **Creating a New Project**
+       - Step-by-step instructions to initialize a new JavaScript project.
+     - **Installing Dependencies**
+       - Guide to install the `teams-ai` package from NPM.
+     - **Configuring Environment Variables**
+       - Instructions on setting up the `.env` file.
+       - **Security Reminder**: Emphasize the importance of securing sensitive information.
+   - **Understanding the Project Structure**
+     - Brief explanation of key files and directories generated.
+
+## Configuring the Teams AI Library
+   - **Importing Required Modules**
+     - List and explain the necessary imports for the project.
+   - **Setting Up the Bot Adapter**
+     - Detailed steps to initialize the bot adapter.
+   - **Initializing Storage**
+     - Guide on setting up storage solutions for the bot.
+   - **Configuring AI Components**
+     - Instructions on setting up AI configurations within the library.
+     - **Defining Prompts and Actions**
+       - Examples of how to define prompts.
+       - Explanation of action handlers and how to implement them.
+
+## Building and Running the Bot
+   - **Building the Project**
+     - Commands and steps to build the application.
+   - **Running the Bot Locally**
+     - Instructions to run the bot on a local machine.
+   - **Testing the Bot**
+     - Using tools like Visual Studio Code, Teams Toolkit, or Bot Framework Emulator for testing.
+
+## Customizing and Extending Features
+   - **Advanced Configuration**
+     - Introduction to advanced settings and customizations.
+   - **Integrations**
+     - How to integrate additional services and tools.
+   - **Expanded Use Cases**
+     - Examples of advanced use cases and how to implement them.
+
+## Troubleshooting and FAQs
+   - **Common Issues and Solutions**
+     - List common problems and how to resolve them.
+   - **Frequently Asked Questions**
+     - Answers to questions developers might have during setup and development.
+   - **Support Resources**
+     - Where to find additional help and documentation.
+
+## Conclusion
+   - **Summary of Key Points**
+     - Recap what was achieved by following the guide.
+   - **Next Steps**
+     - Suggestions for further learning and exploration.
+   - **Additional Resources**
+     - Links to official documentation, tutorials, and community forums.
+
+<PARTIAL_DOCUMENT>
+# Quickstart Guide for the Teams AI Library Using JavaScript
+
+## Introduction
+
+The Teams AI Library is a robust software development kit (SDK) that empowers developers to build intelligent, AI-powered applications and bots for Microsoft Teams. Leveraging advanced large language models (LLMs) like OpenAI's GPT series, this library enables natural language understanding and generation within Teams applications, facilitating more intuitive and engaging user experiences.
+
+Built on top of the Bot Framework SDK, the Teams AI Library abstracts the complexities of conversational AI integration. It provides a streamlined development approach that allows developers to focus on implementing business logic rather than dealing with intricate AI details. With this library, developers can create bots capable of natural interactions, handle complex conversational flows, integrate seamlessly with external data sources, and maintain content safety within the Teams environment.
+
+Supporting both JavaScript and TypeScript, the Teams AI Library is accessible to a wide range of developers familiar with web technologies. It is available as an NPM package (`teams-ai`), making it easy to integrate into existing projects. Tools like Visual Studio Code and the Teams Toolkit extension offer enhanced development support, simplifying tasks such as coding, debugging, and deployment.
+
+This documentation provides comprehensive guidance on utilizing the Teams AI Library effectively in JavaScript. It includes detailed explanations, sample code snippets, and example projects available in the library's GitHub repository under the `js/samples` folder. These resources illustrate key functionalities, such as building chat bots, message extensions, link unfurling, and adaptive cards.
+
+Feedback from the developer community has highlighted a need for more extensive documentation and broader language support. This guide aims to address these areas by offering clear and consistent instructions to help developers harness the full potential of the Teams AI Library. By following this guide, developers can accelerate their development process, create sophisticated conversational AI experiences, and contribute to the growing ecosystem of intelligent applications within Microsoft Teams.
+
+## Getting Started
+
+This guide will help you set up the Teams AI Library in your JavaScript project, enabling you to build AI-powered applications and bots for Microsoft Teams.
+
+### Prerequisites
+
+Before you begin, ensure you have the following tools and services installed and accessible:
+
+- **Visual Studio Code**: An integrated development environment for code editing.
+- **Teams Toolkit Extension for Visual Studio Code**: Assists in developing and debugging Teams applications.
+- **Node.js v18.x**: A JavaScript runtime environment.
+- **NPM (Node Package Manager)**: Comes bundled with Node.js for managing project dependencies.
+- **Access to OpenAI or Azure OpenAI Services**: Required for AI functionalities within your application.
+
+### Installation and Setup
+
+Follow these steps to set up your development environment:
+
+#### 1. Install Node.js and NPM
+
+Ensure that Node.js v18.x is installed on your machine. You can verify the installation by running the following commands in your terminal:
+
+```bash
+node -v
+npm -v
+```
+
+#### 2. Set Up Visual Studio Code
+
+1. **Install Visual Studio Code** if you haven't already.
+2. Open Visual Studio Code.
+3. Go to the **Extensions** view by selecting the square icon on the sidebar or pressing `Ctrl+Shift+X`.
+4. Search for **Teams Toolkit** and select **Install** to add the extension.
+
+#### 3. Install the Teams AI Library
+
+Create a new project directory or navigate to your existing project folder. In the terminal, install the Teams AI Library by running:
+
+```bash
+npm install teams-ai
+```
+
+#### 4. Clone Sample Projects (Optional)
+
+To explore sample applications demonstrating the use of the Teams AI Library:
+
+1. Visit the **Teams AI Library GitHub repository**.
+2. Navigate to the `js/samples` folder to view available JavaScript samples.
+3. Clone the repository or download the specific samples you're interested in.
+
+#### 5. Load the Project in Visual Studio Code
+
+1. Open Visual Studio Code.
+2. Select **File** > **Open Folder**.
+3. Choose your project folder or the cloned sample project to load it into the editor.
+
+#### 6. Configure Environment Variables
+
+Configure your application to use your OpenAI or Azure OpenAI API keys:
+
+1. Locate the `sample.env` file in your project directory.
+2. Rename `sample.env` to `.env`.
+3. Open the `.env` file and add your API keys and any required endpoints. For example:
+
+   ```env
+   OPENAI_API_KEY=your-openai-api-key
+   ```
+
+#### 7. Build and Run the Application
+
+With your environment configured, you can now build and run your application:
+
+1. In Visual Studio Code, press `F5` to start debugging, or select **Run** > **Start Debugging** from the menu.
+2. The Teams Toolkit will build your application and launch it within Microsoft Teams for testing.
+
+### Testing and Debugging
+
+Leverage the Teams Toolkit extension to test and debug your application:
+
+- Use the built-in Teams emulator to simulate how your application behaves within Teams.
+- Set breakpoints and inspect variables to troubleshoot issues during development.
+
+### Next Steps
+
+Now that your development environment is set up:
+
+- **Explore the Samples**: Review the sample projects to understand how to implement various features.
+- **Customize AI Features**: Start adding and customizing AI capabilities within your application using the Teams AI Library.
+- **Refer to Documentation**: Consult the Teams AI Library documentation for detailed guidance on advanced topics.
+
+---
+
+By following these steps, you're well on your way to developing powerful, AI-enhanced applications for Microsoft Teams using JavaScript and the Teams AI Library.
+
+## Configuring the Teams AI Library
+
+To set up and configure the Teams AI Library in your JavaScript project, follow these steps:
+
+1. **Ensure Node.js 18.x is Installed**
+
+   The Teams AI Library requires Node.js version 18.x. Verify your Node.js installation by running:
+
+   ```bash
+   node -v
+   ```
+
+   If you need to install or update Node.js, download it from the [official Node.js website](https://nodejs.org/).
+
+2. **Set Up Your Development Environment**
+
+   - **Install Visual Studio Code**
+
+     Download and install [Visual Studio Code](https://code.visualstudio.com/), an optimized code editor for JavaScript development.
+
+   - **Install the Teams Toolkit Extension**
+
+     In Visual Studio Code, go to the Extensions view (`Ctrl+Shift+X` or `Cmd+Shift+X` on macOS), search for "Teams Toolkit", and install it. This extension simplifies the development of Teams applications.
+
+3. **Create a New Project**
+
+   Open a terminal in your desired project directory and initialize a new Node.js project:
+
+   ```bash
+   mkdir your-project-name
+   cd your-project-name
+   npm init -y
+   ```
+
+4. **Install the Teams AI Library**
+
+   Install the `@microsoft/teams-ai` package:
+
+   ```bash
+   npm install @microsoft/teams-ai
+   ```
+
+5. **Configure Environment Variables**
+
+   - **Create an Environment File**
+
+     In your project root, create a `.env` file. This file will store your environment variables.
+
+   - **Add Your AI Service Credentials**
+
+     If you're using OpenAI:
+
+     ```env
+     OPENAI_API_KEY=your-openai-api-key
+     ```
+
+     For Azure OpenAI:
+
+     ```env
+     AZURE_OPENAI_KEY=your-azure-openai-key
+     AZURE_OPENAI_ENDPOINT=https://your-resource-name.openai.azure.com/
+     ```
+
+     Replace `your-openai-api-key`, `your-azure-openai-key`, and `your-resource-name` with your actual credentials. These variables authenticate your application with AI services.
+
+6. **Import and Configure the Teams AI Library**
+
+   In your application's entry point file (e.g., `index.js` or `index.ts`):
+
+   - **Import Necessary Classes**
+
+     ```javascript
+     const { TeamsActivityHandler, ConversationBot } = require('@microsoft/teams-ai');
+     ```
+
+   - **Initialize the Teams AI Components**
+
+     ```javascript
+     const bot = new ConversationBot({
+       // Your bot configuration options
+     });
+     ```
+
+     Configure the bot with any required options, such as authentication, state management, and AI settings.
+
+7. **Customize Bot Interaction**
+
+   - **Modify Prompt Configurations**
+
+     Create or navigate to the `./src/prompts` directory and add or edit the following files:
+
+     - `config.json`: Define your bot's configuration settings.
+     - `skprompt.txt`: Write custom prompts that guide how your bot responds to users.
+
+   - **Example of `config.json`**
+
+     ```json
+     {
+       "botName": "YourBotName",
+       "language": "en-US"
+     }
+     ```
+
+   - **Example of `skprompt.txt`**
+
+     ```text
+     Welcome to YourBotName! How can I assist you today?
+     ```
+
+8. **Run and Debug Your Application**
+
+   - **Start the Application**
+
+     In Visual Studio Code, press `F5` to launch the debugger. This starts your application and attaches a debugger session.
+
+   - **Test in Microsoft Teams**
+
+     Use the Teams Toolkit extension to sideload your application into Teams for testing. You can interact with your bot and verify its functionality.
+
+9. **Optional: Use Sample Projects**
+
+   - **Clone the Teams AI Library Repository**
+
+     ```bash
+     git clone https://github.com/microsoft/teams-ai.git
+     ```
+
+   - **Navigate to JavaScript Samples**
+
+     ```bash
+     cd teams-ai/js/samples
+     ```
+
+   - **Install Dependencies and Build**
+
+     ```bash
+     yarn install
+     yarn build
+     ```
+
+   - **Configure Samples**
+
+     Locate the `sample.env` file in the sample project directory, rename it to `.env`, and add your AI service credentials as described in Step 5.
+
+   - **Run Samples**
+
+     Use provided scripts or commands to run the sample projects and explore key functionalities of the Teams AI Library.
+
+By following these steps, you have configured the Teams AI Library in your JavaScript project. You can now develop AI-powered bots and applications for Microsoft Teams with customized interactions and functionalities.

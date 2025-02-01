@@ -1,0 +1,56 @@
+{
+  "title": "Gather Comprehensive Information on [Company Name]",
+  "description": "Collect detailed information about [Company Name] to understand its basic information, key descriptors, core products, market positioning, technology stack, user interface, ethical stance, market challenges, and any additional noteworthy details.",
+  "queries": [
+    {
+      "title": "Obtain Basic Company Information",
+      "search": "[Company Name] Corporate Overview",
+      "questions": "What is the full legal name of [Company Name]? Where is the company headquartered (city, state, country)? In which year was the company founded? What is the company's current funding stage (Seed, Series A, etc.) and total funding amount?"
+    },
+    {
+      "title": "Identify Key Descriptors of the Company",
+      "search": "[Company Name] Business Model and Market Segments",
+      "questions": "Is [Company Name] public, private, or a subsidiary? What are the primary market segments the company operates in (e.g., healthcare, financial services)? What is the company's revenue model (SaaS, licensing, API-based, usage-based)? Who are the target customers (enterprise, SMB, individual developers)?"
+    },
+    {
+        "title": "Understand Core Product(s) Overview",
+        "search": "[Company Name] Products and Services",
+        "questions": "What are the names of the main products for [Company Name]? For each product, what is a 50-100 word description summarizing its functionality, intended use, and differentiators? What type is each product (API-based model, platform-as-a-service, application, toolset)? What generative AI capabilities does each product have (text generation, image creation, multimodal, etc.)? What supporting AI technologies are used (LLMs, diffusion models, transformers, etc.)? Are there any notable integrations or partnerships that enhance product relevance (e.g., with Microsoft Teams, AWS)?"
+      },
+      {
+        "title": "Identify Key Features and Functional Differentiators",
+        "search": "[Company Name] Product Features and Innovations",
+        "questions": "What are the major features of [Company Name] products, and what are their purposes (e.g., summarization, data synthesis, conversational AI, coding assistance)? What are the unique selling points or innovations, such as unique technologies or methods (e.g., large context windows, explainability tools, efficiency measures that minimize bias)?"
+      },
+      {
+        "title": "Analyze Market Positioning and Segment",
+        "search": "[Company Name] Market Positioning and Use Cases",
+        "questions": "How does [Company Name] describe its value proposition in the market? What are the primary use cases for the company's products (e.g., content creation, customer support automation, legal document review, image design)? What industries does the company specifically target, especially if niche? Who are the company's competitors or complementary players based on available data?"
+      },
+      {
+        "title": "Examine Technology Stack and Deployment",
+        "search": "[Company Name] Technology Stack and Deployment Options",
+        "questions": "What primary AI models does [Company Name] use or disclose (e.g., GPT-4, proprietary models, modified open-source models)? What infrastructure does the company use, including cloud platforms like Azure or AWS? What deployment options are available (cloud-only, hybrid, on-premises)? What data privacy and security compliances does the company adhere to (GDPR, CCPA, industry-specific certifications)?"
+      },
+      {
+        "title": "Assess User Interface and Accessibility",
+        "search": "[Company Name] User Experience and Developer Tools",
+        "questions": "What are the highlights of the user experience, including notable design features and accessibility options? Does [Company Name] offer APIs and developer tools, and how is the documentation quality? What languages does the company support or offer localization for?"
+      },
+      {
+        "title": "Review Content Moderation and Ethical Stance",
+        "search": "[Company Name] Ethical AI Practices and Policies",
+        "questions": "What moderation policies or tools does [Company Name] have to mitigate misuse (e.g., content filtering, bias reduction measures)? What is the company's stance on ethical AI and transparency in AI processes? Are there any disclosures about AI limitations?"
+      },
+      {
+        "title": "Identify Market Challenges or Known Limitations",
+        "search": "[Company Name] Challenges and Market Perception",
+        "questions": "What are the current challenges or known limitations reported about [Company Name] (e.g., data privacy concerns, scalability issues)? What is the market perception, including user or analyst feedback on the company's success or challenges in the market?"
+      },
+      {
+        "title": "Note Additional Observations and Future Plans",
+        "search": "[Company Name] News, Events, and Future Plans",
+        "questions": "What are any noteworthy events or milestones related to [Company Name], such as recent product updates, awards, or press mentions? Are there any publicly known expansion plans for new markets, product updates, or partnership expansions?"
+      }
+  ]
+}

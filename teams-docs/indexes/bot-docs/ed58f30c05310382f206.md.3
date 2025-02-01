@@ -1,0 +1,255 @@
+Test the deployed bot
+
+<!--There are several testing scenarios here. Ideally, we'd have a separate article on the what, why, 
+and when for these, and just reference that from here, along with the set of steps that exercises the bot code.-->
+
+1. In your browser, go to the [**Azure portal**][azure-portal].
+1. Find your resource group.
+1. Select the resource link. The resource page is displayed.
+1. In the resource page, select **Test in Web Chat**. The bot starts and displays the predefined greetings.
+1. Type anything in the chat box.
+1. Select the **Sign in** box.
+1. A pop-up dialog appears to **Confirm Open URL** to authenticate the bot's user (you).  
+1. Select **Confirm**.
+1. If asked, select the applicable user's account.
+    The following image is an example of the bot UI after you sign in:
+
+   :::image type="content" source="../../../assets/images/authentication/auth-bot-login-deployed.PNG" alt-text="Screenshot shows an example of the Teams bot UI after you sign in.":::
+
+1. Select the **Yes** button to display your authentication token. The following image is an example:
+
+   :::image type="content" source="../../../assets/images/authentication/auth-bot-login-deployed-token.PNG" alt-text="Screenshot shows how to select Yes button to display your authentication token.":::
+
+1. Enter **logout** in the input chat box to sign out.
+
+   :::image type="content" source="../../../assets/images/authentication/auth-bot-deployed-logout.PNG" alt-text="Screenshot shows how to sign out of the bot.":::
+
+> [!NOTE]
+> If you're having problems signing in, try to test the connection again as described in the previous steps. This could recreate the authentication token.
+> With the Bot Framework Web Chat client in Azure, you may need to sign in several times before the authentication is established correctly.
+
+## Install and test the bot in Teams
+
+1. In your bot project, ensure that the `TeamsAppManifest` folder contains the `manifest.json` along with an `outline.png` and `color.png` files.
+1. In Solution Explorer, go to the `TeamsAppManifest` folder. Edit `manifest.json` by assigning the following values:
+    1. Ensure that the **bot App ID** you received at the time of the bot registration is assigned to `id` and `botId`.
+    1. Assign this value: `validDomains: [ "token.botframework.com" ]`.
+1. Select and **zip** the `manifest.json`, `outline.png`, and `color.png` files.
+1. Open **Microsoft Teams**.
+1. In the left panel, at the bottom, select the **Apps icon**.
+1. In the right panel, at the bottom, select **Upload a custom app**.
+1. Go to the `TeamsAppManifest` folder and upload the zipped manifest.
+The following window appears:
+
+   :::image type="content" source="../../../assets/images/authentication/auth-bot-teams-upload.png" alt-text="Screenshot shows an example of the bot after it's uploaded into Teams.":::
+
+1. Select the **Add to a team** button.
+1. In the next window, select the team where you want to use the bot.
+1. Select the **Set up a bot** button.
+1. Select the three dots (&#x25cf;&#x25cf;&#x25cf;) in the left panel. Then select the **Developer Portal** icon.
+1. Select the **Manifest editor** tab. You should see the icon for the bot you uploaded.
+1. Also, you should be able to see the bot listed as a contact in the chat list
+that you can use to exchange messages with the bot.
+
+### Testing the bot locally in Teams
+
+Teams is an entirely cloud-based product. It requires all services it accesses to be available from the cloud using HTTPS endpoints. Therefore, to enable the bot (our sample) to work in Teams, you need to either publish the code to the cloud of your choice, or make a locally running instance externally accessible via a **tunneling** tool. We recommend [ngrok](https://ngrok.com/download), which creates an externally addressable URL for a port you open locally on your machine.
+To set up ngrok in preparation for running your Teams app locally, follow these steps:
+
+1. In a terminal window, go the directory where you have `ngrok.exe` installed. We suggest setting the *environment variable* path to point to it.
+1. Run, for example, `ngrok http 3978 --host-header=localhost:3978`. Replace the port number as needed.
+It launches ngrok to listen on the port you specify. In return, it gives you an externally addressable URL, valid for as long as ngrok is running. The following image is an example:
+
+   :::image type="content" source="../../../assets/images/authentication/auth-bot-ngrok-start.PNG" alt-text="Screenshot shows the Teams bot app auth connection string adv1":::
+
+1. Copy the forwarding HTTPS address that is similar to: `https://dea822bf.ngrok.io/`.
+1. Append `/api/messages` to obtain `https://dea822bf.ngrok.io/api/messages`, which is the **messages endpoint** for the bot running locally on your machine and reachable over the web in a chat in Teams.
+1. One final step to perform is to update the messages endpoint of the deployed bot. In the example, we deployed the bot in Azure. So let's perform these steps:
+    1. In your browser, go to the [**Azure portal**][azure-portal].
+    1. Select your **Bot Registration**.
+    1. In the left panel, select **Settings**.
+    1. In the right panel, in the **Messaging endpoint** box, enter the ngrok URL, in our example, `https://dea822bf.ngrok.io/api/messages`.
+1. Start your bot locally, for example in Visual Studio debug mode.
+1. Test the bot while running locally using the Bot Framework portal's **Test Web chat**. Like the Emulator, this test doesn't allow you to access Teams-specific functionality.
+1. In the terminal window where `ngrok` is running you can see HTTP traffic between the bot and the web chat client. If you want a more detailed view, in a browser window enter `http://127.0.0.1:4040` you obtained from the previous terminal window. The following image is an example:
+
+   :::image type="content" source="../../../assets/images/authentication/auth-bot-teams-ngrok-testing.png" alt-text="Screenshot shows auth bot teams ngrok testing.":::
+
+> [!NOTE]
+> If you stop and restart ngrok, the URL changes. To use ngrok in your project, and depending on the capabilities you're using, you must update all URL references.
+
+## Additional information
+
+### TeamsAppManifest/manifest.json
+
+This manifest contains information needed by Teams to connect with the bot:  
+
+```json
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/teams/v1.8/MicrosoftTeams.schema.json",
+  "manifestVersion": "1.5",
+  "version": "1.0.0",
+  "id": "",
+  "developer": {
+    "name": "TeamsBotAuth",
+    "websiteUrl": "https://www.microsoft.com",
+    "privacyUrl": "https://www.teams.com/privacy",
+    "termsOfUseUrl": "https://www.teams.com/termsofuse"
+  },
+  "icons": {
+    "color": "color.png",
+    "outline": "outline.png"
+  },
+  "name": {
+    "short": "TeamsBotAuth",
+    "full": "Teams Bot Authentication"
+  },
+  "description": {
+    "short": "TeamsBotAuth",
+    "full": "Teams Bot Authentication"
+  },
+  "accentColor": "#FFFFFF",
+  "bots": [
+    {
+      "botId": "",
+      "scopes": [
+        "groupchat",
+        "team"
+      ],
+      "supportsFiles": false,
+      "isNotificationOnly": false
+    }
+  ],
+  "permissions": [
+    "identity",
+    "messageTeamMembers"
+  ],
+  "validDomains": [ "token.botframework.com" ]
+}
+```
+
+With authentication, Teams behaves differently than other channels.
+
+### Handling Invoke Activity
+
+An **Invoke Activity** is sent to the bot rather than the Event Activity used by other channels, which is done by subclassing the **ActivityHandler**.
+
+# [C#/.NET](#tab/dotnet-sample)
+
+**Bots/DialogBot.cs**
+
+[!code-csharp[ActivityHandler](~/../Microsoft-Teams-Samples/samples/bot-teams-authentication/csharp/Bots/DialogBot.cs?range=19-51)]
+
+**Bots/TeamsBot.cs**
+
+The *Invoke Activity* must be forwarded to the dialog if the **OAuthPrompt** is used.
+
+[!code-csharp[ActivityHandler](~/../Microsoft-Teams-Samples/samples/bot-teams-authentication/csharp/Bots/TeamsBot.cs?range=34-42)]
+
+#### TeamsActivityHandler.cs
+
+```csharp
+
+protected virtual Task OnInvokeActivityAsync(ITurnContext<IInvokeActivity> turnContext, CancellationToken cancellationToken)
+{
+    switch (turnContext.Activity.Name)
+    {
+        case "signin/verifyState":
+            return OnSigninVerifyStateAsync(turnContext, cancellationToken);
+
+        default:
+            return Task.CompletedTask;
+    }
+}
+
+protected virtual Task OnSigninVerifyStateAsync(ITurnContext<IInvokeActivity> turnContext, CancellationToken cancellationToken)
+{
+    return Task.CompletedTask;
+}
+```
+
+# [JavaScript](#tab/node-js-dialog-sample)
+
+**bots/dialogBot.js**
+
+[!code-javascript[ActivityHandler](~/../Microsoft-Teams-Samples/samples/bot-conversation-sso-quickstart/js/bots/dialogBot.js?range=4-46)]
+
+**bots/teamsBot.js**
+
+The *Invoke Activity* must be forwarded to the dialog if the **OAuthPrompt** is used.
+
+[!code-javascript[ActivityHandler](~/../Microsoft-Teams-Samples/samples/bot-conversation-sso-quickstart/js/bots/teamsBot.js?range=4-33)]
+
+**dialogs/mainDialog.js**
+
+Within a dialog step, use `beginDialog` to start the OAuth prompt, which asks the user to sign in.
+
+- If the user is already signed in, it generates a token response event, without prompting the user.
+- Otherwise, it prompts the user to sign in. The Azure Bot Service sends the token response event after the user attempts to sign in.
+
+[!code-javascript[AddOAuthPrompt](~/../Microsoft-Teams-Samples/samples/bot-conversation-sso-quickstart/js/dialogs/mainDialog.js?range=50-52)]
+
+Within the following dialog step, check for the presence of a token in the result from the previous step. If it isn't null, then the user successfully signed in.
+
+[!code-javascript[AddOAuthPrompt](~/../Microsoft-Teams-Samples/samples/bot-conversation-sso-quickstart/js/dialogs/mainDialog.js?range=50-64)]
+
+**dialogs/logoutDialog.js**
+
+[!code-javascript[allow-logout](~/../Microsoft-Teams-Samples/samples/bot-conversation-sso-quickstart/js/dialogs/logoutDialog.js?range=31-42&highlight=7)]
+
+# [Python](#tab/python-sample)
+
+**bots/dialog_bot.py**
+
+[!code-python[ActivityHandler](~/../Microsoft-Teams-Samples/samples/bot-teams-authentication/python/bots/dialog_bot.py?range=10-42)]
+
+**bots/teams_bot.py**
+
+The *Invoke Activity* must be forwarded to the dialog if the **OAuthPrompt** is used.
+
+[!code-python[on_token_response_event](~/../Microsoft-Teams-Samples/samples/bot-teams-authentication/python/bots/teams_bot.py?range=38-45)]
+
+**dialogs/main_dialog.py**
+
+Within a dialog step, use `begin_dialog` to start the OAuth prompt, which asks the user to sign in. If the user is already signed in, it generates a token response event, without prompting the user. Otherwise, it prompts the user to sign in. The Azure Bot Service sends the token response event after the user attempts to sign in.
+
+[!code-python[Add OAuthPrompt](~/../Microsoft-Teams-Samples/samples/bot-teams-authentication/python/dialogs/main_dialog.py?range=48-49)]
+
+Within the following dialog step, check for the presence of a token in the result from the previous step. If it isn't null, then the user successfully signed in.
+
+[!code-python[Add OAuthPrompt](~/../Microsoft-Teams-Samples/samples/bot-teams-authentication/python/dialogs/main_dialog.py?range=51-61)]
+
+**dialogs/logout_dialog.py**
+
+[!code-python[allow logout](~/../Microsoft-Teams-Samples/samples/bot-teams-authentication/python/dialogs/logout_dialog.py?range=29-36&highlight=6)]
+
+---
+
+## Code sample
+
+This section provides Bot authentication v3 SDK sample.
+
+| **Sample name** | **Description** | **.NET** | **Node.js** | **Python** | **Manifest**|
+|---------------|------------|------------|-------------|---------------|---------------|
+| Bot authentication | This sample shows how to get started with authentication in a bot for Teams. | [View](https://github.com/OfficeDev/Microsoft-Teams-Samples/tree/main/samples/bot-teams-authentication/csharp) | [View](https://github.com/OfficeDev/Microsoft-Teams-Samples/tree/main/samples/bot-teams-authentication/nodejs) | [View](https://github.com/OfficeDev/Microsoft-Teams-Samples/tree/main/samples/bot-teams-authentication/python) |[View](https://github.com/OfficeDev/Microsoft-Teams-Samples/tree/main/samples/bot-teams-authentication/csharp/demo-manifest/bot-teams-authentication.zip)
+| Tab, Bot, and Message Extension (ME) SSO | This sample shows Microsoft Entra SSO for Tab, Bot, and ME - search, action, link-unfurling. |  [View](https://github.com/OfficeDev/Microsoft-Teams-Samples/tree/main/samples/app-sso/csharp) | [View](https://github.com/OfficeDev/Microsoft-Teams-Samples/tree/main/samples/app-sso/nodejs) | NA | [View](https://github.com/OfficeDev/Microsoft-Teams-Samples/tree/main/samples/app-sso/csharp/demo-manifest/App-SSO.zip)
+
+## See also
+
+- [Add authentication through Azure Bot Service](/azure/bot-service/bot-builder-authentication?view=azure-bot-service-4.0&tabs=userassigned%2Caadv2%2Ccsharp&preserve-view=true)
+- [Get access on behalf of a user](/graph/auth-v2-user)
+
+<!-- Footnote-style links -->
+
+[azure-portal]: https://ms.portal.azure.com
+
+[concept-basics]: /azure/bot-service/bot-builder-basics?view=azure-bot-service-4.0&preserve-view=true
+[concept-state]: /azure/bot-service/bot-builder-concept-state?view=azure-bot-service-4.0&preserve-view=true
+[concept-dialogs]: /azure/bot-service/bot-builder-concept-dialog?view=azure-bot-service-4.0&preserve-view=true
+[simple-dialog]: /azure/bot-service/bot-builder-dialog-manage-conversation-flow?view=azure-bot-service-4.0&preserve-view=true
+
+[teams-auth-bot-cs]: https://github.com/OfficeDev/Microsoft-Teams-Samples/tree/main/samples/bot-teams-authentication/csharp
+
+[teams-auth-bot-py]: https://github.com/OfficeDev/Microsoft-Teams-Samples/tree/main/samples/bot-teams-authentication/python
+
+[teams-auth-bot-js]: https://github.com/OfficeDev/Microsoft-Teams-Samples/tree/main/samples/bot-teams-authentication/nodejs

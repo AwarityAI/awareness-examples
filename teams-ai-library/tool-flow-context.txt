@@ -1,0 +1,365 @@
+<GOAL>
+USER: We currently support mapping AI "actions" to OpenAI tool calls via our Tools Augmentation. We also recently added support for streaming responses from OpenAI model calls back to the client.  Streaming can't currently be used with actions/tools and I need to implement that. Lets plan out the changes I should make. since i can't show you all of the code at once. what would help you getter a better feel for the changes needed?
+ASSISTANT: To help plan out the changes effectively, it would be useful to break down the problem into smaller, manageable pieces. Since I can't see the entire codebase at once, we can approach this incrementally by focusing on specific areas of the code that are most relevant to the changes. Here's how we can proceed:
+
+### 1. **Understand the Current Flow for Tool Calls**
+   - **Goal**: Get a clear understanding of how tool calls are currently handled in the system.
+   - **What I Need**:
+     - A high-level overview of how tool calls are initiated and processed.
+     - The current flow of data from when a tool is invoked (via **ToolsAugmentation**) to when the response is returned.
+     - Any relevant code snippets that show how tool calls are made and how responses are handled (e.g., in **AI**, **ActionPlanner**, or **LLMClient**).
+
+### 2. **Understand the Current Streaming Implementation**
+   - **Goal**: Understand how streaming responses are currently handled for non-tool calls.
+   - **What I Need**:
+     - A high-level overview of how streaming responses are currently implemented.
+     - Code snippets from the **StreamingResponse** class and any other relevant classes (e.g., **LLMClient**, **OpenAIClient**) that show how streaming is initiated and managed.
+     - How partial responses are handled and passed back to the client.
+
+### 3. **Identify Where Tool Calls and Streaming Intersect**
+   - **Goal**: Identify the points in the code where tool calls and streaming responses will need to intersect.
+   - **What I Need**:
+     - Code snippets or descriptions of where tool calls are processed in the **AI** and **ActionPlanner** classes.
+     - Any existing logic that handles responses from tool calls (e.g., synchronous handling of tool responses).
+     - A description of how tool responses are currently returned to the client (even if they are not streamed).
+
+### 4. **Plan the Changes for Streaming Tool Responses**
+   - **Goal**: Plan out the specific changes needed to support streaming tool responses.
+   - **What I Need**:
+     - A clear understanding of how tool responses are structured (e.g., are they function calls, API responses, etc.).
+     - Any constraints or limitations in the current system that might affect streaming (e.g., how tool responses are buffered or processed).
+     - A description of how you envision the streaming process working for tool calls (e.g., should partial responses be streamed as they are generated, or should the entire tool response be streamed at once?).
+
+### 5. **Review Key Classes for Modification**
+   - **Goal**: Review the key classes that will need to be modified to support streaming tool responses.
+   - **What I Need**:
+     - Code snippets from the **AI**, **ActionPlanner**, **LLMClient**, and **OpenAIClient** classes that show how actions and tool calls are processed.
+     - Code snippets from the **StreamingResponse** class that show how streaming is currently implemented.
+     - Any relevant code from the **FunctionCallMessage** and **FunctionResponseMessage** classes if tool calls are represented as function calls.
+
+---
+
+### Specific Code Snippets or Information That Would Help:
+
+1. **Tool Call Flow**:
+   - A code snippet showing how a tool call is initiated (e.g., in **AI** or **ActionPlanner**).
+   - A code snippet showing how the response from a tool call is currently handled (e.g., in **LLMClient** or **OpenAIClient**).
+
+2. **Streaming Response Flow**:
+   - A code snippet from the **StreamingResponse** class showing how streaming is initiated and managed.
+   - A code snippet from the **LLMClient** or **OpenAIClient** showing how streaming responses are passed back to the client.
+
+3. **Intersection of Tool Calls and Streaming**:
+   - A code snippet showing where tool calls are processed in the **AI** or **ActionPlanner** classes.
+   - A description or code snippet showing how tool responses are currently returned to the client (even if they are not streamed).
+
+4. **Key Classes for Modification**:
+   - Code snippets from the **AI**, **ActionPlanner**, **LLMClient**, and **OpenAIClient** classes that show how actions and tool calls are processed.
+   - Code snippets from the **StreamingResponse** class that show how streaming is currently implemented.
+
+---
+
+### Example of How We Can Proceed:
+
+1. **Tool Call Flow**:
+   - You provide a code snippet showing how a tool call is initiated in the **AI** or **ActionPlanner** class.
+   - You provide a code snippet showing how the response from a tool call is currently handled (e.g., in **LLMClient** or **OpenAIClient**).
+
+2. **Streaming Response Flow**:
+   - You provide a code snippet from the **StreamingResponse** class showing how streaming is initiated and managed.
+   - You provide a code snippet from the **LLMClient** or **OpenAIClient** showing how streaming responses are passed back to the client.
+
+3. **Intersection of Tool Calls and Streaming**:
+   - You provide a code snippet showing where tool calls are processed in the **AI** or **ActionPlanner** classes.
+   - You provide a description or code snippet showing how tool responses are currently returned to the client (even if they are not streamed).
+
+4. **Key Classes for Modification**:
+   - You provide code snippets from the **AI**, **ActionPlanner**, **LLMClient**, and **OpenAIClient** classes that show how actions and tool calls are processed.
+   - You provide code snippets from the **StreamingResponse** class that show how streaming is currently implemented.
+
+---
+
+### Questions to Clarify:
+
+1. **How are tool responses currently structured?** 
+   - Are they synchronous responses, or are they already designed to handle partial responses?
+
+2. **How do you envision the streaming process working for tool calls?**
+   - Should partial responses be streamed as they are generated, or should the entire tool response be streamed at once?
+
+3. **Are there any constraints or limitations in the current system that might affect streaming?**
+   - For example, are tool responses buffered or processed in a way that might complicate streaming?
+
+---
+
+By providing these code snippets and answering the questions, I can get a better feel for the current system and help you plan out the specific changes needed to implement streaming for tool calls.
+
+<RESEARCH>
+## Research Classes
+
+The goal of this research is to gather all of the major class definitions for the library.
+
+Last Updated: 2024-11-20T08:02:39.789Z
+
+### Gather Class Definitions
+
+#### TestModel
+A class used for testing purposes, connecting to **TestPromptManager**, **TestTurnState**, and **GPTTokenizer**.
+
+#### AdaptiveCards
+Handles adaptive card functionalities, connecting to **Application** and **TurnState**.
+
+#### StreamingResponse
+A helper class for streaming responses, connecting to **TurnContext**, **Activity**, and **Attachment**.
+
+#### JSONResponseValidator
+Validates JSON responses against a schema, connecting to **TurnContext**, **Memory**, **Tokenizer**, and **PromptResponse**.
+
+#### BotAuthenticationBase
+An abstract base class for Teams bot authentication, connecting to **Application**, **TurnState**, and **TurnContext**.
+
+#### TaskModules
+Handles task module operations, connecting to **Application** and **TurnState**.
+
+#### ToolsAugmentation
+Enables server-side action/tools calling, connecting to **TurnContext**, **Memory**, **Tokenizer**, and **Plan**.
+
+#### PromptManager
+Manages prompts, connecting to **PromptTemplate**, **DataSource**, **Memory**, **Tokenizer**, and **GroupSection**.
+
+#### ActionResponseValidator
+Validates action calls returned by the model, connecting to **ChatCompletionAction**, **PromptResponseValidator**, **JSONResponseValidator**, and **Tokenizer**.
+
+#### AssistantsPlanner
+Manages task planning for AI assistants, connecting to **AI**, **TurnState**, and **AssistantsClient**.
+
+#### OpenAIClient
+Implements the OpenAI client interface, connecting to **CreateChatCompletionRequest**, **CreateEmbeddingRequest**, and **CreateModerationRequest**.
+
+#### LLMClient
+Handles interactions with language models, connecting to **PromptCompletionModel**, **PromptTemplate**, **Memory**, and **StreamingResponse**.
+
+#### AzureContentSafetyModerator
+An Azure OpenAI moderator for reviewing prompts and plans, connecting to **TurnState**, **TurnContext**, and **Plan**.
+
+#### MessageExtensions
+Handles message extension invocations, connecting to **Application** and **TurnState**.
+
+#### AI
+Generates plans, moderates input/output, and generates prompts, connecting to **Planner**, **Moderator**, and **TurnState**.
+
+#### PromptCompletionModel
+An AI model for completing prompts, connecting to **TurnContext**, **Memory**, **PromptFunctions**, **Tokenizer**, and **StreamingResponse**.
+
+#### UserTokenAccess
+Manages user tokens, connecting to **TurnContext**, **OAuthPromptSettings**, and **TokenResponse**.
+
+#### TeamsAdapter
+An adapter for handling communication between the bot and Microsoft Teams, connecting to **Application** and **TurnContext**.
+
+#### Application
+The main class for routing and processing incoming requests, connecting to **AdaptiveCards**, **AI**, **TaskModules**, and **AuthenticationManager**.
+
+#### OAuthBotAuthentication
+Handles authentication for Teams bots, connecting to **BotAuthenticationBase**, **Application**, **DialogContext**, and **OAuthPrompt**.
+
+#### TeamsSsoPrompt
+Handles Single Sign-On (SSO) prompts in Microsoft Teams, connecting to **DialogSet**, **DialogState**, and **TeamsSsoSettings**.
+
+#### OpenAIModerator
+Uses OpenAI's moderation API to review prompts and plans, connecting to **TurnState**, **TurnContext**, **Plan**, and **PredictedDoCommand**.
+
+#### DefaultModerator
+A pass-through moderator that approves all inputs and outputs, connecting to **Moderator** and **TurnState**.
+
+#### EmbeddingsModel
+An AI model for creating embeddings, connecting to **EmbeddingsResponse**.
+
+#### FunctionCallMessage
+Represents an assistant message containing a function to call, connecting to **Message**, **FunctionCall**, **TurnContext**, and **Memory**.
+
+#### TurnState
+Manages the state of a conversation, connecting to **TurnContext**, **TeamsAdapter**, and **Activity**.
+
+#### Plan
+Represents a structured plan of actions, connecting to **PredictedDoCommand**, **PredictedSayCommand**, and **TurnState**.
+
+#### MemoryFork
+Implements the **Memory** interface, allowing for memory operations and forks, connecting to **TurnContext** and **Memory**.
+
+#### PromptTemplate
+Represents a cached prompt template, connecting to **PromptSection**, **ChatCompletionAction**, and **Augmentation**.
+
+#### TeamsSsoBotAuthentication
+Handles authentication for Teams bots using SSO, connecting to **BotAuthenticationBase**, **TeamsSsoPrompt**, and **DialogSet**.
+
+#### TestPromptManager
+A prompt manager used for testing, extending **PromptManager** and connecting to **TestTurnState** and **GPTTokenizer**.
+
+#### FunctionResponseMessage
+Represents a message containing the response to a function call, connecting to **TurnContext**, **Memory**, **PromptFunctions**, and **Tokenizer**.
+
+#### TeamsAttachmentDownloader
+Downloads attachments in a Teams application, connecting to **TeamsAdapter**, **TurnContext**, and **InputFile**.
+
+#### TextSection
+Represents a section of text rendered as a message, connecting to **PromptSectionBase**, **TurnContext**, **Tokenizer**, and **Memory**.
+
+#### GroupSection
+Represents a group of sections rendered as a single message, connecting to **TextSection**, **TurnContext**, **Memory**, and **Tokenizer**.
+
+#### ConversationHistory
+Manages and renders conversation history, connecting to **Message**, **PromptFunctions**, **TurnContext**, and **Memory**.
+
+#### SystemMessage
+Represents a system message, connecting to **TestPromptManager** and **GPTTokenizer**.
+
+#### AssistantMessage
+Represents an assistant message, connecting to **TestPromptManager** and **TestTurnState**.
+
+#### OAuthAdaptiveCardAuthentication
+Handles authentication for Adaptive Cards in Teams, connecting to **AdaptiveCardAuthenticationBase**, **TokenResponse**, and **TurnContext**.
+
+#### TeamsSsoMessageExtensionAuthentication
+Handles authentication for Teams Message Extensions using SSO, connecting to **MessageExtensionAuthenticationBase**, **TeamsSsoSettings**, and **TurnContext**.
+
+#### AzureOpenAIClient
+Implements the OpenAI client for Azure, connecting to **CreateChatCompletionRequest**, **CreateEmbeddingRequest**, and **ModerationInput**.
+
+#### Utilities
+Provides utility functions for manipulating data, connecting to **Tokenizer** and **ClientCitation**.
+
+#### ActionPlanner
+Manages actions and prompts in AI interactions, connecting to **AI**, **PromptManager**, **LLMClient**, and **TurnState**.
+
+#### TestTurnState
+A test version of **TurnState** used in unit tests, connecting to **TurnContext** and **TurnState**.
+
+#### TeamsSsoAdaptiveCardAuthentication
+Handles authentication using Teams SSO for Adaptive Cards, connecting to **AdaptiveCardAuthenticationBase** and **TurnContext**.
+
+#### DefaultAugmentation
+Implements the **Augmentation** interface, providing methods for creating prompt sections and validating responses, connecting to **TurnContext**, **Memory**, and **Plan**.
+
+#### LlamaModel
+Implements the **PromptCompletionModel** interface, connecting to **TurnContext**, **Memory**, **PromptFunctions**, and **Tokenizer**.
+
+#### TestPlanner
+Implements the **Planner** interface for testing, connecting to **Plan**, **PredictedSayCommand**, and **TurnState**.
+
+#### OpenAIEmbeddings
+Calls OpenAI and Azure OpenAI hosted models, connecting to **EmbeddingsModel**.
+
+#### BinaryClassifier
+A classifier that connects to **PromptCompletionModel**, **PromptManager**, **PromptTemplate**, and **Tokenizer**.
+
+#### SequenceAugmentation
+Creates a sequence of actions, connecting to **ActionAugmentationSection**, **JSONResponseValidator**, and **Plan**.
+
+#### MonologueAugmentation
+Adds support for inner monologues to prompts, connecting to **ActionAugmentationSection**, **JSONResponseValidator**, and **ActionResponseValidator**.
+
+#### TestEmbeddings
+Implements the **EmbeddingsModel** interface for testing, connecting to **EmbeddingsResponse**.
+
+#### InputFileDownloader
+Downloads files relative to the user's input, connecting to **TurnContext** and **TurnState**.
+
+#### SayCommand
+A function that operates with **TurnState**, connecting to **TurnContext** and **PredictedSayCommand**.
+
+#### DoCommand
+A function that operates with **TurnState**, connecting to **TurnContext** and **PredictedDoCommand**.
+
+#### ActionOutputMessage
+Renders user input text and images as a user message, connecting to **TurnContext**, **Memory**, **Tokenizer**, and **Message**.
+
+#### TeamsSsoSettings
+Provides configuration settings for Teams SSO, connecting to **TeamsSsoPrompt** and **TeamsSsoBotAuthentication**.
+
+#### ChatCompletionAction
+An action that can be called by an LLM, connecting to **PromptTemplate** and **Augmentation**.
+
+#### TestAdapter
+A testing utility for simulating bot interactions, connecting to **Application**, **TurnContext**, and **TestTurnState**.
+
+#### TestModel
+Implements the **PromptCompletionModel** interface for testing, connecting to **TurnContext**, **Memory**, **PromptFunctions**, and **Tokenizer**.
+
+## Research Plan for Exploring API Code Base
+
+This research plan is designed to gather the necessary information to implement streaming tool responses in the system. The goal is to answer the questions identified by the assistant, which will help in understanding the current flow of tool calls, streaming responses, and how they intersect.
+
+Last Updated: 2024-11-20T08:57:47.801Z
+
+### 1. **Tool Call Flow**
+
+A tool call is initiated in the **ActionPlanner** class through the `beginTask` or `continueTask` methods. These methods are responsible for generating a plan based on user input and the current state. When the AI system is ready to start or continue a task, these methods check the context and may trigger tool calls as part of the plan. The **AssistantsPlanner** class, which implements the `Planner` interface, also plays a role in initiating tool calls, particularly through the `beginTask` method.
+
+The response from a tool call is handled in the **LLMClient** class, specifically through the `completePrompt` method. This method processes the response from the AI model, including any tool calls that are part of the response. The **LLMClient** validates the response and can repair it if necessary. Additionally, the **submitActionResults** method in the **AssistantsPlanner** class processes the tool outputs by mapping action outputs to tool outputs and submitting them to the assistant. The results are then processed based on the status of the run, and a plan is generated from the tool outputs or messages as needed.
+
+### 2. **Streaming Response Flow**
+
+### How is streaming initiated and managed in the **StreamingResponse** class?
+
+In the **StreamingResponse** class, streaming is initiated by creating an instance of the class with a specific `context`, which represents the interaction or session in which the streaming will occur. The class provides several key methods to manage the streaming process:
+
+1. **`queueInformativeUpdate()`**: This method allows for sending informative updates to the client during the streaming process. It increments the `updatesSent` counter and sends activities with a specific `streamType` and `streamSequence`, ensuring that the client is kept informed about the progress of the stream.
+
+2. **`queueTextChunk()`**: This method is used to send chunks of text to the client as they are generated. Each chunk is sent with a `streamType` of 'streaming' and a corresponding `streamSequence`, allowing the client to receive partial responses incrementally.
+
+3. **`endStream()`**: This method finalizes the streaming process. It sends a final message to the client, including any remaining queued text chunks and attachments, and sets the `streamType` to 'final', indicating that the streaming session has concluded.
+
+The **StreamingResponse** class uses an adapter (e.g., **TestAdapter**) to send activities back to the client. These activities are queued and validated through assertions in tests, ensuring that the correct `streamType`, `streamSequence`, and `streamId` are included in the messages sent to the client.
+
+### How are streaming responses passed back to the client in the **LLMClient** or **OpenAIClient** class?
+
+In both the **LLMClient** and **OpenAIClient** classes, streaming responses are passed back to the client incrementally as they are received from the model.
+
+1. **In the `LLMClient` class**:
+   - Streaming is initiated in the `completePrompt()` method, where a new instance of **StreamingResponse** is created if streaming is detected.
+   - The `chunkReceived` event handler is responsible for sending chunks of data to the client as they are received. It checks if the context matches and then queues the text chunk to the **StreamingResponse** instance, ensuring that the client receives partial responses in real-time.
+   - Once the streaming process is complete, the `endStream()` method is called to finalize the response and send any remaining data to the client.
+
+2. **In the `OpenAIClient` class**:
+   - Streaming is handled in the `completePrompt()` method, where a for-await-of loop processes each chunk of data as it is received from the OpenAI API.
+   - Each chunk is processed individually, and the `delta` from each chunk is used to update the message content. If tool calls are involved, they are handled during this process.
+   - Events such as `chunkReceived` are emitted during the streaming process, notifying other parts of the system about the reception of each chunk. This allows the client to receive partial responses incrementally as they are generated.
+
+In both cases, the streaming process is managed through event-driven mechanisms, where chunks of data are passed back to the client as they are received, and the streaming session is finalized with a call to `endStream()` once all data has been processed.
+
+### 3. **Intersection of Tool Calls and Streaming**
+
+Tool calls are processed in both the **AI** and **ActionPlanner** classes. 
+
+In the **AI** class, tool calls are handled through the `run` method, which generates and executes a plan. The plan contains commands, including `PredictedDoCommand` for tool calls. The `run` method checks the type of command (e.g., 'DO' for tool calls) and executes the corresponding action handler. The `doAction` method in the **AI** class is also responsible for manually executing a named action, which can include tool calls.
+
+In the **ActionPlanner** class, tool calls are processed through methods like `beginTask` and `continueTask`. These methods handle the flow of actions and tool calls, generating plans based on user input and executing the actions. The `continueTask` method specifically checks the model's response to see if it contains a message, which can include tool responses.
+
+Tool responses are currently returned to the client as part of the plan's commands. In the **AI** class, the output of actions (including tool calls) is stored in `state.temp.lastOutput`, which is used as input for subsequent actions or commands. The responses are returned through `PredictedSayCommand` (for SAY actions) or `PredictedDoCommand` (for DO actions). In the **ActionPlanner** class, tool responses are processed and returned through the `completePrompt` method, which generates a `PromptResponse` object containing the response message. These responses are then passed back to the client as part of the overall interaction flow.
+
+### 4. **Key Classes for Modification**
+
+### Processing of Actions and Tool Calls:
+
+1. **AI Class**:
+   - The **AI** class is responsible for processing actions and tool calls, but specific details about its internal handling of these processes are not provided. It likely interacts with other components like the **ActionPlanner** and **LLMClient** to manage actions and tool calls.
+
+2. **ActionPlanner Class**:
+   - The **ActionPlanner** class plays a central role in generating plans based on user input and triggering actions or tool calls. It uses methods like `beginTask` and `continueTask` to initiate tasks and generate plans. When a prompt needs to be completed, the `completePrompt` method is used, which interacts with the **LLMClient** to handle the prompt and validate the response. The **ActionPlanner** also supports augmentations, such as the **ToolsAugmentation**, which processes responses that may include actions and generates plans accordingly.
+
+3. **LLMClient Class**:
+   - The **LLMClient** class is responsible for managing interactions with the Large Language Model (LLM). It processes actions and tool calls through its `completePrompt` method, which handles the input and manages the conversation history. The **LLMClient** also validates responses and can handle repairs if the response is invalid. It uses the **StreamingResponse** class to manage streaming responses, indicating that it can handle both synchronous and streaming interactions with the LLM.
+
+4. **OpenAIClient Class**:
+   - The **OpenAIClient** class processes actions and tool calls by interacting with the OpenAI API. It prepares parameters for chat completions, including handling tool calls if the response from the model includes them. The class supports streaming responses by checking for a `stream` option in the `completePrompt` method and processing chunks of data as they are received. It emits events like `beforeCompletion`, `chunkReceived`, and `responseReceived` to manage the flow of actions and tool calls during the streaming process.
+
+### Streaming Implementation in the StreamingResponse Class:
+
+- The **StreamingResponse** class is designed to manage streaming responses to the client. It allows a series of updates to be sent in a structured sequence, typically starting with an informative update, followed by multiple text chunks, and ending with a final message. The class maintains a queue of activities to be sent to the client and processes them using the `drainQueue()` method, which sends queued activities until the queue is empty.
+
+- The class uses methods like `sendInformativeUpdate()`, `sendTextChunk()`, and `endStream()` to manage the flow of messages. Each message is sent with a `streamType` that indicates whether it is an informative update, a chunk of streaming text, or the final message. The messages are also assigned a sequence number to ensure they are processed in the correct order.
+
+- The **StreamingResponse** class tracks the stream ID returned by the client when sending activities, which is used to identify the stream for subsequent messages. This ensures that all messages related to a particular stream are correctly associated and processed.
+
+In summary, actions and tool calls are processed through a combination of the **AI**, **ActionPlanner**, **LLMClient**, and **OpenAIClient** classes, with the **LLMClient** and **OpenAIClient** handling the interaction with the LLM and managing the responses. Streaming is implemented in the **StreamingResponse** class, which manages the flow of updates and text chunks in a structured sequence, ensuring that messages are sent in the correct order and associated with the correct stream.

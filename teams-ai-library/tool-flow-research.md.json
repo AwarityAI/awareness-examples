@@ -1,0 +1,26 @@
+{
+  "title": "Research Plan for Exploring API Code Base",
+  "description": "This research plan is designed to gather the necessary information to implement streaming tool responses in the system. The goal is to answer the questions identified by the assistant, which will help in understanding the current flow of tool calls, streaming responses, and how they intersect.",
+  "queries": [
+    {
+      "title": "1. **Tool Call Flow**",
+      "search": "1. **Tool Call Flow**",
+      "questions": "**\n- How is a tool call initiated in the **AI** or **ActionPlanner** class?\n- How is the response from a tool call currently handled in the **LLMClient** or **OpenAIClient** class?"
+    },
+    {
+      "title": "2. **Streaming Response Flow**",
+      "search": "2. **Streaming Response Flow**",
+      "questions": "**\n- How is streaming initiated and managed in the **StreamingResponse** class?\n- How are streaming responses passed back to the client in the **LLMClient** or **OpenAIClient** class?"
+    },
+    {
+      "title": "3. **Intersection of Tool Calls and Streaming**",
+      "search": "3. **Intersection of Tool Calls and Streaming**",
+      "questions": "**\n- Where are tool calls processed in the **AI** or **ActionPlanner** classes?\n- How are tool responses currently returned to the client (even if they are not streamed)?"
+    },
+    {
+      "title": "4. **Key Classes for Modification**",
+      "search": "4. **Key Classes for Modification**",
+      "questions": "**\n- How are actions and tool calls processed in the **AI**, **ActionPlanner**, **LLMClient**, and **OpenAIClient** classes?\n- How is streaming currently implemented in the **StreamingResponse** class?"
+    }
+  ]
+}

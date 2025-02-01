@@ -1,0 +1,182 @@
+Members added
+
+A member added event is sent to your bot in the following scenarios:
+
+1. When the bot, itself, is installed and added to a conversation
+
+   > In team context, the activity's conversation.id is set to the `id` of the channel selected by the user during app installation or the channel where the bot was installed.
+
+2. When a user is added to a conversation where the bot is installed
+
+   > User ids received in the event payload are unique to the bot and can be cached for future use, such as directly messaging a user.
+
+The member added activity `eventType` is set to `teamMemberAdded` when the event is sent from a team context. To determine if the new member added was the bot itself or a user, check the `Activity` object of the `turnContext`. If the `MembersAdded` list contains an object where `id` is the same as the `id` field of the `Recipient` object, then the member added is the bot, else it's a user. The bot's `id` is formatted as `28:<MicrosoftAppId>`.
+
+> [!TIP]
+> Use the [`InstallationUpdate` event](#installation-update-event) to determine when when your bot is added or removed from a conversation.
+
+The following code shows an example of team members added event:
+
+# [C#](#tab/dotnet)
+
+* [SDK reference](/dotnet/api/microsoft.bot.builder.teams.teamsactivityhandler.onteamsmembersaddedasync?view=botbuilder-dotnet-stable&preserve-view=true)
+* [Sample code reference](https://github.com/OfficeDev/Microsoft-Teams-Samples/blob/main/samples/msteams-application-qbot/Source/Microsoft.Teams.Apps.QBot.Web/Bot/BotActivityHandler.cs#L133)
+
+```csharp
+protected override async Task OnTeamsMembersAddedAsync(IList<TeamsChannelAccount> teamsMembersAdded , TeamInfo teamInfo, ITurnContext<IConversationUpdateActivity> turnContext, CancellationToken cancellationToken)
+{
+    foreach (TeamsChannelAccount member in teamsMembersAdded)
+    {
+        if (member.Id == turnContext.Activity.Recipient.Id)
+        {
+            // Send a message to introduce the bot to the team.
+            var heroCard = new HeroCard(text: $"The {member.Name} bot has joined {teamInfo.Name}");
+            // Sends an activity to the sender of the incoming activity.
+            await turnContext.SendActivityAsync(MessageFactory.Attachment(heroCard.ToAttachment()), cancellationToken);
+        }
+        else
+        {
+            var heroCard = new HeroCard(text: $"{member.Name} joined {teamInfo.Name}");
+            // Sends an activity to the sender of the incoming activity.
+            await turnContext.SendActivityAsync(MessageFactory.Attachment(heroCard.ToAttachment()), cancellationToken);
+        }
+    }
+}
+
+```
+
+# [TypeScript](#tab/typescript)
+
+* [SDK reference](/javascript/api/botbuilder/teamsactivityhandler?view=botbuilder-ts-latest&preserve-view=true#botbuilder-teamsactivityhandler-onteamsmembersaddedevent)
+
+```typescript
+export class MyBot extends TeamsActivityHandler {
+    constructor() {
+        super();
+        this.onTeamsMembersAddedEvent(async (membersAdded: ChannelAccount[], teamInfo: TeamInfo, turnContext: TurnContext, next: () => Promise<void>): Promise<void> => {
+                let newMembers: string = '';
+                console.log(JSON.stringify(membersAdded));
+                membersAdded.forEach((account) => {
+                    newMembers += account.id + ' ';
+                });
+                const name = !teamInfo ? 'not in team' : teamInfo.name;
+                const card = CardFactory.heroCard('Account Added', `${newMembers} joined ${name}.`);
+                const message = MessageFactory.attachment(card);
+                // Sends a message activity to the sender of the incoming activity.
+                await turnContext.sendActivity(message);
+                await next();
+        });
+    }
+}
+
+```
+
+# [JSON](#tab/json)
+
+The message your bot receives when the bot is added to a team.
+
+> [!NOTE]
+> In this payload, `conversation.id` and `channelData.settings.selectedChannel.id` are the IDs of the channel that the user selected during app installation or from which the installation was triggered.
+
+```json
+{
+    "type": "conversationUpdate",
+    "membersAdded": [
+        {
+            "id": "28:608cacfd-1cea-40c9-b678-4b93e69bb72b"
+        }
+    ],
+    "timestamp": "2021-12-07T22:34:56.534Z",
+    "id": "f:0b9079f4-d4d3-3d8e-b883-798298053c7e",
+    "channelId": "msteams",
+    "serviceUrl": "https://smba.trafficmanager.net/amer/",
+    "from": {
+        "id": "29:1ljv6N86roXr5pjPrCJVIz6xHh5QxjI....",
+        "aadObjectId": "eddfa9d4-346e-4cce-a18f-fa6261ad776b"
+    },
+    "conversation": {
+        "isGroup": true,
+        "conversationType": "channel",
+        "tenantId": "b28fdbfd-2b78-4f93-b0f8-8881793f0f8f",
+        "id": "19:0b7f32667e064dd9b25d7969801541f4@thread.tacv2",
+        "name": "2021 Test Channel"
+    },
+    "recipient": {
+        "id": "28:608cacfd-1cea-40c9-b678-4b93e69bb72b",
+        "name": "Test Bot"
+    },
+    "channelData": {
+        "settings": {
+            "selectedChannel": {
+                "id": "19:0b7f32667e064dd9b25d7969801541f4@thread.tacv2"
+            }
+        },
+        "team": {
+            "aadGroupId": "f3ec8cd2-e704-4344-8c47-9a3a21d683c0",
+            "name": "TestTeam2022",
+            "id": "19:zFLSDFWsesfzcmKArqKJ-65aOXJz@sgf462H2wz41@thread.tacv2"
+        },
+        "eventType": "teamMemberAdded",
+        "tenant": {
+            "id": "b28fdbfd-2b78-4f93-b0f8-8881793f0f8f"
+        }
+    }
+}
+```
+
+The message your bot receives when the bot is added to a one-to-one chat.
+
+```json
+{
+  "membersAdded": [{
+      "id": "28:f5d48856-5b42-41a0-8c3a-c5f944b679b0"
+    },
+    {
+      "id": "29:<userID>",
+      "aadObjectId": "***"
+    }
+  ],
+  "type": "conversationUpdate",
+  "timestamp": "2019-04-23T10:17:44.349Z",
+  "id": "f:5f85c2ad",
+  "channelId": "msteams",
+  "serviceUrl": "https://smba.trafficmanager.net/amer-client-ss.msg/",
+  "from": {
+    "id": "29:<USERID>",
+    "aadObjectId": "***"
+  },
+  "conversation": {
+    "conversationType": "personal",
+    "id": "***"
+  },
+  "recipient": {
+    "id": "28:<BOT ID>",
+    "name": "<BOT NAME>"
+  },
+  "channelData": {
+    "tenant": {
+      "id": "<TENANT ID>"
+    }
+  }
+}
+```
+
+# [Python](#tab/python)
+
+* [SDK reference](/python/api/botbuilder-core/botbuilder.core.teams.teamsactivityhandler?view=botbuilder-py-latest&preserve-view=true#botbuilder-core-teams-teamsactivityhandler-on-teams-members-added)
+
+```python
+async def on_teams_members_added(
+ self, teams_members_added: [TeamsChannelAccount], turn_context: TurnContext
+):
+ for member in teams_members_added:
+.. # Sends a message activity to the sender of the incoming activity.
+  await turn_context.send_activity(
+   MessageFactory.text(f"Welcome your new team member {member.id}")
+  )
+ return
+```
+
+---
+
+### 

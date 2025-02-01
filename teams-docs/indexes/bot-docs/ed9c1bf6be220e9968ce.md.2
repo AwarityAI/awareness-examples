@@ -1,0 +1,108 @@
+Customize trigger pattern
+
+The default pattern to trigger a command is through a defined keyword. You can also collect and process additional information retrieved from the trigger keyword. In addition to keyword match, you can also define your trigger pattern with [regular expressions](https://regex101.com/) and match against `message.text` with more controls.
+
+You can find any capture group in `message.matches`, when using regular expressions. For example if user inputs `reboot myMachine`, `message.matches[1]`, it captures `myMachine`. The following example uses regular expression to capture strings after `reboot`:
+
+```
+class HelloWorldCommandHandler {
+  triggerPatterns = /^reboot (.*?)$/i; //"reboot myDevMachine";
+  async handleCommandReceived(context, message) {
+    console.log(`Bot received message: ${message.text}`);
+    const machineName = message.matches[1];
+    console.log(machineName);
+    // Render your adaptive card for reply message
+    const cardData = {
+      title: "Your Hello World Bot is Running",
+      body: "Congratulations! Your hello world bot is running. Click the button below to trigger an action.",
+    };
+    const cardJson = AdaptiveCards.declare(helloWorldCard).render(cardData);
+    return MessageFactory.attachment(CardFactory.adaptiveCard(cardJson));
+  }
+}
+```
+
+### Build command and response using Adaptive Card with dynamic content
+
+Adaptive Card provides [template language](/adaptive-cards/templating/) to allow users to render dynamic content with the same layout (the template). For example, use the adaptive card to render a list of items, such as to-do items or assign bugs that varies between different users.
+
+You can perform the following steps to build command and response using Adaptive Card with dynamic content:
+
+1. Add your Adaptive Card template JSON file under `bot/adaptiveCards` folder.
+1. In the code file where the commnad handler exists, for example `myCommandHandler.ts`. Import the Adaptive Card template JSON file.
+1. Model your card data.
+1. Use `MessageBuilder.attachAdaptiveCard` in the template with dynamic card data.
+
+If needed, you can add new cards for your application. For more information on how to build different types of Adaptive Cards with a list, or a table of dynamic contents using `ColumnSet` and `FactSet`, see [sample](https://github.com/OfficeDev/TeamsFx-Samples/tree/ga/adaptive-card-notification).
+
+### Access Microsoft Graph
+
+If you're responding to a command that needs to access Microsoft Graph data of an already signed in Teams user, you can do so by single sign-on (SSO) with their Teams user token. Read more about how Teams Toolkit can help you to add [single sign-on to Teams app](../../../toolkit/add-single-sign-on.md).
+
+### Connect to existing APIs
+
+If you don't have the required SDK and need to invoke external APIs in your code, the **Teams: Connect to an API** command in Microsoft Visual Studio Code (VS Code) Teams Toolkit extension, or the **teamsfx add api-connection** command in TeamsFx CLI can be used to bootstrap code to call target APIs. For more information, see [configure API connection](../../../toolkit/add-API-connection.md#).
+
+## FAQ
+
+<br>
+
+<details>
+
+<summary><b>How to extend my command and response to support notifications?</b></summary>
+
+1. Go to `bot\src\internal\initialize.ts(js)` and update your `conversationBot` initialization to enable notification feature.
+
+    :::image type="content" source="../../../assets/images/command-bot-teams/notification-enable.png" alt-text="Conversation bot initialization to enable notification feature." lightbox="../../../assets/images/command-bot-teams/notification-enable.png":::
+
+1. To customize sending the notification, see [Send notification to the bot installation target](notification-bot-in-teams.md#customize-where-notifications-are-sent).
+
+   1. If you want to quickly add a sample notification triggered by an HTTP request, add the  following sample code in `bot\src\index.ts(js)`:
+
+    ```js
+    server.post("/api/notification", async (req, res) => {
+      for (const target of await commandBot.notification.installations()) {
+        await target.sendMessage("This is a sample notification message");
+      }
+
+      res.json({});
+    });
+    ```
+
+1. Uninstall your previous bot installation from Teams, and run local debug to test your bot notification.
+1. Send a notification to the bot installation targets (channel, group chat, or personal chat) by using an HTTP POST request with target URL `https://localhost:3978/api/notification`.
+
+To send a notification with Adaptive Card and add more triggers, see [Notification bot in Teams](notification-bot-in-teams.md).
+
+<br>
+
+</details>
+
+<details>
+
+<summary><b>How to extend my command bot by adding workflow bot Adaptive Card actions?</b></summary>
+
+The Adaptive Card action handler feature enables the app to respond to Adaptive Card actions triggered by users to complete a sequential workflow. An Adaptive Card provides one or more buttons in the card to ask for user's input such as calling some APIs. The Adaptive Card then sends another Adaptive Card in the conversation to respond to the card action.
+
+For more information on how to add Adaptive Card actions to command bot, see [Workflow bot in Teams](workflow-bot-in-teams.md).
+
+<br>
+
+</details>
+
+## Step-by-step guide
+
+Follow the [step-by-step](../../../sbs-gs-commandbot.yml) guide to build Teams Command bot.
+
+## See also
+
+* [Conversation basics](conversation-basics.md)
+* [Build bots for Teams](../../what-are-bots.md)
+* [Build your first bot app using JavaScript](../../../sbs-gs-bot.yml)
+* [Proactive messages](send-proactive-messages.md)
+* [Adaptive Cards](../../../task-modules-and-cards/cards/cards-reference.md#adaptive-card)
+* [TeamsFx SDK](../../../toolkit/TeamsFx-SDK.md)
+* [Bot Framework SDK](/azure/bot-service/bot-builder-basics)
+* [Bot Framework middleware](/azure/bot-service/bot-builder-concept-middleware)
+* [Bot activity handlers](../../bot-basics.md)
+* [Event-driven conversations using an activity handler](/microsoftteams/platform/bots/bot-basics?branch=pr-en-us-7494&tabs=csharp#teams-activity-handlers)

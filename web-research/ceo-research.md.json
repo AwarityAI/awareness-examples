@@ -1,0 +1,46 @@
+{
+  "title": "Researching the Data to Create a Bio for the CEOs of Tech Companies Worth Over $1 Trillion",
+  "description": "The goal is to gather detailed biographical information about the CEOs of tech companies with a market capitalization exceeding $1 trillion.",
+  "queries": [
+    {
+      "title": "Identify Tech Companies Worth Over $1 Trillion",
+      "search": "List of tech companies with a market cap over $1 trillion as of November 2024",
+      "questions": "Which tech companies currently have a market capitalization exceeding $1 trillion? What is the market cap of each company?"
+    },
+    {
+      "title": "Identify CEO Names for Each Company",
+      "search": "Who is the CEO for [list:<company name>] as of November 2024",
+      "questions": "What is the name of the CEO for [list:<just company name>]?"
+    },
+    {
+      "title": "Gather Biographical Information for Each CEO",
+      "search": "[list:company name] CEO [list:ceo name] biography",
+      "questions": "What is the full name of the [list:company name] CEO [list:ceo name]? What is their date and place of birth? What is their educational background? What is their career history leading up to their current role? What notable achievements or milestones have they accomplished as CEO? Are there any personal details or philanthropic activities mentioned?"
+    },
+    {
+      "title": "Verify and Update Market Cap Information",
+      "search": "[list:company_name] market cap November 2024",
+      "questions": "What is the most recent market capitalization of [list:company_name]? Is it still over $1 trillion?"
+    },
+    {
+      "title": "Identify Key Achievements of Each CEO in Their Current Role",
+      "search": "[list:<company name> CEO <ceo name>] achievements",
+      "questions": "What are the major achievements of [list:<company name> CEO <ceo name>]? Have they overseen any significant product launches, acquisitions, or strategic initiatives? How have they impacted the companys growth or market position?"
+    },
+    {
+      "title": "Explore Public Perception and Media Coverage of Each CEO",
+      "search": "[list:<company name> CEO <ceo name>] public perception",
+      "questions": "What is the public perception of [list:<company name> CEO <ceo name>]? Are there any controversies, challenges, or notable media coverage associated with them? How are they viewed by employees, investors, and the general public?"
+    },
+    {
+      "title": "Investigate Philanthropic Activities or Personal Interests",
+      "search": "[list:<company name> CEO <ceo name>] philanthropy or personal interests",
+      "questions": "What philanthropic activities or charitable contributions is [list:<company name> CEO <ceo name>] involved in? Do they have any notable personal interests, hobbies, or affiliations outside of their professional role?"
+    },
+    {
+      "title": "Summarize Key Leadership Style and Vision",
+      "search": "[list:<company name> CEO <ceo name>] leadership style and vision",
+      "questions": "What is [list:<company name> CEO <ceo name>]s leadership style? What is their vision for the company? How do they approach innovation, company culture, and long-term strategy?"
+    }
+  ]
+}

@@ -1,0 +1,328 @@
+---
+title: Use Teams AI Library to Build Apps/Bots
+description: In this article, learn how to create an app using Teams AI library with AI component, storage, register data source, prompts, and actions.
+ms.localizationpriority: medium
+ms.topic: overview
+ms.author: surbhigupta
+ms.date: 11/27/2023
+---
+
+# Get started with Teams AI library
+
+Teams AI library streamlines the process to build intelligent Microsoft Teams applications by using the AI components.  It provides APIs to access and manipulate data, as well as a range of controls and components to create custom user interfaces.
+
+You can easily integrate Teams AI library, prompt management, and safety moderation into your apps and enhance the user experience. It also facilitates the creation of bots that uses an OpenAI API key or Azure OpenAI to provide an AI-driven conversational experience.
+
+## Initial setup
+
+Teams AI library is built on top of the Bot Framework SDK and uses its fundamentals to offer an extension to the Bot Framework SDK capabilities. As part of initial setup, it's important to import the Bot Framework SDK functionalities.
+
+> [!NOTE]
+> The adapter class that handles connectivity with the channels is imported from [Bot Framework SDK](/azure/bot-service/bot-builder-basics?view=azure-bot-service-4.0&preserve-view=true#the-bot-adapter).
+
+# [.NET](#tab/dotnet1)
+
+[Sample code reference](https://github.com/microsoft/teams-ai/blob/main/dotnet/samples/04.ai.a.teamsChefBot/Program.cs)
+
+```csharp
+using Microsoft.Teams.AI;
+using Microsoft.Bot.Builder;
+using Microsoft.Bot.Builder.Integration.AspNet.Core;
+using Microsoft.Bot.Connector.Authentication;
+using Microsoft.TeamsFx.Conversation;
+
+var builder = WebApplication.CreateBuilder(args);
+
+builder.Services.AddControllers();
+builder.Services.AddHttpClient("WebClient", client => client.Timeout = TimeSpan.FromSeconds(600));
+builder.Services.AddHttpContextAccessor();
+
+// Prepare Configuration for ConfigurationBotFrameworkAuthentication
+var config = builder.Configuration.Get<ConfigOptions>();
+builder.Configuration["MicrosoftAppType"] = "MultiTenant";
+builder.Configuration["MicrosoftAppId"] = config.BOT_ID;
+builder.Configuration["MicrosoftAppPassword"] = config.BOT_PASSWORD;
+
+// Create the Bot Framework Authentication to be used with the Bot Adapter.
+builder.Services.AddSingleton<BotFrameworkAuthentication, ConfigurationBotFrameworkAuthentication>();
+
+// Create the Cloud Adapter with error handling enabled.
+// Note: some classes expect a BotAdapter and some expect a BotFrameworkHttpAdapter, so
+// register the same adapter instance for all types.
+builder.Services.AddSingleton<CloudAdapter, AdapterWithErrorHandler>();
+builder.Services.AddSingleton<IBotFrameworkHttpAdapter>(sp => sp.GetService<CloudAdapter>());
+builder.Services.AddSingleton<BotAdapter>(sp => sp.GetService<CloudAdapter>());
+```
+
+# [JavaScript](#tab/javascript4)
+
+[Sample code reference](https://github.com/microsoft/teams-ai/blob/main/js/samples/04.ai-apps/a.teamsChefBot/src/index.ts#L9)
+
+```javascript
+// Import required bot services.
+// See https://aka.ms/bot-services to learn more about the different parts of a bot.
+import {
+    CloudAdapter,
+    ConfigurationBotFrameworkAuthentication,
+    ConfigurationServiceClientCredentialFactory,
+    MemoryStorage,
+    TurnContext
+} from 'botbuilder';
+
+// Read botFilePath and botFileSecret from .env file.
+const ENV_FILE = path.join(__dirname, '..', '.env');
+config({ path: ENV_FILE });
+
+const botFrameworkAuthentication = new ConfigurationBotFrameworkAuthentication(
+    {},
+    new ConfigurationServiceClientCredentialFactory({
+        MicrosoftAppId: process.env.BOT_ID,
+        MicrosoftAppPassword: process.env.BOT_PASSWORD,
+        MicrosoftAppType: 'MultiTenant'
+    })
+);
+
+// Create adapter.
+// See https://aka.ms/about-bot-adapter to learn more about how bots work.
+const adapter = new CloudAdapter(botFrameworkAuthentication);
+
+```
+
+# [Python](#tab/python4)
+
+[Sample code reference](https://github.com/microsoft/teams-ai/blob/main/python/samples/01.messaging.a.echoBot/src/bot.py#L8C1-L23C2)
+
+```python
+import sys
+import traceback
+
+from botbuilder.core import TurnContext
+from teams import Application, ApplicationOptions, TeamsAdapter
+from teams.state import TurnState
+
+from config import Config
+
+config = Config()
+app = Application[TurnState](
+    ApplicationOptions(
+        bot_app_id=config.APP_ID,
+        adapter=TeamsAdapter(config),
+    )
+)
+```
+
+---
+
+### Import Teams AI library
+
+Import all the classes from `@microsoft/teams-ai` to build your bot and use the Teams AI library capabilities.
+
+[Sample code reference](https://github.com/microsoft/teams-ai/blob/main/js/samples/04.ai-apps/a.teamsChefBot/src/index.ts#L13)
+
+```javascript
+// import Teams AI library
+import {
+    AI,
+    Application,
+    ActionPlanner,
+    OpenAIModerator,
+    OpenAIModel,
+    PromptManager,
+    TurnState
+} from '@microsoft/teams-ai';
+import { addResponseFormatter } from './responseFormatter';
+import { VectraDataSource } from './VectraDataSource';
+```
+
+## Create AI components
+
+Add AI capabilities to your existing app or a new Bot Framework app.
+
+**OpenAIModel**: The OpenAIModel class provides a way to access the OpenAI API or any other service, which adheres to the OpenAI REST format. It's compatible with both OpenAI and Azure OpenAI language models.
+
+**Prompt manager**: The prompt manager manages prompt creation. It calls functions and injects  from your code into the prompt. It copies the conversation state and the user state into the prompt for you automatically.
+
+**ActionPlanner**: The ActionPlanner is the main component calling your Large Language Model (LLM) and includes several features to enhance and customize your model. It's responsible for generating and executing plans based on the user's input and the available actions.
+
+# [.NET](#tab/dotnet2)
+
+[Sample code reference](https://github.com/microsoft/teams-ai/blob/main/dotnet/samples/04.ai.c.actionMapping.lightBot/Program.cs#L33).
+
+```csharp
+    // Create model
+    
+    OpenAIModel? model = null;
+    
+    if (!string.IsNullOrEmpty(config.OpenAI?.ApiKey))
+    {
+        model = new(new OpenAIModelOptions(config.OpenAI.ApiKey, "gpt-3.5-turbo"));
+    }
+    else if (!string.IsNullOrEmpty(config.Azure?.OpenAIApiKey) && !string.IsNullOrEmpty(config.Azure.OpenAIEndpoint))
+    {
+        model = new(new AzureOpenAIModelOptions(
+            config.Azure.OpenAIApiKey,
+            "gpt-35-turbo",
+            config.Azure.OpenAIEndpoint
+        ));
+    }
+    
+    if (model == null)
+    {
+        throw new Exception("please configure settings for either OpenAI or Azure");
+    }
+
+    // Create prompt manager
+    PromptManager prompts = new(new()
+    {
+        PromptFolder = "./Prompts",
+    });
+
+    // Add function to be referenced in the prompt template
+
+    prompts.AddFunction("getLightStatus", async (context, memory, functions, tokenizer, args) =>
+    {
+        bool lightsOn = (bool)(memory.GetValue("conversation.lightsOn") ?? false);
+        return await Task.FromResult(lightsOn ? "on" : "off");
+    });
+
+    // Create ActionPlanner
+    ActionPlanner<AppState> planner = new(
+        options: new(
+            model: model,
+            prompts: prompts,
+            defaultPrompt: async (context, state, planner) =>
+            {
+                PromptTemplate template = prompts.GetPrompt("sequence");
+                return await Task.FromResult(template);
+            }
+        )
+        { LogRepairs = true },
+        loggerFactory: loggerFactory
+    );
+
+```
+
+# [JavaScript](#tab/javascript1)
+
+[Sample code reference](https://github.com/microsoft/teams-ai/blob/main/js/samples/03.ai-concepts/c.actionMapping-lightBot/src/index.ts#L86)
+
+```javascript
+/// Create AI components
+const model = new OpenAIModel({
+    // OpenAI Support
+    apiKey: process.env.OPENAI_KEY!,
+    defaultModel: 'gpt-3.5-turbo',
+
+    // Azure OpenAI Support
+    azureApiKey: process.env.AZURE_OPENAI_KEY!,
+    azureDefaultDeployment: 'gpt-3.5-turbo',
+    azureEndpoint: process.env.AZURE_OPENAI_ENDPOINT!,
+    azureApiVersion: '2023-03-15-preview',
+
+    // Request logging
+    logRequests: true
+});
+
+const prompts = new PromptManager({
+    promptsFolder: path.join(__dirname, '../src/prompts')
+});
+
+const planner = new ActionPlanner({
+    model,
+    prompts,
+    defaultPrompt: 'chat',
+});
+
+```
+
+# [Python](#tab/python1)
+
+[Sample code reference](https://github.com/microsoft/teams-ai/blob/main/python/samples/04.ai.c.actionMapping.lightBot/src/bot.py#L35)
+
+```python
+# Create AI components
+model: OpenAIModel
+
+if config.OPENAI_KEY:
+    model = OpenAIModel(
+        OpenAIModelOptions(api_key=config.OPENAI_KEY, default_model="gpt-3.5-turbo")
+    )
+elif config.AZURE_OPENAI_KEY and config.AZURE_OPENAI_ENDPOINT:
+    model = OpenAIModel(
+        AzureOpenAIModelOptions(
+            api_key=config.AZURE_OPENAI_KEY,
+            default_model="gpt-35-turbo",
+            api_version="2023-03-15-preview",
+            endpoint=config.AZURE_OPENAI_ENDPOINT,
+        )
+    )
+```
+
+---
+
+## Define storage and application
+
+The application object automatically manages the conversation and user state of your bot.
+
+* **Storage**: Create a storage provider to store the conversation and the user state for your bot.
+
+* **Application**: The application class has all the information and bot logic required for an app. You can register actions or activity handlers for the app in this class.
+
+# [.NET](#tab/dotnet3)
+
+[Sample code reference](https://github.com/microsoft/teams-ai/blob/main/dotnet/samples/04.ai.c.actionMapping.lightBot/Program.cs#L99)
+
+```csharp
+ return new TeamsLightBot(new()
+    {
+        Storage = sp.GetService<IStorage>(),
+        AI = new(planner),
+        LoggerFactory = loggerFactory,
+        TurnStateFactory = () =>
+        {
+            return new AppState();
+        }
+    });
+```
+
+`TurnStateFactory` allows you to create a custom state class for your application. You can use it to store additional information or logic that you need for your bot. You can also override some of the default properties of the turn state, such as the user input, the bot output, or the conversation history. To use `TurnStateFactory`, you need to create a class that extends the default turn state and pass a function that creates an instance of your class to the application constructor.
+
+# [JavaScript](#tab/javascript3)
+
+[Sample code reference](https://github.com/microsoft/teams-ai/blob/main/js/samples/03.ai-concepts/c.actionMapping-lightBot/src/index.ts#L112)
+
+```javascript
+// Define storage and application
+const storage = new MemoryStorage();
+const app = new Application<ApplicationTurnState>({
+    storage,
+    ai: {
+        planner,
+        // moderator
+    }
+});
+```
+
+The `MemoryStorage()` function stores all the state for your bot. The `Application` class replaces the Teams Activity Handler class. You can configure your `ai` by adding the planner, moderator, prompt manager, default prompt and history. The `ai` object is passed into the `Application`, which receives the AI components and the default prompt defined earlier.
+
+# [Python](#tab/python3)
+
+[Sample code reference](https://github.com/microsoft/teams-ai/blob/main/python/samples/04.ai.c.actionMapping.lightBot/src/bot.py#L52C1-L62C2)
+
+```python
+storage = MemoryStorage()
+app = Application[AppTurnState](
+    ApplicationOptions(
+        bot_app_id=config.APP_ID,
+        storage=storage,
+        adapter=TeamsAdapter(config),
+        ai=AIOptions(planner=ActionPlanner(
+            ActionPlannerOptions(model=model, prompts=prompts, default_prompt="sequence")
+        )),
+    )
+)
+```
+
+---
+
+## 

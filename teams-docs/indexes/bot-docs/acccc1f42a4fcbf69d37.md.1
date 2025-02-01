@@ -1,0 +1,254 @@
+---
+title: Conversation events
+author: WashingtonKayaker
+description: Learn about conversation update, message reaction, app installation update events, uninstall behavior, and events and error handling for Microsoft Teams bots.
+ms.topic: conceptual
+ms.localizationpriority: medium
+ms.author: anclear
+---
+
+# Conversation events in your Teams bot
+
+[!INCLUDE [pre-release-label](~/includes/v4-to-v3-pointer-bots.md)]
+
+When building your conversational bots for Microsoft Teams, you can work with conversation events. Teams sends notifications to your bot for conversation events that happen in scopes where your bot is active. You can capture these events in your code and take the following actions:
+
+* Trigger a welcome message when your bot is added to a team.
+* Trigger a welcome message when a new team member is added or removed.
+* Trigger a notification when a channel is created, renamed, or deleted.
+* Trigger a notification when a bot message is liked by a user.
+* Identify the default channel for your bot from user input (selection) during installation.
+
+The following video demonstrates how a conversation bot can improve customer engagement through smooth, intelligent interactions:
+
+<br>
+
+> [!VIDEO https://www.youtube.com/embed/HWw99yPsAes]
+
+## Conversation update events
+
+You can use conversation update events to provide better notifications and effective bot actions.
+
+> [!IMPORTANT]
+>
+> * You can add new events any time and your bot begins to receive them.
+> * You must design your bot to receive unexpected events.
+> * If you are using the Bot Framework SDK, your bot automatically responds with a `200 - OK` to any events you choose not to handle.
+> * When an Azure Communication Services (ACS) client joins or leaves the Teams meeting, no conversation update events are triggered.
+
+A bot receives a `conversationUpdate` event in either of the following cases:
+
+* When the bot is added to a conversation.
+* Other members are added to or removed from a conversation.
+* Conversation metadata has changed.
+
+The `conversationUpdate` event is sent to your bot when it receives information on membership updates for teams where it has been added. It also receives an update when it has been added for the first time for personal conversations.
+
+The following table shows a list of Teams conversation update events with more details:
+
+| Action taken        | EventType         | Method called              | Description                | Scope |
+| ------------------- | ----------------- | -------------------------- | -------------------------- | ----- |
+| Channel created     | channelCreated    | OnTeamsChannelCreatedAsync | [A channel is created](#channel-created). | Team |
+| Channel renamed     | channelRenamed    | OnTeamsChannelRenamedAsync | [A channel is renamed](#channel-renamed). | Team |
+| Channel deleted     | channelDeleted    | OnTeamsChannelDeletedAsync | [A channel is deleted](#channel-deleted). | Team |
+| Channel restored    | channelRestored    | OnTeamsChannelRestoredAsync | [A channel is restored](#channel-deleted). | Team |
+| Members added   | membersAdded   | OnTeamsMembersAddedAsync   | [A member is added](#members-added). | All |
+| Members removed | membersRemoved | OnTeamsMembersRemovedAsync | [A member is removed](#members-removed). | All |
+| Team renamed        | teamRenamed       | OnTeamsTeamRenamedAsync    | [A team is renamed](#team-renamed).       | Team |
+| Team deleted        | teamDeleted       | OnTeamsTeamDeletedAsync    | [A team is deleted](#team-deleted).       | Team |
+| Team archived        | teamArchived       | OnTeamsTeamArchivedAsync    | [A team is archived](#team-archived).       | Team |
+| Team unarchived        | teamUnarchived       | OnTeamsTeamUnarchivedAsync    | [A team is unarchived](#team-unarchived).       | Team |
+| Team restored        | teamRestored      | OnTeamsTeamRestoredAsync    | [A team is restored](#team-restored)       | Team |
+
+### Channel created
+
+The `channelCreated` event is sent to your bot whenever a new channel is created in a team where your bot is installed.
+
+The following code shows an example of channel created event:
+
+# [C#](#tab/dotnet)
+
+* [SDK reference](/dotnet/api/microsoft.bot.builder.teams.teamsactivityhandler.onteamschannelcreatedasync?view=botbuilder-dotnet-stable&preserve-view=true)
+* [Sample code reference](https://github.com/OfficeDev/Microsoft-Teams-Samples/blob/main/samples/bot-conversation/csharp/Bots/TeamsConversationBot.cs#L335)
+
+```csharp
+protected override async Task OnTeamsChannelCreatedAsync(ChannelInfo channelInfo, TeamInfo teamInfo, ITurnContext<IConversationUpdateActivity> turnContext, CancellationToken cancellationToken)
+{
+    var heroCard = new HeroCard(text: $"{channelInfo.Name} is the Channel created");
+    // Sends an activity to the sender of the incoming activity.
+    await turnContext.SendActivityAsync(MessageFactory.Attachment(heroCard.ToAttachment()), cancellationToken);
+}
+
+```
+
+# [TypeScript](#tab/typescript)
+
+<!-- From sample: botbuilder-js\libraries\botbuilder\tests\teams\conversationUpdate\src\conversationUpdateBot.ts -->
+
+* [SDK reference](/javascript/api/botbuilder/teamsactivityhandler?view=botbuilder-ts-latest&preserve-view=true#botbuilder-teamsactivityhandler-onteamschannelcreatedevent)
+
+```typescript
+export class MyBot extends TeamsActivityHandler {
+    constructor() {
+        super();
+        this.onTeamsChannelCreatedEvent(async (channelInfo: ChannelInfo, teamInfo: TeamInfo, turnContext: TurnContext, next: () => Promise<void>): Promise<void> => {
+            const card = CardFactory.heroCard('Channel Created', `${channelInfo.name} is the Channel created`);
+            const message = MessageFactory.attachment(card);
+            // Sends a message activity to the sender of the incoming activity.
+            await turnContext.sendActivity(message);
+            await next();
+        });
+    }
+}
+
+```
+
+# [JSON](#tab/json)
+
+```json
+{
+    "type": "conversationUpdate",
+    "timestamp": "2017-02-23T19:34:07.478Z",
+    "localTimestamp": "2017-02-23T12:34:07.478-07:00",
+    "id": "f:dd6ec311",
+    "channelId": "msteams",
+    "serviceUrl": "https://smba.trafficmanager.net/amer-client-ss.msg/",
+    "from": {
+        "id": "29:1wR7IdIRIoerMIWbewMi75JA3scaMuxvFon9eRQW2Nix5loMDo0362st2IaRVRirPZBv1WdXT8TIFWWmlQCizZQ"
+    },
+    "conversation": {
+        "isGroup": true,
+        "conversationType": "channel",
+        "id": "19:efa9296d959346209fea44151c742e73@thread.skype"
+    },
+    "recipient": {
+        "id": "28:f5d48856-5b42-41a0-8c3a-c5f944b679b0",
+        "name": "SongsuggesterBot"
+    },
+    "channelData": {
+        "channel": {
+            "id": "19:6d97d816470f481dbcda38244b98689a@thread.skype",
+            "name": "FunDiscussions"
+        },
+        "team": {
+            "id": "19:efa9296d959346209fea44151c742e73@thread.skype"
+        },
+        "eventType": "channelCreated",
+        "tenant": {
+            "id": "72f988bf-86f1-41af-91ab-2d7cd011db47"
+        }
+    }
+}
+```
+
+# [Python](#tab/python)
+
+* [SDK reference](/python/api/botbuilder-core/botbuilder.core.teams.teamsactivityhandler?view=botbuilder-py-latest&preserve-view=true#botbuilder-core-teams-teamsactivityhandler-on-teams-channel-created)
+
+```python
+async def on_teams_channel_created(
+ self, channel_info: ChannelInfo, team_info: TeamInfo, turn_context: TurnContext
+):
+ # Sends a message activity to the sender of the incoming activity.
+ return await turn_context.send_activity(
+  MessageFactory.text(
+   f"The new channel is {channel_info.name}. The channel id is {channel_info.id}"
+  )
+ )
+```
+
+---
+
+### Channel renamed
+
+The `channelRenamed` event is sent to your bot whenever a channel is renamed in a team where your bot is installed.
+
+The following code shows an example of channel renamed event:
+
+# [C#](#tab/dotnet)
+
+* [SDK reference](/dotnet/api/microsoft.bot.builder.teams.teamsactivityhandler.onteamschannelrenamedasync?view=botbuilder-dotnet-stable&preserve-view=true)
+* [Sample code reference](https://github.com/OfficeDev/Microsoft-Teams-Samples/blob/main/samples/bot-conversation/csharp/Bots/TeamsConversationBot.cs#L341)
+
+```csharp
+protected override async Task OnTeamsChannelRenamedAsync(ChannelInfo channelInfo, TeamInfo teamInfo, ITurnContext<IConversationUpdateActivity> turnContext, CancellationToken cancellationToken)
+{
+    var heroCard = new HeroCard(text: $"{channelInfo.Name} is the new Channel name");
+    // Sends an activity to the sender of the incoming activity.
+    await turnContext.SendActivityAsync(MessageFactory.Attachment(heroCard.ToAttachment()), cancellationToken);
+}
+
+```
+
+# [TypeScript](#tab/typescript)
+
+* [SDK reference](/javascript/api/botbuilder/teamsactivityhandler?view=botbuilder-ts-latest&preserve-view=true#botbuilder-teamsactivityhandler-onteamschannelrenamedevent)
+
+```typescript
+export class MyBot extends TeamsActivityHandler {
+    constructor() {
+        super();
+        this.onTeamsChannelRenamedEvent(async (channelInfo: ChannelInfo, teamInfo: TeamInfo, turnContext: TurnContext, next: () => Promise<void>): Promise<void> => {
+            const card = CardFactory.heroCard('Channel Renamed', `${channelInfo.name} is the new Channel name`);
+            const message = MessageFactory.attachment(card);
+            // Sends a message activity to the sender of the incoming activity.
+            await turnContext.sendActivity(message);
+            await next();
+        });
+    }
+```
+
+# [JSON](#tab/json)
+
+```json
+{
+    "type": "conversationUpdate",
+    "timestamp": "2017-02-23T19:34:07.478Z",
+    "localTimestamp": "2017-02-23T12:34:07.478-07:00",
+    "id": "f:dd6ec311",
+    "channelId": "msteams",
+    "serviceUrl": "https://smba.trafficmanager.net/amer-client-ss.msg/",
+    "from": {
+        "id": "29:1wR7IdIRIoerMIWbewMi75JA3scaMuxvFon9eRQW2Nix5loMDo0362st2IaRVRirPZBv1WdXT8TIFWWmlQCizZQ"
+    },
+    "conversation": {
+        "isGroup": true,
+        "conversationType": "channel",
+        "id": "19:efa9296d959346209fea44151c742e73@thread.skype"
+    },
+    "recipient": {
+        "id": "28:f5d48856-5b42-41a0-8c3a-c5f944b679b0",
+        "name": "SongsuggesterBot"
+    },
+    "channelData": {
+        "channel": {
+            "id": "19:6d97d816470f481dbcda38244b98689a@thread.skype",
+            "name": "PhotographyUpdates"
+        },
+        "team": {
+            "id": "19:efa9296d959346209fea44151c742e73@thread.skype"
+        },
+        "eventType": "channelRenamed",
+        "tenant": {
+            "id": "72f988bf-86f1-41af-91ab-2d7cd011db47"
+        }
+    }
+}
+```
+
+# [Python](#tab/python)
+
+* [SDK reference](/python/api/botbuilder-core/botbuilder.core.teams.teamsactivityhandler?view=botbuilder-py-latest&preserve-view=true#botbuilder-core-teams-teamsactivityhandler-on-teams-channel-renamed)
+
+```python
+async def on_teams_channel_renamed(
+ self, channel_info: ChannelInfo, team_info: TeamInfo, turn_context: TurnContext
+):
+ return await turn_context.send_activity(
+  MessageFactory.text(f"The new channel name is {channel_info.name}")
+ )
+```
+
+---
+
+### 

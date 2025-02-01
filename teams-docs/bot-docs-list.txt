@@ -1,0 +1,188 @@
+<ALL_DOCUMENTS>
+
+---
+
+**TITLE:** Introduction to Microsoft Teams Bots  
+**FILE:** `bots/introduction-to-microsoft-teams-bots.md`
+
+---
+
+**TITLE:** Bots and SDKs  
+**FILE:** `bots/bots-and-sdks.md`
+
+---
+
+**TITLE:** Designing Your Bot  
+**FILE:** `bots/designing-your-bot.md`
+
+---
+
+**TITLE:** Prerequisites for Bot Development  
+**FILE:** `bots/getting-started/prerequisites.md`
+
+---
+
+**TITLE:** Creating Your First Bot  
+**FILE:** `bots/getting-started/creating-your-first-bot.md`
+
+---
+
+**TITLE:** Testing Your Bot Locally  
+**FILE:** `bots/getting-started/testing-your-bot-locally.md`
+
+---
+
+**TITLE:** Understanding Bot Activity Handlers  
+**FILE:** `bots/bot-fundamentals/understanding-bot-activity-handlers.md`
+
+---
+
+**TITLE:** Conversation Basics  
+**FILE:** `bots/bot-fundamentals/conversation-basics.md`
+
+---
+
+**TITLE:** Formatting Your Bot Messages  
+**FILE:** `bots/bot-fundamentals/formatting-your-bot-messages.md`
+
+---
+
+**TITLE:** Personal, Group, and Channel Conversations  
+**FILE:** `bots/conversations/personal-group-channel-conversations.md`
+
+---
+
+**TITLE:** Proactive Messaging in Teams Bots  
+**FILE:** `bots/conversations/proactive-messaging.md`
+
+---
+
+**TITLE:** Handling Conversation Events in Bots  
+**FILE:** `bots/conversations/handling-conversation-events.md`
+
+---
+
+**TITLE:** Adding Authentication to Your Bot  
+**FILE:** `bots/enhancing-capabilities/adding-authentication.md`
+
+---
+
+**TITLE:** Interacting with Files Using Bots  
+**FILE:** `bots/enhancing-capabilities/interacting-with-files.md`
+
+---
+
+**TITLE:** Creating Command Bots in Teams  
+**FILE:** `bots/enhancing-capabilities/creating-command-bots.md`
+
+---
+
+**TITLE:** Building Notification Bots  
+**FILE:** `bots/enhancing-capabilities/building-notification-bots.md`
+
+---
+
+**TITLE:** Developing Workflow Bots  
+**FILE:** `bots/advanced-features/developing-workflow-bots.md`
+
+---
+
+**TITLE:** Enabling Copilot Handoff  
+**FILE:** `bots/advanced-features/enabling-copilot-handoff.md`
+
+---
+
+**TITLE:** Optimizing Your Bot with Rate Limiting  
+**FILE:** `bots/advanced-features/optimizing-with-rate-limiting.md`
+
+---
+
+**TITLE:** Authentication in Teams Bots  
+**FILE:** `bots/authentication/authentication-in-teams-bots.md`
+
+---
+
+**TITLE:** Implementing Single Sign-On (SSO) in Your Bot  
+**FILE:** `bots/authentication/implementing-sso-in-your-bot.md`
+
+---
+
+**TITLE:** Advanced Authentication Scenarios  
+**FILE:** `bots/authentication/advanced-authentication-scenarios.md`
+
+---
+
+**TITLE:** Introduction to Teams AI Library  
+**FILE:** `bots/teams-ai-library/introduction-to-teams-ai-library.md`
+
+---
+
+**TITLE:** Getting Started with Teams AI Library  
+**FILE:** `bots/teams-ai-library/getting-started-with-teams-ai-library.md`
+
+---
+
+**TITLE:** Core Capabilities of Teams AI Library  
+**FILE:** `bots/teams-ai-library/core-capabilities.md`
+
+---
+
+**TITLE:** Advanced AI Features in Teams AI Library  
+**FILE:** `bots/teams-ai-library/advanced-ai-features.md`
+
+---
+
+**TITLE:** Teams AI Library FAQ  
+**FILE:** `bots/teams-ai-library/faq.md`
+
+---
+
+**TITLE:** Overview of Calls and Meetings Bots  
+**FILE:** `bots/calls-and-meetings/overview-of-calls-and-meetings-bots.md`
+
+---
+
+**TITLE:** Developing Calls and Meetings Bots  
+**FILE:** `bots/calls-and-meetings/developing-calls-and-meetings-bots.md`
+
+---
+
+**TITLE:** Testing and Debugging Calls and Meetings Bots  
+**FILE:** `bots/calls-and-meetings/testing-and-debugging-calls-and-meetings-bots.md`
+
+---
+
+**TITLE:** Requirements and Considerations for Calls and Meetings Bots  
+**FILE:** `bots/calls-and-meetings/requirements-and-considerations.md`
+
+---
+
+**TITLE:** Deploying Your Bot  
+**FILE:** `bots/deployment-and-publishing/deploying-your-bot.md`
+
+---
+
+**TITLE:** Updating and Deleting Bot Messages  
+**FILE:** `bots/deployment-and-publishing/updating-and-deleting-bot-messages.md`
+
+---
+
+**TITLE:** Publishing Your Bot to Microsoft Teams  
+**FILE:** `bots/deployment-and-publishing/publishing-your-bot-to-teams.md`
+
+---
+
+**TITLE:** Bot Development Best Practices and Guidelines  
+**FILE:** `bots/additional-resources/best-practices.md`
+
+---
+
+**TITLE:** Bot Development FAQs and Troubleshooting  
+**FILE:** `bots/additional-resources/faqs-and-troubleshooting.md`
+
+---
+
+**TITLE:** Next Steps in Bot Development  
+**FILE:** `bots/additional-resources/next-steps.md`
+
+---

@@ -1,0 +1,11 @@
+{
+    "title": "Research Classes",
+    "description": "The goal of this research is to gather all of the major class definitions for the library.",
+    "queries": [
+        {
+            "title": "Gather Class Definitions",
+            "search": "Gather Class Definitions",
+            "questions": "Create a list of major classes that are defined in the library. Ignore unit tests and return your answer as follows:\n\n#### [class name]\n[brief description with names of **major classes** it connects to]"
+        }
+    ]
+}

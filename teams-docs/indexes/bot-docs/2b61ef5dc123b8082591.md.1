@@ -1,0 +1,166 @@
+---
+title: Channel/Group Conversation Chat Bot
+author: surbhigupta
+description: Learn how to create new conversation threads, user and tag mentions, and send message on installation. Explore Teams file upload sample (.NET, JavaScript, Python).
+ms.topic: conceptual
+ms.localizationpriority: medium
+ms.author: anclear
+ms.date: 11/14/2024
+---
+# Channel and group chat conversations with a bot
+
+[!INCLUDE [pre-release-label](~/includes/v4-to-v3-pointer-bots.md)]
+
+To install the Microsoft Teams bot in a team or group chat, add the `teams` or `groupchat` scope to your bot. This allows all members of the conversation to interact with your bot. After the bot is installed, it has access to metadata about the conversation, such as the list of conversation members. Also, when it's installed in a team, the bot has access to details about that team and the full list of channels.
+
+Bots in a group or channel only receive messages when they're mentioned @botname. They don't receive any other messages sent to the conversation. The bot must be @mentioned directly. Your bot doesn't receive a message when the team or channel is mentioned, or when someone replies to a message from your bot without @mentioning it.
+
+> [!NOTE]
+>
+> * RSC for all *chat* messages is available only in [public developer preview](../../../resources/dev-preview/developer-preview-intro.md).
+> * Using resource-specific consent (RSC), bots can receive all channel messages in teams that it's installed in without being @mentioned. For more information, see [receive all channel messages with RSC](channel-messages-with-rsc.md).
+> * Posting a message or Adaptive Card to a private channel isn't supported.
+
+See the following video to learn about channel and group chat conversations with a bot:
+<br>
+
+> [!VIDEO https://www.microsoft.com/en-us/videoplayer/embed/RE4NzEs]
+<br>
+
+## Design guidelines
+
+Unlike personal chats, in group chats and channels, your bot must provide a quick introduction. You must follow these and more bot design guidelines. For more information on how to design bots in Teams, see [how to design bot conversations in channels and chats](~/bots/design/bots.md).
+
+Now, you can create new conversation threads and easily manage different conversations in channels.
+
+## Create new conversation threads
+
+When your bot is installed in a team, you must create a new conversation thread rather than reply to an existing one. At times, it's difficult to differentiate between two conversations. If the conversation is threaded, it's easier to organize and manage different conversations in channels. This is a form of [proactive messaging](~/bots/how-to/conversations/send-proactive-messages.md).
+
+Next, you can retrieve mentions using the `entities` object and add mentions to your messages using the `Mention` object.
+
+## Work with mentions
+
+Every message to your bot from a group or channel contains an @mention with its name in the message text. Your bot can also retrieve other users mentioned in a message and add mentions to any messages it sends. Bots in group chats enable user mentions using `@mention`; however, they don’t support `@everyone` for mentions.
+
+You must also strip out the @mentions from the content of the message your bot receives.
+
+### Retrieve mentions
+
+Mentions are returned in the `entities` object in payload and contain both the unique ID of the user and the name of the user mentioned. The text of the message also includes the mention, such as `<at>@John Smith<at>`. However, don't rely on the text in the message to retrieve any information about the user. It's possible for the person sending the message to alter it. Therefore, use the `entities` object.
+
+You can retrieve all mentions in the message by calling the `GetMentions` function in the Bot Builder SDK, which returns an array of `Mention` objects.
+
+The following code shows an example of retrieving mentions:
+
+# [C#](#tab/dotnet)
+
+* [SDK reference](/dotnet/api/microsoft.bot.schema.activity.getmentions?view=botbuilder-dotnet-stable&preserve-view=true)
+
+* [Sample code reference](https://github.com/OfficeDev/Microsoft-Teams-Samples/blob/main/samples/bot-archive-groupchat-messages/csharp/FetchGroupChatMessages/Bots/ActivityBot.cs#L182)
+
+```csharp
+protected override async Task OnMessageActivityAsync(ITurnContext<IMessageActivity> turnContext, CancellationToken cancellationToken)
+{
+    // Resolves the mentions from the entities activity.
+    Mention[] mentions = turnContext.Activity.GetMentions();
+    if(mentions != null)
+    {
+        ChannelAccount firstMention = mentions[0].Mentioned;
+
+        // Sends a message activity to the sender of the incoming activity.
+        await turnContext.SendActivityAsync($"Hello {firstMention.Name}");
+    }
+    else
+    {
+        // Sends a message activity to the sender of the incoming activity.
+        await turnContext.SendActivityAsync("Aw, no one was mentioned.");
+    }
+}
+```
+
+# [TypeScript](#tab/typescript)
+
+[SDK reference](/javascript/api/botbuilder-core/turncontext?view=botbuilder-ts-latest&preserve-view=true#botbuilder-core-turncontext-getmentions)
+
+```typescript
+this.onMessage(async (turnContext, next) => {
+    
+    // Resolves the mentions from the entities activity.
+    const mentions = TurnContext.getMentions(turnContext.activity);
+    if (mentions){
+        const firstMention = mentions[0].mentioned;
+
+        // Sends a message activity to the sender of the incoming activity.
+        await turnContext.sendActivity(`Hello ${firstMention.name}.`);
+    } else {
+        // Sends a message activity to the sender of the incoming activity.
+        await turnContext.sendActivity(`Aw, no one was mentioned.`);
+    }
+
+    await next();
+});
+
+```
+
+# [JSON](#tab/json)
+
+```json
+{
+    "type": "message",
+    "text": "Hey <at>Pranav Smith</at> check out this message",
+    "timestamp": "2017-10-29T00:51:05.9908157Z",
+    "localTimestamp": "2017-10-28T17:51:05.9908157-07:00",
+    "serviceUrl": "https://skype.botframework.com",
+    "channelId": "msteams",
+    "from": {
+        "id": "29:9e52142b-5e5e-4d7b-bb3e-e82dcf620000",
+        "name": "Jane Smith"
+    },
+    "conversation": {
+        "id": "19:aebd0ad4d6ab42c8b9ed19c251c2fc37@thread.skype;messageid=1481567603816"
+    },
+    "recipient": {
+        "id": "8:orgid:6aebbad0-e5a5-424a-834a-20fb051f3c1a",
+        "name": "stlrgload100"
+    },
+    "attachments": [
+        {
+            "contentType": "image/png",
+            "contentUrl": "https://upload.wikimedia.org/wikipedia/en/a/a6/Bender_Rodriguez.png",
+            "name": "Bender_Rodriguez.png"
+        }
+    ],
+    "entities": [
+        {
+            "type":"mention",
+            "mentioned":{
+                "id":"29:08q2j2o3jc09au90eucae",
+                "name":"Pranav Smith"
+            },
+            "text": "<at>@Pranav Smith</at>"
+        }
+    ],
+    "replyToId": "3UP4UTkzUk1zzeyW"
+}
+```
+
+# [Python](#tab/python)
+
+[SDK reference](/python/api/botbuilder-schema/botbuilder.schema.activity?view=botbuilder-py-latest&preserve-view=true#botbuilder-schema-activity-get-mentions)
+
+```python
+@staticmethod
+// Resolves the mentions from the entities of this activity.
+def get_mentions(activity: Activity) -> List[Mention]:
+    result: List[Mention] = []
+    if activity.entities is not None:
+        for entity in activity.entities:
+            if entity.type.lower() == "mention":
+                    result.append(entity)
+     return result
+```
+
+* * *
+
+### 

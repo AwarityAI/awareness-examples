@@ -1,0 +1,232 @@
+Bot logic for handling an action
+
+The Bot responds to the user's input with the action `LightsOn` to turn the lights on.
+
+The following example illustrates how Teams AI library makes it possible to manage the bot logic for handling an action `LightsOn` or `LightsOff` and connect it to the prompt used with OpenAI:
+
+# [.NET](#tab/dotnet3)
+
+* [Code sample](https://github.com/microsoft/teams-ai/tree/main/dotnet/samples/04.ai.c.actionMapping.lightBot)
+
+* [Sample code reference](https://github.com/microsoft/teams-ai/blob/main/dotnet/samples/04.ai.c.actionMapping.lightBot/Program.cs#L33)
+
+* [Actions sample code reference](https://github.com/microsoft/teams-ai/blob/main/dotnet/samples/04.ai.c.actionMapping.lightBot/LightBotActions.cs#L10)
+
+```csharp
+/ Create AI Model
+if (!string.IsNullOrEmpty(config.OpenAI?.ApiKey))
+{
+    builder.Services.AddSingleton<OpenAIModel>(sp => new(
+        new OpenAIModelOptions(config.OpenAI.ApiKey, "gpt-3.5-turbo")
+        {
+            LogRequests = true
+        },
+        sp.GetService<ILoggerFactory>()
+    ));
+}
+else if (!string.IsNullOrEmpty(config.Azure?.OpenAIApiKey) && !string.IsNullOrEmpty(config.Azure.OpenAIEndpoint))
+{
+    builder.Services.AddSingleton<OpenAIModel>(sp => new(
+        new AzureOpenAIModelOptions(
+            config.Azure.OpenAIApiKey,
+            "gpt-35-turbo",
+            config.Azure.OpenAIEndpoint
+        )
+        {
+            LogRequests = true
+        },
+        sp.GetService<ILoggerFactory>()
+    ));
+}
+else
+{
+    throw new Exception("please configure settings for either OpenAI or Azure");
+}
+
+// Create the bot as transient. In this case the ASP Controller is expecting an IBot.
+builder.Services.AddTransient<IBot>(sp =>
+{
+    // Create loggers
+    ILoggerFactory loggerFactory = sp.GetService<ILoggerFactory>()!;
+
+    // Create Prompt Manager
+    PromptManager prompts = new(new()
+    {
+        PromptFolder = "./Prompts"
+    });
+
+    // Adds function to be referenced in the prompt template
+    prompts.AddFunction("getLightStatus", async (context, memory, functions, tokenizer, args) =>
+    {
+        bool lightsOn = (bool)(memory.GetValue("conversation.lightsOn") ?? false);
+        return await Task.FromResult(lightsOn ? "on" : "off");
+    });
+
+    // Create ActionPlanner
+    ActionPlanner<AppState> planner = new(
+        options: new(
+            model: sp.GetService<OpenAIModel>()!,
+            prompts: prompts,
+            defaultPrompt: async (context, state, planner) =>
+            {
+                PromptTemplate template = prompts.GetPrompt("sequence");
+                return await Task.FromResult(template);
+            }
+        )
+        { LogRepairs = true },
+        loggerFactory: loggerFactory
+    );
+
+    return new TeamsLightBot(new()
+    {
+        Storage = sp.GetService<IStorage>(),
+        AI = new(planner),
+        LoggerFactory = loggerFactory,
+        TurnStateFactory = () =>
+        {
+            return new AppState();
+        }
+    });
+});
+
+// LightBotActions defined in LightBotActions.cs
+    
+[Action("LightsOn")]
+        public async Task<string> LightsOn([ActionTurnContext] ITurnContext turnContext, [ActionTurnState] AppState turnState)
+        {
+            turnState.Conversation.LightsOn = true;
+            await turnContext.SendActivityAsync(MessageFactory.Text("[lights on]"));
+            return "the lights are now on";
+        }
+
+        [Action("LightsOff")]
+        public async Task<string> LightsOff([ActionTurnContext] ITurnContext turnContext, [ActionTurnState] AppState turnState)
+        {
+            turnState.Conversation.LightsOn = false;
+            await turnContext.SendActivityAsync(MessageFactory.Text("[lights off]"));
+            return "the lights are now off";
+        }
+
+        [Action("Pause")]
+        public async Task<string> LightsOff([ActionTurnContext] ITurnContext turnContext, [ActionParameters] Dictionary<string, object> args)
+        {
+            // Try to parse entities returned by the model.
+            // Expecting "time" to be a number of milliseconds to pause.
+            if (args.TryGetValue("time", out object? time))
+            {
+                if (time != null && time is string timeString)
+                {
+                    if (int.TryParse(timeString, out int timeInt))
+                    {
+                        await turnContext.SendActivityAsync(MessageFactory.Text($"[pausing for {timeInt / 1000} seconds]"));
+                        await Task.Delay(timeInt);
+                    }
+                }
+            }
+
+            return "done pausing";
+        }
+
+```
+
+# [JavaScript](#tab/javascript3)
+
+* [Code sample](https://github.com/microsoft/teams-ai/tree/main/js/samples/03.ai-concepts/c.actionMapping-lightBot)
+
+* [Sample code reference](https://github.com/microsoft/teams-ai/blob/main/js/samples/03.ai-concepts/c.actionMapping-lightBot/src/index.ts#L87)
+
+```typescript
+
+// Create AI components
+const model = new OpenAIModel({
+    // OpenAI Support
+    apiKey: process.env.OPENAI_KEY!,
+    defaultModel: 'gpt-3.5-turbo',
+
+    // Azure OpenAI Support
+    azureApiKey: process.env.AZURE_OPENAI_KEY!,
+    azureDefaultDeployment: 'gpt-3.5-turbo',
+    azureEndpoint: process.env.AZURE_OPENAI_ENDPOINT!,
+    azureApiVersion: '2023-03-15-preview',
+
+    // Request logging
+    logRequests: true
+});
+
+const prompts = new PromptManager({
+    promptsFolder: path.join(__dirname, '../src/prompts')
+});
+
+const planner = new ActionPlanner({
+    model,
+    prompts,
+    defaultPrompt: 'sequence',
+});
+
+// Define storage and application
+const storage = new MemoryStorage();
+const app = new Application<ApplicationTurnState>({
+    storage,
+    ai: {
+        planner
+    }
+});
+
+// Define a prompt function for getting the current status of the lights
+planner.prompts.addFunction('getLightStatus', async (context: TurnContext, memory: Memory) => {
+    return memory.getValue('conversation.lightsOn') ? 'on' : 'off';
+});
+
+// Register action handlers
+app.ai.action('LightsOn', async (context: TurnContext, state: ApplicationTurnState) => {
+    state.conversation.lightsOn = true;
+    await context.sendActivity(`[lights on]`);
+    return `the lights are now on`;
+});
+
+app.ai.action('LightsOff', async (context: TurnContext, state: ApplicationTurnState) => {
+    state.conversation.lightsOn = false;
+    await context.sendActivity(`[lights off]`);
+    return `the lights are now off`;
+});
+
+interface PauseParameters {
+    time: number;
+}
+
+app.ai.action('Pause', async (context: TurnContext, state: ApplicationTurnState, parameters: PauseParameters) => {
+    await context.sendActivity(`[pausing for ${parameters.time / 1000} seconds]`);
+    await new Promise((resolve) => setTimeout(resolve, parameters.time));
+    return `done pausing`;
+});
+
+```
+
+# [Python](#tab/python3)
+
+* [Code sample](https://github.com/microsoft/teams-ai/tree/main/python/samples/04.ai.c.actionMapping.lightBot)
+
+* [Sample code reference](https://github.com/microsoft/teams-ai/blob/main/python/samples/04.ai.c.actionMapping.lightBot/src/bot.py#L35)
+
+```python
+# Create AI components
+model: OpenAIModel
+
+if config.OPENAI_KEY:
+    model = OpenAIModel(
+        OpenAIModelOptions(api_key=config.OPENAI_KEY, default_model="gpt-3.5-turbo")
+    )
+elif config.AZURE_OPENAI_KEY and config.AZURE_OPENAI_ENDPOINT:
+    model = OpenAIModel(
+        AzureOpenAIModelOptions(
+            api_key=config.AZURE_OPENAI_KEY,
+            default_model="gpt-35-turbo",
+            api_version="2023-03-15-preview",
+            endpoint=config.AZURE_OPENAI_ENDPOINT,
+        )
+    )
+```
+
+---
+
+### 

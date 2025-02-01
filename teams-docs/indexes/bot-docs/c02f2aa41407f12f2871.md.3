@@ -1,0 +1,82 @@
+Configure OAuth connection
+
+For a bot to support SSO, you must update its OAuth connection settings. This process associates the bot with app details that you configured for your Microsoft Entra app:
+
+- Microsoft Entra app ID, which is the client ID
+- Tenant ID
+- Scope and permissions
+
+With the app (client) ID and client secret provided, the Bot Framework Token Store exchanges the token for a graph token with defined permissions.
+
+### To update OAuth connection
+
+1. Open the [Azure portal](https://ms.portal.azure.com/) on your web browser.
+   The Microsoft Azure Bot page opens.
+
+1. Enter the name of your Microsoft Entra app in **Search** box, and open your app.
+
+1. Select **Settings** > **Configuration**.
+
+    :::image type="content" source="../../../assets/images/authentication/teams-sso-bots/bot-configuration.png" alt-text="Screenshot shows the configure OAUth settings for your bot app." :::
+
+    The **Configuration** page appears.
+
+1. Move through the **Configuration** page and select **Add OAuth Connection Settings**.
+
+    :::image type="content" source="../../../assets/images/authentication/teams-sso-bots/bot-oauth-connection.png" alt-text="Screenshot shows the Add OAuth Connection Settings option highlighted.":::
+
+    The **New Connection Setting** page appears.
+
+1. Enter the OAuth configuration settings for the Azure bot.
+
+    :::image type="content" source="../../../assets/images/authentication/teams-sso-bots/new-config-setting.png" alt-text="Screenshot shows the New Connection Setting to provide the details." :::
+
+    1. Enter a name for the configuration setting.
+    1. Select the service provider.
+
+        The remaining configuration details appear.
+
+        :::image type="content" source="../../../assets/images/authentication/teams-sso-bots/new-config-setting-b.png" alt-text="Screenshot shows the additional fields for New Connection Setting." :::
+
+    1. Enter the app (client) ID for the Microsoft Entra app.
+    1. Enter the client secret that you've created for your bot.
+    1. Enter the application ID URI of your bot in the **Token Exchange URL**.
+    1. Enter the tenant ID.
+    1. Enter the scope that you defined when you configured the scope and permissions.
+
+1. Select **Save**.
+1. Select **Apply**.
+
+    After you've configured the OAuth connection, you can select **Test connection** to check if the OAuth connection is successful.
+
+    :::image type="content" source="../../../assets/images/authentication/teams-sso-bots/test-oauth.png" alt-text="Screenshot shows the Test OAuth connection for your bot resource option.":::
+
+    If the connection isn't successful, Microsoft Entra ID displays an error. You can verify all the configurations and test again.
+
+Congratulations! You've completed the following app configurations in Microsoft Entra ID required to enable SSO for your bot app:
+
+- Application ID
+- Bot ID
+- Access token
+  - Application ID URI
+  - Scope, permissions, and authorized client IDs
+  - Client secret
+  - Redirect URL
+- Messaging endpoint and OAuth connection
+
+# [Use Microsoft Entra app and then configure bot resource](#tab/windows)
+
+To create and configure your app for enabling SSO in Microsoft Entra ID:
+
+- [**Configure your Microsoft Entra app for SSO**](#configure-your-azure-ad-app-for-sso)
+  - [Configure scope for access token](#configure-scope-for-access-token)
+  - [Configure the access token version](#configure-the-access-token-version)
+  - [Create client secret for your app](#create-client-secret-for-your-app)
+  - [Configure redirect URL for your app](#configure-redirect-url-for-your-app)
+- [**Configure bot resource in Microsoft Entra ID**](#configure-bot-resource-in-azure-ad)
+  - [Configure messaging endpoint for your bot resource](#configure-messaging-endpoint-for-your-bot-resource)
+  - [Configure OAuth connection for your bot resource](#configure-oauth-connection-for-your-bot-resource)
+
+<a name='configure-your-azure-ad-app-for-sso'></a>
+
+## 

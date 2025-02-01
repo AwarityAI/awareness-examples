@@ -1,0 +1,94 @@
+USER: We currently support mapping AI "actions" to OpenAI tool calls via our Tools Augmentation. We also recently added support for streaming responses from OpenAI model calls back to the client.  Streaming can't currently be used with actions/tools and I need to implement that. Lets plan out the changes I should make. since i can't show you all of the code at once. what would help you getter a better feel for the changes needed?
+ASSISTANT: To help plan out the changes effectively, it would be useful to break down the problem into smaller, manageable pieces. Since I can't see the entire codebase at once, we can approach this incrementally by focusing on specific areas of the code that are most relevant to the changes. Here's how we can proceed:
+
+### 1. **Understand the Current Flow for Tool Calls**
+   - **Goal**: Get a clear understanding of how tool calls are currently handled in the system.
+   - **What I Need**:
+     - A high-level overview of how tool calls are initiated and processed.
+     - The current flow of data from when a tool is invoked (via **ToolsAugmentation**) to when the response is returned.
+     - Any relevant code snippets that show how tool calls are made and how responses are handled (e.g., in **AI**, **ActionPlanner**, or **LLMClient**).
+
+### 2. **Understand the Current Streaming Implementation**
+   - **Goal**: Understand how streaming responses are currently handled for non-tool calls.
+   - **What I Need**:
+     - A high-level overview of how streaming responses are currently implemented.
+     - Code snippets from the **StreamingResponse** class and any other relevant classes (e.g., **LLMClient**, **OpenAIClient**) that show how streaming is initiated and managed.
+     - How partial responses are handled and passed back to the client.
+
+### 3. **Identify Where Tool Calls and Streaming Intersect**
+   - **Goal**: Identify the points in the code where tool calls and streaming responses will need to intersect.
+   - **What I Need**:
+     - Code snippets or descriptions of where tool calls are processed in the **AI** and **ActionPlanner** classes.
+     - Any existing logic that handles responses from tool calls (e.g., synchronous handling of tool responses).
+     - A description of how tool responses are currently returned to the client (even if they are not streamed).
+
+### 4. **Plan the Changes for Streaming Tool Responses**
+   - **Goal**: Plan out the specific changes needed to support streaming tool responses.
+   - **What I Need**:
+     - A clear understanding of how tool responses are structured (e.g., are they function calls, API responses, etc.).
+     - Any constraints or limitations in the current system that might affect streaming (e.g., how tool responses are buffered or processed).
+     - A description of how you envision the streaming process working for tool calls (e.g., should partial responses be streamed as they are generated, or should the entire tool response be streamed at once?).
+
+### 5. **Review Key Classes for Modification**
+   - **Goal**: Review the key classes that will need to be modified to support streaming tool responses.
+   - **What I Need**:
+     - Code snippets from the **AI**, **ActionPlanner**, **LLMClient**, and **OpenAIClient** classes that show how actions and tool calls are processed.
+     - Code snippets from the **StreamingResponse** class that show how streaming is currently implemented.
+     - Any relevant code from the **FunctionCallMessage** and **FunctionResponseMessage** classes if tool calls are represented as function calls.
+
+---
+
+### Specific Code Snippets or Information That Would Help:
+
+1. **Tool Call Flow**:
+   - A code snippet showing how a tool call is initiated (e.g., in **AI** or **ActionPlanner**).
+   - A code snippet showing how the response from a tool call is currently handled (e.g., in **LLMClient** or **OpenAIClient**).
+
+2. **Streaming Response Flow**:
+   - A code snippet from the **StreamingResponse** class showing how streaming is initiated and managed.
+   - A code snippet from the **LLMClient** or **OpenAIClient** showing how streaming responses are passed back to the client.
+
+3. **Intersection of Tool Calls and Streaming**:
+   - A code snippet showing where tool calls are processed in the **AI** or **ActionPlanner** classes.
+   - A description or code snippet showing how tool responses are currently returned to the client (even if they are not streamed).
+
+4. **Key Classes for Modification**:
+   - Code snippets from the **AI**, **ActionPlanner**, **LLMClient**, and **OpenAIClient** classes that show how actions and tool calls are processed.
+   - Code snippets from the **StreamingResponse** class that show how streaming is currently implemented.
+
+---
+
+### Example of How We Can Proceed:
+
+1. **Tool Call Flow**:
+   - You provide a code snippet showing how a tool call is initiated in the **AI** or **ActionPlanner** class.
+   - You provide a code snippet showing how the response from a tool call is currently handled (e.g., in **LLMClient** or **OpenAIClient**).
+
+2. **Streaming Response Flow**:
+   - You provide a code snippet from the **StreamingResponse** class showing how streaming is initiated and managed.
+   - You provide a code snippet from the **LLMClient** or **OpenAIClient** showing how streaming responses are passed back to the client.
+
+3. **Intersection of Tool Calls and Streaming**:
+   - You provide a code snippet showing where tool calls are processed in the **AI** or **ActionPlanner** classes.
+   - You provide a description or code snippet showing how tool responses are currently returned to the client (even if they are not streamed).
+
+4. **Key Classes for Modification**:
+   - You provide code snippets from the **AI**, **ActionPlanner**, **LLMClient**, and **OpenAIClient** classes that show how actions and tool calls are processed.
+   - You provide code snippets from the **StreamingResponse** class that show how streaming is currently implemented.
+
+---
+
+### Questions to Clarify:
+
+1. **How are tool responses currently structured?** 
+   - Are they synchronous responses, or are they already designed to handle partial responses?
+
+2. **How do you envision the streaming process working for tool calls?**
+   - Should partial responses be streamed as they are generated, or should the entire tool response be streamed at once?
+
+3. **Are there any constraints or limitations in the current system that might affect streaming?**
+   - For example, are tool responses buffered or processed in a way that might complicate streaming?
+
+---
+
+By providing these code snippets and answering the questions, I can get a better feel for the current system and help you plan out the specific changes needed to implement streaming for tool calls.

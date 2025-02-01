@@ -1,0 +1,123 @@
+Sensitivity label
+
+Bot responses might contain information that's confidential or only accessible to certain individuals within the organization. You must add a sensitivity label to help users identify the confidentiality of a message, enabling them to exercise caution when sharing the message.
+
+:::image type="content" source="../../assets/images/bots/ai-bot-sensitivity-label.png" border="false" alt-text="Screenshot shows an AI bot sensitivity label.":::
+
+> [!NOTE]
+> Add a sensitivity label to your bot's messages only when they contain sensitive information.
+
+### Add sensitivity label
+
+For bots built using **Teams AI library**, sensitivity labels can be added through `PredictedSayCommand` action. For more information, see [SensitivityUsageInfo interface](https://github.com/microsoft/teams-ai/blob/main/js/packages/teams-ai/src/actions/SayCommand.ts#L107).
+
+For bots built using **Bot Framework SDK**, add a sensitivity label to your bot message by modifying the message to include `usageInfo` in the `entities` object.
+
+The following code snippet shows how to add sensitivity labels to both bot messages and citation reference:
+
+# [Bot message](#tab/botmessage)
+
+```javascript
+await context.sendActivity({
+  type: ActivityTypes.Message,
+  text: `Hey, I'm a friendly AI bot. This message is generated through AI [1]`,
+  entities: [
+    {
+      type: "https://schema.org/Message",
+      "@type": "Message",
+      "@context": "https://schema.org",
+      usageInfo: {
+        "@type": "CreativeWork",
+        name: "Sensitivity title",
+        description: "Sensitivity description",
+      },
+    },
+  ],
+});
+```
+
+# [Citation reference](#tab/citationref)
+
+```javascript
+await context.sendActivity({
+  type: ActivityTypes.Message,
+  text: `Hey, I'm a friendly AI bot. This message is generated through AI [1]`,
+  entities: [
+    {
+      type: "https://schema.org/Message",
+      "@type": "Message",
+      "@context": "https://schema.org",
+      usageInfo: {
+        "@type": "CreativeWork",
+        name: "Sensitivity title",
+        description: "Sensitivity description",
+      },
+      citation: [
+        {
+          "@type": "Claim",
+          position: 1,
+          appearance: {
+            "@type": "DigitalDocument",
+            name: "AI bot",
+            url: "https://example.com/claim-1",
+            usageInfo: {
+              "@type": "CreativeWork",
+              "@id": "sensitivity1",
+              name: "Sensitivity title",
+              description: "Sensitivity description",
+            },
+          },
+        },
+      ],
+    },
+  ],
+});
+```
+
+---
+
+| Property | Type | Required | Description |
+|--|--|--|--|
+| `usageInfo.@type` | String | Yes | Enables the sensitivity label in the bot message. |
+| `citation.usageInfo.@id` | String | Yes | Enables the sensitivity label in the citation reference. It's required when adding sensitivity label to citation reference. |
+| `usageInfo.name` | String | Yes | Specifies the title of the sensitivity label. |
+| `usageInfo.description` | String | No | Specifies the pop-up window message that appears when a user hovers over the sensitivity label. |
+
+After the sensitivity label is added, your bot message contains a shield icon. Users can hover over the icon to find a disclaimer on the sensitivity of the message.
+
+### Error handling
+
+| Error code | Description |
+| --- | --- |
+| 400 | Multiple root message entities found under `entities` array |
+| 400 | Error parsing message entity from `entities` array |
+| 400 | Citation level `usageInfo.@id` value doesn't match the message level `usageInfo.@id` in at least one instance |
+| 400 | There are multiple citation-level `usageInfo` properties with the same `@id`, but their `name` and `description` properties are different. |
+
+## Modify `PredictedSayCommand`
+
+For a bot built using Teams AI library, the `PredictedSayCommand` provides control on how AI label, citations, feedback buttons, and sensitivity labels are added to the bot's activity. Following is the code snippet to modify `PredictedSayCommand`:
+
+```JavaScript
+app.ai.action<PredictedSayCommand>(AI.SayCommandActionName, async (context, state, data, action) => {
+  // custom logic here...
+  await context.sendActivity(data.content);
+  return "";
+});
+```
+
+For more information about `PredictedSayCommand`, see [PredictedSayCommand interface](/javascript/api/%40microsoft/teams-ai/predictedsaycommand?view=msteams-client-js-latest&preserve-view=true).
+
+## Code sample
+
+| Sample name | Description | Node.js | C# |
+|:--|--|--|
+| Teams conversation bot | This sample app displays the AI label, citations, feedback buttons, and sensitivity labels in messages. | [View](https://github.com/OfficeDev/Microsoft-Teams-Samples/tree/main/samples/bot-conversation/nodejs) | |
+| TeamsAzureOpenAI | This conversational bot uses Teams AI library and contains the AI label, feedback buttons, sensitivity label, and citations in its generated messages. | | [View](https://github.com/microsoft/teams-ai/tree/main/dotnet/samples/08.datasource.azureopenai) |
+
+## See also
+
+* [Bot activity handlers](../bot-basics.md)
+* [Format your bot messages](format-your-bot-messages.md)
+* [Get started with Teams AI library](teams-conversational-ai/how-conversation-ai-get-started.md)
+* [Streaming UX in bots](~/bots/streaming-ux.md)

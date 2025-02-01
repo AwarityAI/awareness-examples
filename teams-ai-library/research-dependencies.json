@@ -1,0 +1,11 @@
+{
+    "title": "Research Type Dependencies",
+    "description": "The goal of this research is to list all of the projects type Dependencies.",
+    "queries": [
+      {
+        "title": "Explore Type Dependencies",
+        "search": "Explore Type Dependencies for the [list: Class Name] class",
+        "questions": "Create a definition for the [list: Class Name] class. Include the name of the class and a brief description. List all of its public & protected methods with signatures. List all of its public & protected properties with types. List all of its type dependencies."
+      }
+    ]
+  }
